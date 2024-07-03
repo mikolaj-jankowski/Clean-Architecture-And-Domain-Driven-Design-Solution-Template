@@ -18,12 +18,12 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public IActionResult Get()
         {
             var redis = _multiplexer.GetDatabase();
             redis.SetAddAsync($"key1", "value1");
             var count = redis.KeyRefCount("key1");
-            return null;
+            return Ok();
         }
     }
 }
