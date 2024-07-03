@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "mikol4j",
+  "classifications": [
+    "Clean Architecture",
+    "Domain Driven Design",
+    "ASP.NET Core",
+    ".NET Core",
+	"Template",
+	"Web"
+	],
+  "identity": "Clean.Architecture.And.DDD.Template",
+  "groupIdentity": "Clean.Architecture.And.DDD.Template",  
+  "name": "Clean.Architecture.And.DDD.Template",
+  "shortName": "ca-and-ddd",
+  "description": "Clean.Architecture.And.DDD.Template",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "Clean.Architecture.And.DDD.Template",
+  "preferNameDirectory": true,
+  "sources": [
+    {
+      "source": "./",
+      "target": "./",
+      "exclude": [
+        ".template.config/**/*",
+        ".vs/**/*",
+      ],
+    }
+  ]
+}
