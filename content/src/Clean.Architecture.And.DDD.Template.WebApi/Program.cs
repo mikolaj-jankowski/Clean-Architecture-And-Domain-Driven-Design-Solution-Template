@@ -1,3 +1,5 @@
+using Clean.Architecture.And.DDD.Template.Infrastructure.Installers;
+using Clean.Architecture.And.DDD.Template.Infrastructure.Settings;
 using Clean.Architecture.And.DDD.Template.WebApi.Installers;
 using StackExchange.Redis;
 
@@ -9,8 +11,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-var redisConnection = ConnectionMultiplexer.Connect("localhost:6379");
+builder.InstallSettings();
+var redisConnection = ConnectionMultiplexer.Connect(builder.Configuration.GetSection(nameof(Redis)).Get<Redis>()!.Url);
 builder.Services.AddSingleton<IConnectionMultiplexer>(redisConnection);
 
 builder.InstallTelemetry(builder.Configuration, redisConnection);

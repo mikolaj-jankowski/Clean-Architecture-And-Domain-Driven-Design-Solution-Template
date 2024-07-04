@@ -1,4 +1,6 @@
+using Clean.Architecture.And.DDD.Template.Infrastructure.Settings;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
 namespace Clean.Architecture.And.DDD.Template.WebApi.Controllers
@@ -9,12 +11,15 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Controllers
     {
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IConnectionMultiplexer _multiplexer;
+        private readonly IOptions<Redis> _redisSettings;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
-            IConnectionMultiplexer multiplexer)
+            IConnectionMultiplexer multiplexer,
+            IOptions<Redis> redisSettings)
         {
             _logger = logger;
             _multiplexer = multiplexer;
+            _redisSettings = redisSettings;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
