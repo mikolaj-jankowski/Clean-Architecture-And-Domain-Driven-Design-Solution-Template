@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Clean.Architecture.And.DDD.Template.Infrastructure.Settings;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -15,19 +16,29 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Installers
     {
         public static void InstallTelemetry(this WebApplicationBuilder builder, IConfiguration configuration, ConnectionMultiplexer redisConnection)
         {
+            var telemetrySettings = builder.Configuration.GetSection(nameof(Telemetry)).Get<Telemetry>();
+
             builder.Services.AddOpenTelemetry()
                 //.ConfigureResource(resource => resource.AddService(DiagnosticsConfig.ServiceName))
-                .ConfigureResource(resource => resource.AddService("test-mj-final-1", serviceInstanceId: Environment.MachineName))
+                .ConfigureResource(resource => resource.AddService(telemetrySettings.Name, serviceInstanceId: Environment.MachineName))
                 .WithMetrics(metrics =>
                 {
                     metrics
                         .AddAspNetCoreInstrumentation()
                         .AddHttpClientInstrumentation();
 
-                    metrics.AddMeter("CoffeeShop.Api");
+                    metrics.AddOtlpExporter(options =>
+                    {
+                        if(!string.IsNullOrEmpty(telemetrySettings.ExporterUrl))
+                        {
+                            options.Endpoint = new Uri(telemetrySettings.ExporterUrl);
+                        }
+                        else
+                        {
+                            metrics.AddConsoleExporter();
+                        }
+                    });
 
-                    metrics.AddOtlpExporter(options => options.Endpoint = new Uri("http://localhost:4317"));
-                    //metrics.AddConsoleExporter();
                 })
                 .WithTracing(tracing =>
                 {
@@ -45,12 +56,30 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Installers
                             };
                         }));
 
-                    tracing.AddOtlpExporter(options => options.Endpoint = new Uri("http://localhost:4317"));
-                    //tracing.AddConsoleExporter();
+                    tracing.AddOtlpExporter(options =>
+                    {
+                        if(!string.IsNullOrWhiteSpace(telemetrySettings.ExporterUrl))
+                        {
+                            options.Endpoint = new Uri(telemetrySettings.ExporterUrl);
+                        }
+                        else
+                        {
+                            tracing.AddConsoleExporter();
+                        }
+                    });
                 });
 
-            builder.Logging.AddOpenTelemetry(logging => logging.AddOtlpExporter(options => options.Endpoint = new Uri("http://localhost:4317")));
-            //builder.Logging.AddOpenTelemetry(logging => logging.AddConsoleExporter());
+            builder.Logging.AddOpenTelemetry(logging =>
+            {
+                if (!string.IsNullOrEmpty(telemetrySettings.ExporterUrl))
+                {
+                    logging.AddOtlpExporter(options => options.Endpoint = new Uri(telemetrySettings.ExporterUrl));
+                }
+                else
+                {
+                    logging.AddConsoleExporter();
+                }
+            });
 
         }
 

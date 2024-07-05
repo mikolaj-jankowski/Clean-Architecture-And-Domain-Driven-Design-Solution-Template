@@ -8,5 +8,35 @@ services:
       - 15672:15672
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - my-network
+
+  aspire-dashboard:
+    image: mcr.microsoft.com/dotnet/nightly/aspire-dashboard:8.0.0-preview.6
+    container_name: aspire-dashboard
+    ports:
+      - 18888:18888
+      - 4317:18889
+    networks:
+      - my-network
+      
+  # my-app:
+    # image: my-app
+    # container_name: my-app
+    # build:
+      # context: .
+      # dockerfile: ...
+    # environment:
+      # # - DOTNET__DASHBOARD__UNSECURED__ALLOW__ANONYMOUS=true;
+      # # - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true;
+      # # - OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317;
+    # ports:
+      # - 808:8080
+    # networks:
+      # - my-network
+      
 volumes:
   rabbitmq_data:
+  
+networks:
+  my-network:

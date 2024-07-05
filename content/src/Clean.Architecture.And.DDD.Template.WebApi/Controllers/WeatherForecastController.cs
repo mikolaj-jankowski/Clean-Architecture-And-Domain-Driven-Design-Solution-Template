@@ -26,7 +26,7 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Controllers
         public IActionResult Get()
         {
             var redis = _multiplexer.GetDatabase();
-            redis.SetAddAsync($"key1", "value1");
+            redis.SetAddAsync($"key1", DateTime.Now.ToString());
             var count = redis.KeyRefCount("key1");
             return Ok();
         }
