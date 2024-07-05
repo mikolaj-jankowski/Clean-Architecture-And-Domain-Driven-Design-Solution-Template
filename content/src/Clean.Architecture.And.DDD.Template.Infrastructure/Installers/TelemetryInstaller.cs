@@ -16,7 +16,8 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Installers
     {
         public static void InstallTelemetry(this WebApplicationBuilder builder, IConfiguration configuration, ConnectionMultiplexer redisConnection)
         {
-            var telemetrySettings = builder.Configuration.GetSection(nameof(Telemetry)).Get<Telemetry>();
+            //var telemetrySettings = builder.Configuration.GetSection(nameof(Telemetry)).Get<Telemetry>();
+            var telemetrySettings = builder.Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>().Telemetry;
 
             builder.Services.AddOpenTelemetry()
                 //.ConfigureResource(resource => resource.AddService(DiagnosticsConfig.ServiceName))
@@ -35,7 +36,7 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Installers
                         }
                         else
                         {
-                            metrics.AddConsoleExporter();
+                            //metrics.AddConsoleExporter();
                         }
                     });
 
@@ -64,7 +65,7 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Installers
                         }
                         else
                         {
-                            tracing.AddConsoleExporter();
+                            //tracing.AddConsoleExporter();
                         }
                     });
                 });
@@ -77,7 +78,7 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Installers
                 }
                 else
                 {
-                    logging.AddConsoleExporter();
+                    //logging.AddConsoleExporter();
                 }
             });
 
