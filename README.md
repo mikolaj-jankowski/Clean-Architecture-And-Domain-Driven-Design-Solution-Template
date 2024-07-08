@@ -1,14 +1,18 @@
 # Clean Architecture and Domain Driven Design Template 
 
-I do recommend using CLI than VS Wizard when creating your application based on this template. This is because VS doesn't keep folders structure properly.
+
 
 ## Table of contents
+[1. Instalation](#1-Instalation)
+[5. Observability](#5-Observability)
 
-[1. Observability](#1-Observability)
+## 1. Instlation
+I do recommend using CLI than VS Wizard when creating your application based on this template. This is because VS doesn't keep folders structure properly.
 
-## 1. Observability
+## 5. Observability
 ABC
-### 1.1 Open Telemtry
+
+### 5.1 Open Telemtry
 
 
 ## :hammer: Build with
