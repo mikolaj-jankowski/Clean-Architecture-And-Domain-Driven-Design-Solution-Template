@@ -3,11 +3,24 @@
 
 
 ## Table of contents
-[1. Instalation](#1-Instalation)
-[5. Observability](#5-Observability)
 
-## 1. Instlation
+[1. Instalation](#1-Installation) 
+
+&nbsp;&nbsp; [1.1 Solution Template Installation](#1.1-Solution-Template-Installation) 
+
+&nbsp;&nbsp; [1.2 Database](#1.2-Database) 
+
+[5. Observability](#5-Observability) 
+
+
+## 1. Installation
 I do recommend using CLI than VS Wizard when creating your application based on this template. This is because VS doesn't keep folders structure properly.
+
+### 1.1 Solution Template Installation
+```
+dotnet new install Clean.Architecture.And.DDD.Template::1.0.0
+```
+### 1.2 Database
 
 ## 5. Observability
 ABC
