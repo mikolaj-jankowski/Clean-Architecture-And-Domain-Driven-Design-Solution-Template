@@ -22,6 +22,8 @@ dotnet new install Clean.Architecture.And.DDD.Template::1.0.0
 ```
 ### 1.2 Database
 
+The template uses MSSQL as a database provider. Migrations will be applied automatically during project startup, so you don't have to do anything.
+
 ## 5. Observability
 ABC
 
