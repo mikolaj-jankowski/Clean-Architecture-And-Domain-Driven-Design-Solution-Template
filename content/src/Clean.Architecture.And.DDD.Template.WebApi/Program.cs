@@ -1,3 +1,4 @@
+using Clean.Architecture.And.DDD.Template.Infrastructure.Database.MsSql;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Installers;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Settings;
 using Clean.Architecture.And.DDD.Template.WebApi.Installers;
@@ -12,13 +13,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.InstallApplicationSettings();
-builder.I
-var redisConnection = ConnectionMultiplexer.Connect(builder.Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>()!.Redis.Url);
+builder.InstallEntityFramework();
+var redisConnection = builder.InstallRedis();
+
 builder.Services.AddSingleton<IConnectionMultiplexer>(redisConnection);
 
 builder.InstallTelemetry(builder.Configuration, redisConnection);
 
 var app = builder.Build();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    EntityFrameworkInstaller.SeedDatabase(appDbContext);
+};
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

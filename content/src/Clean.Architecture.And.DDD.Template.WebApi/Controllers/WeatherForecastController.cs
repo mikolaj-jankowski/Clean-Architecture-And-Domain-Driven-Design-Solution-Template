@@ -1,6 +1,6 @@
-using Clean.Architecture.And.DDD.Template.Infrastructure.Settings;
+using Clean.Architecture.And.DDD.Template.Infrastructure.Database.MsSql;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 
 namespace Clean.Architecture.And.DDD.Template.WebApi.Controllers
@@ -11,23 +11,32 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Controllers
     {
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IConnectionMultiplexer _multiplexer;
-        private readonly IOptions<Redis> _redisSettings;
+        private readonly AppDbContext _appDbContext;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
             IConnectionMultiplexer multiplexer,
-            IOptions<Redis> redisSettings)
+            AppDbContext appDbContext)
         {
             _logger = logger;
             _multiplexer = multiplexer;
-            _redisSettings = redisSettings;
+            _appDbContext = appDbContext;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             var redis = _multiplexer.GetDatabase();
-            redis.SetAddAsync($"key1", DateTime.Now.ToString());
+            await redis.SetAddAsync($"key1", DateTime.Now.ToString());
             var count = redis.KeyRefCount("key1");
+            var newUser = new Infrastructure.Database.MsSql.Models.User()
+            {
+                Name = $"Mikolaj-{DateTime.UtcNow}",
+                Surname = $"Jankowski-{DateTime.UtcNow}"
+            };
+            await _appDbContext.Users.AddAsync(newUser);
+            _logger.LogInformation($"Inserting a user: {newUser.Name} {newUser.Surname}");
+            await _appDbContext.SaveChangesAsync();
+            var top5Users = await _appDbContext.Users.FromSqlRaw("select TOP(5)* from dbo.Users").ToListAsync();
             return Ok();
         }
     }

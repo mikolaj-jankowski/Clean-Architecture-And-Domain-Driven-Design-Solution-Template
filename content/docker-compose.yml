@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   rabbitmq:
-    image: rabbitmq:3-management
+    image: masstransit/rabbitmq:latest
     container_name: rabbitmq
     ports:
       - 5672:5672
@@ -17,6 +17,29 @@ services:
     ports:
       - 18888:18888
       - 4317:18889
+    networks:
+      - my-network
+      
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Th3_P@ssw0rd-421
+    ports:
+      - "1433:1433"
+    networks:
+      - my-network
+      
+  redis:
+    image: redis:latest
+    command: /bin/sh -c "redis-server --requirepass Th3_P@ssw0rd-421"
+    restart: always
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
     networks:
       - my-network
       
@@ -37,6 +60,7 @@ services:
       
 volumes:
   rabbitmq_data:
+  redis_data:
   
 networks:
   my-network:

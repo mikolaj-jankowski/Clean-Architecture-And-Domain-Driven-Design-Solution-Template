@@ -18,6 +18,7 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Installers
         {
             //var telemetrySettings = builder.Configuration.GetSection(nameof(Telemetry)).Get<Telemetry>();
             var telemetrySettings = builder.Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>().Telemetry;
+            var url = $"{telemetrySettings.Host}:{telemetrySettings.Port}";
 
             builder.Services.AddOpenTelemetry()
                 //.ConfigureResource(resource => resource.AddService(DiagnosticsConfig.ServiceName))
@@ -30,9 +31,9 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Installers
 
                     metrics.AddOtlpExporter(options =>
                     {
-                        if(!string.IsNullOrEmpty(telemetrySettings.ExporterUrl))
+                        if(!string.IsNullOrEmpty(url))
                         {
-                            options.Endpoint = new Uri(telemetrySettings.ExporterUrl);
+                            options.Endpoint = new Uri(url);
                         }
                         else
                         {
@@ -59,9 +60,9 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Installers
 
                     tracing.AddOtlpExporter(options =>
                     {
-                        if(!string.IsNullOrWhiteSpace(telemetrySettings.ExporterUrl))
+                        if(!string.IsNullOrWhiteSpace(url))
                         {
-                            options.Endpoint = new Uri(telemetrySettings.ExporterUrl);
+                            options.Endpoint = new Uri(url);
                         }
                         else
                         {
@@ -72,9 +73,9 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Installers
 
             builder.Logging.AddOpenTelemetry(logging =>
             {
-                if (!string.IsNullOrEmpty(telemetrySettings.ExporterUrl))
+                if (!string.IsNullOrEmpty(url))
                 {
-                    logging.AddOtlpExporter(options => options.Endpoint = new Uri(telemetrySettings.ExporterUrl));
+                    logging.AddOtlpExporter(options => options.Endpoint = new Uri(url));
                 }
                 else
                 {
