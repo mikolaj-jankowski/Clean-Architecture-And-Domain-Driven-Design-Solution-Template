@@ -1,9 +1,6 @@
-﻿using Clean.Architecture.And.DDD.Template.Infrastructure.Database.MsSql;
-using Clean.Architecture.And.DDD.Template.Infrastructure.Settings;
+﻿using Clean.Architecture.And.DDD.Template.Infrastructure.Settings;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 
 namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers

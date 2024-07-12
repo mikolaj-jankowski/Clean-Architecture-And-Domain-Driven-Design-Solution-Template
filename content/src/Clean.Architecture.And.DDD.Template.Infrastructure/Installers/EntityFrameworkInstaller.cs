@@ -9,13 +9,13 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
     {
         public static void InstallEntityFramework(this WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer("Server=.;Database=Users;User Id=sa;Password=Th3_P@ssw0rd-421;TrustServerCertificate=True"));
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer("Server=.;Database=CleanArchitectureAndDDD;User Id=sa;Password=Th3_P@ssw0rd-421;TrustServerCertificate=True"));
 
         }
 
         public async static void SeedDatabase(AppDbContext appDbContext)
         {
-            appDbContext.Database.Migrate();
+            await appDbContext.Database.MigrateAsync();
         }
     }
 }

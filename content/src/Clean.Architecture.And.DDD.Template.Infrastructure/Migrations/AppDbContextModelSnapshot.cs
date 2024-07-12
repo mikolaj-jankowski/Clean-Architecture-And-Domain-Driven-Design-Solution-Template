@@ -22,30 +22,23 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Clean.Architecture.And.DDD.Template.Infrastructure.Database.MsSql.Models.User", b =>
+            modelBuilder.Entity("Clean.Architecture.And.DDD.Template.Domian.Employees.Employee", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("EmployeeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedOnUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("EmployeeId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Employees");
                 });
 #pragma warning restore 612, 618
         }

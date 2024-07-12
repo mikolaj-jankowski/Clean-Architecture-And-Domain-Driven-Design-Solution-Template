@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Clean.Architecture.And.DDD.Template.Domian\Clean.Architecture.And.DDD.Template.Domian.csproj" />
+    <PackageReference Include="MassTransit" Version="8.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Clean.Architecture.And.DDD.Template.Domian\Clean.Architecture.And.DDD.Template.Domian.csproj" />
+  </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿using Clean.Architecture.And.DDD.Template.Infrastructure.Database.MsSql.Models;
+﻿using Clean.Architecture.And.DDD.Template.Domian.Employees;
 using Microsoft.EntityFrameworkCore;
 
 namespace Clean.Architecture.And.DDD.Template.Infrastructure.Database.MsSql
@@ -10,6 +10,6 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Database.MsSql
         {
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }
