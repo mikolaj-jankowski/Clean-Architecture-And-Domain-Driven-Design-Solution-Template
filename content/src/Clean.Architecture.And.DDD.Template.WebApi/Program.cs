@@ -1,6 +1,7 @@
 using Clean.Architecture.And.DDD.Template.Domian.Employees;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Database.MsSql;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Domain.Employees;
+using Clean.Architecture.And.DDD.Template.Infrastructure.Events;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Installers;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Settings;
 using Clean.Architecture.And.DDD.Template.WebApi.Installers;
@@ -22,8 +23,9 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(redisConnection);
 
 builder.InstallTelemetry(builder.Configuration, redisConnection);
 builder.InstallMassTransit();
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IEmployeeRespository, EmployeeRepository>();
+builder.Services.AddTransient<IDomainEventDispatcher, DomainEventDispatcher>();
 
 var app = builder.Build();
 

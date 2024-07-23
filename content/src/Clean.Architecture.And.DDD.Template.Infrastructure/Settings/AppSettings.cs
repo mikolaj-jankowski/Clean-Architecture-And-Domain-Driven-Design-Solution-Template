@@ -4,5 +4,6 @@
     {
         public Redis Redis { get; set; }
         public Telemetry Telemetry { get; set; }
+        public RabbitMq RabbitMq { get; set; }
     }
 }

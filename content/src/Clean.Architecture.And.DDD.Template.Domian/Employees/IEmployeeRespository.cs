@@ -2,6 +2,6 @@
 {
     public interface IEmployeeRespository
     {
-        Task AddAsync(Employee a);
+        Task AddAsync(Employee employee);
     }
 }

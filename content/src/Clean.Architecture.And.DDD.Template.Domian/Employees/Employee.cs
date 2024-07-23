@@ -1,6 +1,8 @@
-﻿namespace Clean.Architecture.And.DDD.Template.Domian.Employees
+﻿using Clean.Architecture.And.DDD.Template.Domian.Employees.DomainEvents;
+
+namespace Clean.Architecture.And.DDD.Template.Domian.Employees
 {
-    public class Employee
+    public class Employee : Entity
     {
         public Guid EmployeeId { get; set; }
         public string Name { get; private set; }
@@ -24,6 +26,8 @@
 
         private string ValidateName(string name)
         {
+            AddDomainEvent(new EmployeeCreatedDomainEvent());
+
             if (!string.IsNullOrEmpty(name))
             {
                 //throw new DomainException;
