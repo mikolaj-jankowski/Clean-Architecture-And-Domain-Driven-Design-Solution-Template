@@ -1,9 +1,12 @@
-﻿using Clean.Architecture.And.DDD.Template.Domian;
-using Clean.Architecture.And.DDD.Template.Domian.Employees.DomainEvents;
-using Clean.Architecture.And.DDD.Template.Infrastructure.Database.MsSql;
+﻿using Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer;
+using Clean.Architecture.And.DDD.Template.Application.Shared;
+using Clean.Architecture.And.DDD.Template.Domian;
+using Clean.Architecture.And.DDD.Template.Domian.Customers.DomainEvents;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Events;
+using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure.DomainEvents;
+using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using MassTransit;
-using static Clean.Architecture.And.DDD.Template.Application.Employee.CreateEmployee.CreateEmployeeCommandHandler;
+using System.Text.Json;
 
 namespace Clean.Architecture.And.DDD.Template.Infrastructure.Filters.MassTransit
 {
@@ -11,47 +14,74 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Filters.MassTransit
     {
         private readonly AppDbContext _appDbContext;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
-        private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
-        public UnitOfWorkFilter(AppDbContext appDbContext, IDomainEventDispatcher domainEventDispatcher, IPublishEndpoint publishEndpoint)
+        //private readonly IPublishEndpoint _publishEndpoint;
+
+        public UnitOfWorkFilter(AppDbContext appDbContext, IDomainEventDispatcher domainEventDispatcher, IDateTimeProvider dateTimeProvider)
+            //IPublishEndpoint publishEndpoint)
         {
             _appDbContext = appDbContext;
             _domainEventDispatcher = domainEventDispatcher;
-            _publishEndpoint = publishEndpoint;
+            _dateTimeProvider = dateTimeProvider;
+            //_publishEndpoint = publishEndpoint;
         }
         public async Task Send(ConsumeContext<T> context, IPipe<ConsumeContext<T>> next)
         {
             await next.Send(context);
 
-            var entities = _appDbContext.ChangeTracker.Entries<Entity>().Where(e => e.Entity.DomainEvents.Any());
+            var entities = _appDbContext.ChangeTracker.Entries<Entity>().Where(e => e.Entity.DomainEvents is not null && e.Entity.DomainEvents.Any());
 
-            var allEvents = new List<IDomainEvent>();
+            //var allEvents = new List<IDomainEvent>();
 
-            foreach(var entity in entities) 
+            //foreach(var entity in entities) 
+            //{
+            //    var events = entity.Entity.DomainEvents.ToList();
+            //    allEvents.AddRange(events);
+            //    //foreach(var @event in events)
+            //    //{
+            //    //    await _appDbContext.AddAsync<DomainEvent>(new DomainEvent(Guid.NewGuid(),
+            //    //            DateTime.UtcNow,
+            //    //            typeof(CustomerCreatedIntegrationEvent).Name,
+            //    //            //JsonSerializer.Serialize(@event),
+            //    //            "",
+            //    //            DateTime.UtcNow));
+            //    //}
+            //    entity.Entity.ClearDomainEvents();
+            //    //events.ForEach((@event) => _domainEventDispatcher.Dispatch(@event));
+
+            //}
+            var events = entities.SelectMany(x=>x.Entity.DomainEvents).ToList();
+            entities.ToList().ForEach(x => x.Entity.ClearDomainEvents());
+
+            foreach (var entity in events)
             {
-                var events = entity.Entity.DomainEvents.ToList();
-                allEvents.AddRange(events);
-                entity.Entity.ClearDomainEvents();
-
-                events.ForEach((@event) => _domainEventDispatcher.Dispatch(@event));
+                await _appDbContext.AddAsync<DomainEvent>(new DomainEvent(Guid.NewGuid(),
+                    _dateTimeProvider.UtcNow,
+                    entity.GetType().FullName,
+                    JsonSerializer.Serialize(entity)));
             }
 
-            await _appDbContext.SaveChangesAsync();
 
-            //handling itegration events after transaction:
-            //https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/domain-events-design-implementation
-            foreach (var @event in allEvents)
+            foreach (var @event in events)
             {
                 switch (@event)
                 {
-                    case EmployeeCreatedDomainEvent:
-                        var integrationEvent = new EmployeeCreatedIntegrationEvent();
-                        integrationEvent.Text = DateTime.UtcNow.ToShortDateString();
-                        await _publishEndpoint.Publish(integrationEvent);
+                    case CustomerCreatedDomainEvent:
+                        var e = @event as CustomerCreatedDomainEvent;
+                        var customerCreatedIntegrationEvent = new CustomerCreatedIntegrationEvent(e.CustomerId);
+                        var integrationEvent = new IntegrationEvent(
+                            Guid.NewGuid(),
+                            _dateTimeProvider.UtcNow,
+                            customerCreatedIntegrationEvent.GetType().FullName,
+                            JsonSerializer.Serialize(customerCreatedIntegrationEvent));
+
+                        await _appDbContext.AddAsync<IntegrationEvent>(integrationEvent);
                         break;
                 }
             }
 
+            await _appDbContext.SaveChangesAsync();
         }
 
         public void Probe(ProbeContext context) { }

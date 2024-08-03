@@ -10,7 +10,7 @@ using OpenTelemetry.Trace;
 using StackExchange.Redis;
 
 
-namespace Clean.Architecture.And.DDD.Template.WebApi.Installers
+namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
 {
     public static class TelemetryInstaller
     {
@@ -31,7 +31,7 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Installers
 
                     metrics.AddOtlpExporter(options =>
                     {
-                        if(!string.IsNullOrEmpty(url))
+                        if (!string.IsNullOrEmpty(url))
                         {
                             options.Endpoint = new Uri(url);
                         }
@@ -48,7 +48,7 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Installers
                         .AddAspNetCoreInstrumentation()
                         .AddHttpClientInstrumentation()
                         .AddRedisInstrumentation(redisConnection, opt => opt.FlushInterval = TimeSpan.FromSeconds(1))
-                        .AddEntityFrameworkCoreInstrumentation((options =>
+                        .AddEntityFrameworkCoreInstrumentation(options =>
                         {
                             options.EnrichWithIDbCommand = (activity, command) =>
                             {
@@ -56,11 +56,11 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Installers
                                 activity.DisplayName = stateDisplayName;
                                 activity.SetTag("db.name", stateDisplayName);
                             };
-                        }));
+                        });
 
                     tracing.AddOtlpExporter(options =>
                     {
-                        if(!string.IsNullOrWhiteSpace(url))
+                        if (!string.IsNullOrWhiteSpace(url))
                         {
                             options.Endpoint = new Uri(url);
                         }

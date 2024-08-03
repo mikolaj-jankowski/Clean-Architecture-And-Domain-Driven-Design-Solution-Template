@@ -1,11 +1,12 @@
-﻿using Clean.Architecture.And.DDD.Template.Application.Employee.CreateEmployee;
-using Clean.Architecture.And.DDD.Template.Application.Employee.CreateEmployee.EventHandlers;
+﻿using Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer;
+using Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer.EventHandlers;
+using Clean.Architecture.And.DDD.Template.Application.Order.CreateOrder;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Filters.MassTransit;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Settings;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using static Clean.Architecture.And.DDD.Template.Application.Employee.CreateEmployee.CreateEmployeeCommandHandler;
+using static Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer.CreateCustomerCommandHandler;
 
 namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
 {
@@ -18,9 +19,10 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
             builder.Services.AddMediator(cfg =>
             {
                 //below Consumers for Mediator (in memory)
-                cfg.AddConsumer<EmployeeCreatedDomainEventHandler>();
+                cfg.AddConsumer<CustomerCreatedDomainEventHandler>();
+                cfg.AddConsumer<CreateOrderCommandHandler>();
 
-                cfg.AddConsumer<CreateEmployeeCommandHandler>();
+                cfg.AddConsumer<CreateCustomerCommandHandler>();
                 cfg.ConfigureMediator((context, cfg) =>
                 {
                     cfg.UseConsumeFilter(typeof(UnitOfWorkFilter<>), context);
@@ -31,7 +33,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
             builder.Services.AddMassTransit(x =>
             {
                 //below Consumers for RabbitMq
-                x.AddConsumer<EmployeeCreatedIntegrationEventHandler>();
+                x.AddConsumer<CustomerCreatedIntegrationEventHandler>();
 
                 x.SetKebabCaseEndpointNameFormatter();
 

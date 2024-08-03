@@ -4,6 +4,7 @@ using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clean.Architecture.And.DDD.Template.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240725091948_AddedOrderDomain4")]
+    partial class AddedOrderDomain4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,34 +24,6 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Clean.Architecture.And.DDD.Template.Application.Shared.IntegrationEvent", b =>
-                {
-                    b.Property<Guid>("IntergrationEventId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("OccuredAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("SYSUTCDATETIME()");
-
-                    b.Property<string>("Payload")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("PublishedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.HasKey("IntergrationEventId");
-
-                    b.ToTable("IntegrationEvent");
-                });
 
             modelBuilder.Entity("Clean.Architecture.And.DDD.Template.Domian.Customers.Customer", b =>
                 {
@@ -113,7 +88,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("ComplatedAt")
+                    b.Property<DateTime>("ComplatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("OccuredAt")
@@ -127,12 +102,40 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("DomainEventId");
 
                     b.ToTable("DomainEvent");
+                });
+
+            modelBuilder.Entity("Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure.IntergrationEvents.IntergrationEvent", b =>
+                {
+                    b.Property<Guid>("IntergrationEventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("OccuredAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.Property<string>("Payload")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PublishedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("IntergrationEventId");
+
+                    b.ToTable("IntergrationEvent");
                 });
 
             modelBuilder.Entity("Clean.Architecture.And.DDD.Template.Domian.Orders.Order", b =>

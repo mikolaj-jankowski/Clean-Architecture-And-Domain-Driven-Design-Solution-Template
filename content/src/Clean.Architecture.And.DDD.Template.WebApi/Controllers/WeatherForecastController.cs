@@ -1,5 +1,5 @@
-using Clean.Architecture.And.DDD.Template.Application.Employee.CreateEmployee;
-using Clean.Architecture.And.DDD.Template.Infrastructure.Database.MsSql;
+using Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer;
+using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,11 +30,11 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public async Task<IActionResult> Get()
         {
-            await _mediator.Send<CreateEmployeeCommand>(new CreateEmployeeCommand("Filip", "Jankowski"));
+            await _mediator.Send<CreateCustomerCommand>(new CreateCustomerCommand("Filip", "Jankowski", DateTime.Now.AddYears(-30)));
             var redis = _multiplexer.GetDatabase();
             await redis.SetAddAsync($"key1", DateTime.Now.ToString());
             var count = redis.KeyRefCount("key1");
-            var top5Users = await _appDbContext.Employees.FromSqlRaw("select TOP(5)* from dbo.Employees").ToListAsync();
+           // var top5Users = await _appDbContext.Employees.FromSqlRaw("select TOP(5)* from dbo.Employees").ToListAsync();
             
             return Ok();
         }

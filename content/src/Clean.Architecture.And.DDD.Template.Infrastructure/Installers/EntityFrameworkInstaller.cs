@@ -1,4 +1,4 @@
-﻿using Clean.Architecture.And.DDD.Template.Infrastructure.Database.MsSql;
+﻿using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +15,20 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
 
         public async static void SeedDatabase(AppDbContext appDbContext)
         {
-            //await appDbContext.Database.MigrateAsync();
+            try
+            {
+                appDbContext.Database.Migrate();
+            }
+            catch (TaskCanceledException ex)
+            {
+                // Zaloguj błąd
+                Console.WriteLine("Task was canceled: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Zaloguj inne błędy
+                Console.WriteLine("An error occurred: " + ex.Message);
+            }
         }
     }
 }

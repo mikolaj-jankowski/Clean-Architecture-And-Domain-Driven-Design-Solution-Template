@@ -1,7 +1,6 @@
-﻿using Clean.Architecture.And.DDD.Template.Domian.Employees;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace Clean.Architecture.And.DDD.Template.Infrastructure.Database.MsSql
+namespace Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.MsSql
 {
     public class AppDbContext : DbContext
     {
@@ -10,6 +9,9 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Database.MsSql
         {
         }
 
-        public DbSet<Employee> Employees { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+        }
     }
 }
