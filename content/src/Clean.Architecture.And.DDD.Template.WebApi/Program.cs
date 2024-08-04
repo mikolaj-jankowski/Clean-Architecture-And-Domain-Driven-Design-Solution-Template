@@ -27,7 +27,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(redisConnection);
 builder.InstallTelemetry(builder.Configuration, redisConnection);
 builder.InstallMassTransit();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<ICustomerRespository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IDateTimeProvider, DateTimeProvider>();
 builder.Services.AddTransient<IDomainEventDispatcher, DomainEventDispatcher>();

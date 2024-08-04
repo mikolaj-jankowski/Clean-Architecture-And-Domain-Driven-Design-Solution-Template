@@ -1,4 +1,5 @@
 using Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer;
+using Clean.Architecture.And.DDD.Template.Application.Customer.GetCustomer;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,22 +9,40 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Controllers
     [Route("[controller]")]
     public class CustomerController : ControllerBase
     {
-        private readonly ILogger<CustomerController> _logger;
         private readonly IMediator _mediator;
 
-        public CustomerController(ILogger<CustomerController> logger,
-            IMediator mediator)
+        public CustomerController(IMediator mediator)
         {
-            _logger = logger;
             _mediator = mediator;
         }
 
-        [HttpPost(Name = "CreateCustomer")]
-        public async Task<IActionResult> Post()
+        [HttpPost]
+        public async Task<IActionResult> CreateCustomer(CreateCustomerCommand command)
         {
-            //await _mediator.Send<CreateCustomerCommand>(new CreateCustomerCommand("wall street 29", "0992-1", DateTime.Now.AddYears(-10)));
             var client = _mediator.CreateRequestClient<CreateCustomerCommand>();
-            var response = await client.GetResponse<CreateCustomerResponse>(new CreateCustomerCommand("wall street 29", "0992-1", DateTime.Now.AddYears(-10)));
+            var response = await client.GetResponse<CreateCustomerResponse>(command);
+            return Ok(response);
+        }
+
+        [HttpPost("change-email")]
+        public async Task<IActionResult> ChangeEmail(ChangeEmailCommand command)
+        {
+            await _mediator.Send<ChangeEmailCommand>(command);
+            return NoContent();
+        }
+
+        [HttpPost("verify-email")]
+        public async Task<IActionResult> VerifyEmail(VerifyEmailCommand command)
+        {
+            await _mediator.Send<VerifyEmailCommand>(command);
+            return NoContent();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCustomer([FromQuery] GetCustomerQuery query)
+        {
+            var client = _mediator.CreateRequestClient<GetCustomerQuery>();
+            var response = await client.GetResponse<GetCustomerQueryResponse>(query);
             return Ok(response);
         }
     }

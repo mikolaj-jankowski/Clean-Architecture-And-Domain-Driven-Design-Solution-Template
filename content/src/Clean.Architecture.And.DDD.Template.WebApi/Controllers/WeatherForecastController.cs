@@ -1,8 +1,6 @@
-using Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 
 namespace Clean.Architecture.And.DDD.Template.WebApi.Controllers
@@ -30,7 +28,6 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public async Task<IActionResult> Get()
         {
-            await _mediator.Send<CreateCustomerCommand>(new CreateCustomerCommand("Filip", "Jankowski", DateTime.Now.AddYears(-30)));
             var redis = _multiplexer.GetDatabase();
             await redis.SetAddAsync($"key1", DateTime.Now.ToString());
             var count = redis.KeyRefCount("key1");

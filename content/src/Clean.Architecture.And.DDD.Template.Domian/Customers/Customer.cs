@@ -1,48 +1,49 @@
 ﻿using Clean.Architecture.And.DDD.Template.Domian.Customers.DomainEvents;
-using Clean.Architecture.And.DDD.Template.Domian.Customers.Exceptions;
 
 namespace Clean.Architecture.And.DDD.Template.Domian.Customers
 {
     public class Customer : Entity
     {
         public CustomerId CustomerId { get; private set; }
-        public CustomerName Name { get; private set; }
-        public CustomerSurname Surname { get; private set; }
-        public DateTime BirthDate { get; private set; }
+        public FullName FullName { get; private set; }
+        public Age Age { get; private set; }
+        public Email Email { get; private set; }
+        public bool IsEmailVerified {  get; private set; }
 
-        private Customer()
+        private Customer() {}
+
+        private Customer(CustomerId customerId, FullName fullName, Age age, Email email)
         {
-
-        }
-
-        private Customer(string name, string surname, DateTime birthDate, IDateTimeProvider dateTimeProvider)
-        {
-            CustomerId = new CustomerId(Guid.NewGuid());
-            Name = new CustomerName(name);
-            ValidateAge(birthDate, dateTimeProvider);
-            Surname = new CustomerSurname(surname);
+            CustomerId = customerId;
+            FullName = fullName;
+            Age = age;
+            Email = email;
+            IsEmailVerified = false;
             AddDomainEvent(new CustomerCreatedDomainEvent(this.CustomerId.Value));
         }
-        /// <summary>
-        /// Checks weather a customer is at least 18 years old.
-        /// </summary>
-        /// <param name="birthDate"></param>
-        /// <exception cref="CustomerAgeRequirementNotMetDomainException"></exception>
-        private void ValidateAge(DateTime birthDate, IDateTimeProvider dateTimeProvider)
+
+        public static Customer CreateCustomer(CustomerId customerId, FullName fullName, Age age, Email email)
         {
-            var age = dateTimeProvider.UtcNow.Year - birthDate.Year;
-            if (birthDate.Date > dateTimeProvider.UtcNow.AddYears(-age)) age--;
-            if(age < 18)
-            {
-                throw new CustomerAgeRequirementNotMetDomainException();
-            }
-            BirthDate = birthDate;
+            return new Customer(customerId, fullName, age, email);
         }
 
-        public static Customer CreateCustomer(string name, string surname, DateTime birthDate, IDateTimeProvider dateTimeProvider)
+        public void ChangeEmail(Email email) 
         {
-            //check uniqueness
-            return new Customer(name, surname, birthDate, dateTimeProvider);
+            if(Email != email)
+            {
+                Email = email;
+                AddDomainEvent(new CustomerEmailChnagedDomainEvent(email, Email));
+            }
+        }
+
+        public void VerifyEmailAddress()
+        {
+            if(IsEmailVerified == false)
+            {
+                IsEmailVerified = true;
+            }
+
+            AddDomainEvent(new CustomerEmailVerifiedDomainEvent(Email));
         }
 
     }

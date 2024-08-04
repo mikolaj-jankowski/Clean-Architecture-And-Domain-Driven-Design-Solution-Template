@@ -29,7 +29,7 @@ namespace Clean.Architecture.And.DDD.Template.Domian.Orders
             OrderId = new OrderId(Guid.NewGuid());//Guid.CreateVersion7(DateTimeOffset.UtcNow);
             ShippingAddress = new ShippingAddress(streetName, postalCode);
 
-            AddDomainEvent(new OrderPlacedDomainEvent(this.OrderId));
+            AddDomainEvent(new OrderCreatedDomainEvent(this.OrderId));
         }
 
         public void AddOrderItem(long productId, int quantity = 1)

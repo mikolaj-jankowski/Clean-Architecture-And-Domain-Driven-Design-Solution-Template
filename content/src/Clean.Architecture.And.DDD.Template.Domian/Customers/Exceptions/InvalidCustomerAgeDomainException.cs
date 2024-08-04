@@ -1,8 +1,8 @@
 ﻿namespace Clean.Architecture.And.DDD.Template.Domian.Customers.Exceptions
 {
-    public class CustomerAgeRequirementNotMetDomainException : DomainException
+    public class InvalidCustomerAgeDomainException : DomainException
     {
-        public CustomerAgeRequirementNotMetDomainException() 
+        public InvalidCustomerAgeDomainException() 
             : base("Customer has to be at least 18 years old.")
         {
         }

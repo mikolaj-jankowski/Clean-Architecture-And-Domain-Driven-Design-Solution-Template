@@ -1,5 +1,6 @@
 ﻿using Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer;
 using Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer.EventHandlers;
+using Clean.Architecture.And.DDD.Template.Application.Customer.GetCustomer;
 using Clean.Architecture.And.DDD.Template.Application.Order.CreateOrder;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Filters.MassTransit;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Settings;
@@ -20,13 +21,18 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
             {
                 //below Consumers for Mediator (in memory)
                 cfg.AddConsumer<CustomerCreatedDomainEventHandler>();
+
                 cfg.AddConsumer<CreateOrderCommandHandler>();
 
                 cfg.AddConsumer<CreateCustomerCommandHandler>();
+                cfg.AddConsumer<ChangeEmailCommandHandler>();
+                cfg.AddConsumer<VerifyEmailCommandHandler>();
+                cfg.AddConsumer<GetCustomerQueryHandler>();
+
                 cfg.ConfigureMediator((context, cfg) =>
                 {
                     cfg.UseConsumeFilter(typeof(UnitOfWorkFilter<>), context);
-                    cfg.UseMessageRetry(x => x.Interval(3, TimeSpan.FromSeconds(15)));
+                    //cfg.UseMessageRetry(x => x.Interval(3, TimeSpan.FromSeconds(15))); //causes long response to HTTP requests
                 });
             });
 
