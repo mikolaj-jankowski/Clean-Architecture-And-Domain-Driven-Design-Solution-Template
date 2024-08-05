@@ -10,7 +10,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
         public static ConnectionMultiplexer InstallRedis(this WebApplicationBuilder builder)
         {
             var redisSettings = builder.Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>()!.Redis;
-            return ConnectionMultiplexer.Connect(new ConfigurationOptions
+            var db = ConnectionMultiplexer.Connect(new ConfigurationOptions
             {
                 EndPoints = { $"{redisSettings.Host}:{redisSettings.Port}" },
                 AbortOnConnectFail = false,
@@ -18,7 +18,8 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
                 Password = redisSettings.Password
 
             });
-
+            db.GetDatabase().SetAdd("Product1", "Spoon");
+            return db;
         }
     }
 }

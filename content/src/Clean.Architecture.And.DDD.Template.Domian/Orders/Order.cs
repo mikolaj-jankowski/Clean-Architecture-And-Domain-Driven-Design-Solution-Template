@@ -15,31 +15,33 @@ namespace Clean.Architecture.And.DDD.Template.Domian.Orders
 
         private Order()
         {
-            _orderItems = new List<OrderItem>();
+
         }
 
-        public static Order Create(Guid customerId, string streetName, string postalCode)
+        public static Order Create(CustomerId customerId, ShippingAddress shippingAddress)
         {
-            return new Order(customerId, streetName, postalCode);
+            return new Order(customerId, shippingAddress);
         }
 
-        private Order(Guid customerId, string streetName, string postalCode)
+        private Order(CustomerId customerId, ShippingAddress shippingAddress)
         {
-            CustomerId = new CustomerId(customerId);
+            CustomerId = customerId;
             OrderId = new OrderId(Guid.NewGuid());//Guid.CreateVersion7(DateTimeOffset.UtcNow);
-            ShippingAddress = new ShippingAddress(streetName, postalCode);
+            ShippingAddress = shippingAddress;
+
+            _orderItems = new List<OrderItem>();
 
             AddDomainEvent(new OrderCreatedDomainEvent(this.OrderId));
         }
 
-        public void AddOrderItem(long productId, int quantity = 1)
+        public void AddOrderItem(long productId, string productName, decimal price, string currency, uint quantity = 1)
         {
             if (quantity > 5)
             {
                 throw new MaximumQuantityExceededDomainException();
             }
 
-            var orderItem = OrderItem.Create(productId, quantity);
+            var orderItem = OrderItem.Create(productId, productName, price, currency, quantity);
             _orderItems.Add(orderItem);
         }
     }

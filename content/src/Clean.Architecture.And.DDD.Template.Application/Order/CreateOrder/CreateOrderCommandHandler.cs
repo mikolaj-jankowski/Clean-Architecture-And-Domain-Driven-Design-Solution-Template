@@ -1,4 +1,5 @@
-﻿using Clean.Architecture.And.DDD.Template.Domian.Orders;
+﻿using Clean.Architecture.And.DDD.Template.Domian.Customers;
+using Clean.Architecture.And.DDD.Template.Domian.Orders;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
@@ -19,9 +20,16 @@ namespace Clean.Architecture.And.DDD.Template.Application.Order.CreateOrder
 
         public async Task Consume(ConsumeContext<CreateOrderCommand> command)
         {
-            var order = Domian.Orders.Order.Create(command.Message.CustomerId, command.Message.Street, command.Message.PostalCode);
+            var order = Domian.Orders.Order.Create(
+                new CustomerId(command.Message.CustomerId),
+                new ShippingAddress(command.Message.Street, command.Message.PostalCode));
+
+            foreach(var product in command.Message.Products) 
+            {
+                order.AddOrderItem(product.ProductId, product.ProductName, product.Price, product.Currency, product.Quantity);
+            }
             await _orderRepository.AddAsync(order);
-            _logger.LogInformation($"Created an order: {order.OrderId}");
+            _logger.LogInformation("Created an order: {OrderId} ", order.OrderId);
         }
 
 

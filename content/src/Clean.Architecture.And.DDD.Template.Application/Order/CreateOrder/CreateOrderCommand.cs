@@ -1,4 +1,5 @@
 ﻿namespace Clean.Architecture.And.DDD.Template.Application.Order.CreateOrder
 {
-    public record CreateOrderCommand(string Street, string PostalCode, Guid CustomerId);
+    public sealed record CreateOrderCommand(string Street, string PostalCode, Guid CustomerId, ICollection<Product> Products);
+    public sealed record Product(long ProductId, string ProductName, decimal Price, string Currency, uint Quantity);
 }

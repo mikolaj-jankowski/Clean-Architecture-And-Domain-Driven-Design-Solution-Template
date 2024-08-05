@@ -19,10 +19,10 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Controllers
         }
 
         [HttpPost(Name = "CreateOrder")]
-        public async Task<IActionResult> Post()
+        public async Task<IActionResult> Post(CreateOrderCommand command)
         {
-            await _mediator.Send<CreateOrderCommand>(new CreateOrderCommand("wall street 29","0992-1", Guid.Parse("219ad96f-5386-4a33-9faa-a0b0f4ef68a6")));            
-            return Ok();
+            await _mediator.Send<CreateOrderCommand>(command);
+            return NoContent();
         }
     }
 }

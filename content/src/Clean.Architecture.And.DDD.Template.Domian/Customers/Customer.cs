@@ -9,10 +9,11 @@ namespace Clean.Architecture.And.DDD.Template.Domian.Customers
         public Age Age { get; private set; }
         public Email Email { get; private set; }
         public bool IsEmailVerified {  get; private set; }
+        public Address Address {  get; private set; }
 
         private Customer() {}
 
-        private Customer(CustomerId customerId, FullName fullName, Age age, Email email)
+        private Customer(CustomerId customerId, FullName fullName, Age age, Email email, Address address)
         {
             CustomerId = customerId;
             FullName = fullName;
@@ -20,11 +21,12 @@ namespace Clean.Architecture.And.DDD.Template.Domian.Customers
             Email = email;
             IsEmailVerified = false;
             AddDomainEvent(new CustomerCreatedDomainEvent(this.CustomerId.Value));
+            Address = address;
         }
 
-        public static Customer CreateCustomer(CustomerId customerId, FullName fullName, Age age, Email email)
+        public static Customer CreateCustomer(CustomerId customerId, FullName fullName, Age age, Email email, Address address)
         {
-            return new Customer(customerId, fullName, age, email);
+            return new Customer(customerId, fullName, age, email, address);
         }
 
         public void ChangeEmail(Email email) 

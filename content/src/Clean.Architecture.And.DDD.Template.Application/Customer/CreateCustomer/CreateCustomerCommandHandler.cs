@@ -24,7 +24,8 @@ public sealed class CreateCustomerCommandHandler : IConsumer<CreateCustomerComma
             new CustomerId(Guid.NewGuid()),
             new FullName(command.Message.FullName),
             new Age(command.Message.BirthDate),
-            new Email(command.Message.Email));
+            new Email(command.Message.Email),
+            new Address(command.Message.Street, command.Message.HouseNumber, command.Message.FlatNumber, command.Message.Country, command.Message.PostalCode));
 
         await _customerRespository.AddAsync(customer);
         await command.RespondAsync<CreateCustomerResponse>(new CreateCustomerResponse(customer.CustomerId.Value));
