@@ -31,7 +31,7 @@ namespace Clean.Architecture.And.DDD.Template.Domian.Orders
 
             _orderItems = new List<OrderItem>();
 
-            AddDomainEvent(new OrderCreatedDomainEvent(this.OrderId));
+            AddDomainEvent(new OrderCreatedDomainEvent(this.OrderId.Value, this.CustomerId.Value));
         }
 
         public void AddOrderItem(long productId, string productName, decimal price, string currency, uint quantity = 1)

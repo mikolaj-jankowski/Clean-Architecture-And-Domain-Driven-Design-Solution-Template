@@ -3,7 +3,7 @@ using Clean.Architecture.And.DDD.Template.Domian.Customers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
-namespace Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer;
+namespace Clean.Architecture.And.DDD.Template.Application.Customer.ChangeEmail;
 
 public sealed class ChangeEmailCommandHandler : IConsumer<ChangeEmailCommand>
 {
@@ -22,7 +22,7 @@ public sealed class ChangeEmailCommandHandler : IConsumer<ChangeEmailCommand>
         var (oldEmail, newEmail) = command.Message;
         var customer = await _customerRespository.GetAsync(oldEmail);
 
-        if(customer == null)
+        if (customer == null)
         {
             throw new CustomerNotFoundApplicationException(oldEmail);
         }

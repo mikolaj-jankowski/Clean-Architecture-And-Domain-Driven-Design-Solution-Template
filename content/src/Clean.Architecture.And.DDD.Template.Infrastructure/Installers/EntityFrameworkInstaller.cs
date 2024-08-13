@@ -1,6 +1,8 @@
 ﻿using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.MsSql;
+using Clean.Architecture.And.DDD.Template.Infrastructure.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
@@ -9,26 +11,17 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
     {
         public static void InstallEntityFramework(this WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer("Server=.;Database=CleanArchitectureAndDDD;User Id=sa;Password=Th3_P@ssw0rd-421;TrustServerCertificate=True"));
-
+            var appSettings = builder.Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>();
+            if (appSettings != null)
+            {
+                var msSqlSettings = appSettings.MsSql;
+                builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(msSqlSettings.ConnectionString));
+            }
         }
 
         public async static void SeedDatabase(AppDbContext appDbContext)
         {
-            try
-            {
-                appDbContext.Database.Migrate();
-            }
-            catch (TaskCanceledException ex)
-            {
-                // Zaloguj błąd
-                Console.WriteLine("Task was canceled: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                // Zaloguj inne błędy
-                Console.WriteLine("An error occurred: " + ex.Message);
-            }
+            appDbContext.Database.Migrate();
         }
     }
 }

@@ -1,5 +1,7 @@
+using Clean.Architecture.And.DDD.Template.Application.Customer.ChangeEmail;
 using Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer;
 using Clean.Architecture.And.DDD.Template.Application.Customer.GetCustomer;
+using Clean.Architecture.And.DDD.Template.Application.Customer.VerifyEmail;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 

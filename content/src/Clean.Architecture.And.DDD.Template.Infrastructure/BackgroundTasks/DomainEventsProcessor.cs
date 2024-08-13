@@ -68,7 +68,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.BackgroundTasks
 
                             if (request != null)
                             {
-                                await _mediator.Publish<IDomainEvent>((IDomainEvent)request);
+                                await _mediator.Publish<IDomainEvent>((IDomainEvent)request); //TODO: Dispacher?
 
                                 context.Entry(@event).CurrentValues.SetValues(@event with { ComplatedAt = DateTime.UtcNow });
                                 context.SaveChanges();

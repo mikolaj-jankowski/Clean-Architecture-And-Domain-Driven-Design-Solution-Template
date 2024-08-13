@@ -20,28 +20,19 @@ public sealed class CreateCustomerCommandHandler : IConsumer<CreateCustomerComma
 
     public async Task Consume(ConsumeContext<CreateCustomerCommand> command)
     {
+        var (fullName, birthDate, email, street, houseNumber, flatNumber, country, postalCode) = command.Message;
+
         var customer = Domian.Customers.Customer.CreateCustomer(
             new CustomerId(Guid.NewGuid()),
-            new FullName(command.Message.FullName),
-            new Age(command.Message.BirthDate),
-            new Email(command.Message.Email),
-            new Address(command.Message.Street, command.Message.HouseNumber, command.Message.FlatNumber, command.Message.Country, command.Message.PostalCode));
+            new FullName(fullName),
+            new Age(birthDate),
+            new Email(email),
+            new Address(street, houseNumber, flatNumber, country, postalCode));
 
         await _customerRespository.AddAsync(customer);
         await command.RespondAsync<CreateCustomerResponse>(new CreateCustomerResponse(customer.CustomerId.Value));
 
         _logger.LogInformation("Created a customer: {FullName}, {Email}", command.Message.FullName, command.Message.Email);
-    }
-
-
-    public class CustomerCreatedIntegrationEventHandler : IConsumer<CustomerCreatedIntegrationEvent>
-    {
-        public Task Consume(ConsumeContext<CustomerCreatedIntegrationEvent> context)
-        {
-            Debug.WriteLine($"{DateTime.UtcNow}. Got here.");
-            Debug.WriteLine(context.Message.CustomerId);
-            return Task.CompletedTask;
-        }
     }
 
 }

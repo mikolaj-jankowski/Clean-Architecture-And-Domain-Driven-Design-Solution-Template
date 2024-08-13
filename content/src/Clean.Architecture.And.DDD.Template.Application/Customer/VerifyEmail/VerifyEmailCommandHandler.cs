@@ -3,7 +3,7 @@ using Clean.Architecture.And.DDD.Template.Domian.Customers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
-namespace Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer;
+namespace Clean.Architecture.And.DDD.Template.Application.Customer.VerifyEmail;
 
 public sealed class VerifyEmailCommandHandler : IConsumer<VerifyEmailCommand>
 {
@@ -22,12 +22,12 @@ public sealed class VerifyEmailCommandHandler : IConsumer<VerifyEmailCommand>
         var email = command.Message.Email;
         var customer = await _customerRespository.GetAsync(email);
 
-        if(customer == null)
+        if (customer == null)
         {
             throw new CustomerNotFoundApplicationException(email);
         }
 
-        if(customer.IsEmailVerified)
+        if (customer.IsEmailVerified)
         {
             throw new EmailAlreadyVerifiedApplicationException(email);
         }
