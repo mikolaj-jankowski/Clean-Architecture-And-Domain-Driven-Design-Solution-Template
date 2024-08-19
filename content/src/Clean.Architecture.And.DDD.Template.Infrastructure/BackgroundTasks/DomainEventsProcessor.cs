@@ -1,8 +1,8 @@
 ﻿using Clean.Architecture.And.DDD.Template.Domian;
+using Clean.Architecture.And.DDD.Template.Infrastructure.Events;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure.DomainEvents;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using MassTransit;
-using MassTransit.Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -14,14 +14,17 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.BackgroundTasks
     {
         private readonly ILogger<DomainEventsProcessor> _logger;
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private readonly IMediator _mediator;
+        private readonly IDomainEventDispatcher _domainEventDispatcher;
         private Dictionary<string, System.Reflection.Assembly> _assemblies = new();
 
-        public DomainEventsProcessor(ILogger<DomainEventsProcessor> logger, IServiceScopeFactory serviceScopeFactory, IMediator mediator)
+        public DomainEventsProcessor(
+            ILogger<DomainEventsProcessor> logger,
+            IServiceScopeFactory serviceScopeFactory,
+            IDomainEventDispatcher domainEventDispatcher)
         {
             _logger = logger;
             _serviceScopeFactory = serviceScopeFactory;
-            _mediator = mediator;
+            _domainEventDispatcher = domainEventDispatcher;
         }
 
         /// <summary>
@@ -68,7 +71,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.BackgroundTasks
 
                             if (request != null)
                             {
-                                await _mediator.Publish<IDomainEvent>((IDomainEvent)request); //TODO: Dispacher?
+                                await _domainEventDispatcher.Dispatch((IDomainEvent)request); //TODO: Dispacher?
 
                                 context.Entry(@event).CurrentValues.SetValues(@event with { ComplatedAt = DateTime.UtcNow });
                                 context.SaveChanges();

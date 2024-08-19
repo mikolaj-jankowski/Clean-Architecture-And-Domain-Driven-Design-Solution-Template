@@ -1,5 +1,6 @@
 @apiUrl = http://localhost:5008
-@customerId = 1d31ae71-0bea-4cdd-869f-b53a79849965
+@customerId = 57AC8E47-87C3-47BC-8494-9FEC2140D3C1
+@customerEmail = my@email.com
 
 ### Create a customer
 POST {{apiUrl}}/customer
@@ -35,3 +36,7 @@ Content-Type: application/json
     }
   ]
 }
+
+### Get customer
+GET {{apiUrl}}/Customer?Email={{customerEmail}}
+Content-Type: application/json; charset=utf-8

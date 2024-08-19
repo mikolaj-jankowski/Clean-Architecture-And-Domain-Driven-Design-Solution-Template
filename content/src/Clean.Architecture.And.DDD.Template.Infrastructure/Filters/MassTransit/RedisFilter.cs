@@ -1,6 +1,4 @@
-﻿using Clean.Architecture.And.DDD.Template.Application.Order.CreateOrder;
-using Clean.Architecture.And.DDD.Template.Domian;
-using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.MsSql;
+﻿using Clean.Architecture.And.DDD.Template.Domian;
 using MassTransit;
 using StackExchange.Redis;
 

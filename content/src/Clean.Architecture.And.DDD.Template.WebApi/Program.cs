@@ -1,13 +1,5 @@
-using Clean.Architecture.And.DDD.Template.Domian;
-using Clean.Architecture.And.DDD.Template.Domian.Customers;
-using Clean.Architecture.And.DDD.Template.Domian.Orders;
-using Clean.Architecture.And.DDD.Template.Infrastructure.BackgroundTasks;
-using Clean.Architecture.And.DDD.Template.Infrastructure.Events;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Installers;
-using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Customers;
-using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Orders;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.MsSql;
-using Clean.Architecture.And.DDD.Template.Infrastructure.Shared;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,13 +18,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(redisConnection);
 
 builder.InstallTelemetry(builder.Configuration, redisConnection);
 builder.InstallMassTransit();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddTransient<IDateTimeProvider, DateTimeProvider>();
-builder.Services.AddTransient<IDomainEventDispatcher, DomainEventDispatcher>();
-builder.Services.AddHostedService<DomainEventsProcessor>();
-builder.Services.AddHostedService<IntegrationEventsProcessor>();
+builder.InstallDependencyInjectionRegistrations();
 var app = builder.Build();
 
 

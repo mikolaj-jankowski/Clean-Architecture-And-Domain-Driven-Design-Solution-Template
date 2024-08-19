@@ -1,11 +1,11 @@
 ﻿using Clean.Architecture.And.DDD.Template.Application.Customer.ChangeEmail;
 using Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer;
 using Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer.DomainEventHandlers;
-using Clean.Architecture.And.DDD.Template.Application.Customer.GetCustomer;
 using Clean.Architecture.And.DDD.Template.Application.Customer.VerifyEmail;
 using Clean.Architecture.And.DDD.Template.Application.Order.CreateOrder;
 using Clean.Architecture.And.DDD.Template.Application.Order.CreateOrder.DomainEventHandlers;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Filters.MassTransit;
+using Clean.Architecture.And.DDD.Template.Infrastructure.Queries.GetCustomer;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Settings;
 using Google.Protobuf;
 using MassTransit;
@@ -41,7 +41,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
 
                     cfg.UseConsumeFilter(typeof(LoggingFilter<>), context);
                     cfg.UseConsumeFilter(typeof(RedisFilter<>), context);
-                    cfg.UseConsumeFilter(typeof(UnitOfWorkFilter<>), context);
+                    cfg.UseConsumeFilter(typeof(EventsFilter<>), context);
 
                     //cfg.UseMessageRetry(x => x.Interval(3, TimeSpan.FromSeconds(15))); //causes long response to HTTP requests
                 });

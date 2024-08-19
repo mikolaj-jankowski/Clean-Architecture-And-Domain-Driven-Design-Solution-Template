@@ -12,8 +12,9 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configu
             builder.Property(x => x.CustomerId).HasConversion(x => x.Value, v => new CustomerId(v));
             builder.Property(x => x.FullName).HasMaxLength(50);
             builder.Property(x => x.FullName).HasConversion(x => x.Value, v => new FullName(v));
-            builder.Property(x => x.Age).HasConversion(x => x.BirthDate, v => new Age(v));
+            builder.Property(x => x.Age).HasConversion(x => x.BirthDate, v => new Age(v));            
             builder.Property(x => x.Email).HasConversion(x => x.Value, v => new Email(v));
+            builder.HasIndex(x => x.Email).IsUnique();
             builder.Property(x => x.IsEmailVerified);
             builder.OwnsOne(x => x.Address, address =>
             {
