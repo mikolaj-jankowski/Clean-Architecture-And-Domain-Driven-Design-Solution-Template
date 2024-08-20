@@ -43,20 +43,25 @@ services:
     networks:
       - my-network
       
-  # my-app:
-    # image: my-app
-    # container_name: my-app
-    # build:
-      # context: .
-      # dockerfile: ...
-    # environment:
-      # # - DOTNET__DASHBOARD__UNSECURED__ALLOW__ANONYMOUS=true;
-      # # - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true;
-      # # - OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317;
-    # ports:
-      # - 808:8080
-    # networks:
-      # - my-network
+  my-app:
+    image: my-app
+    container_name: my-app
+    build:
+      context: .
+      dockerfile: src/Clean.Architecture.And.DDD.Template.WebApi/Dockerfile
+    environment:
+       - AppSettings__Redis__Host=redis
+       - AppSettings__RabbitMq__Host=amqp://rabbitmq
+       - AppSettings__Telemetry__Host=http://aspire-dashboard
+       - AppSettings__MsSql__ConnectionString=Server=mssql;Database=CleanArchitectureAndDDD;User Id=sa;Password=Th3_P@ssw0rd-421;TrustServerCertificate=True
+      # - DOTNET__DASHBOARD__UNSECURED__ALLOW__ANONYMOUS=true;
+      # - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true;
+      # - OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317;
+    ports:
+      - 8080:8080
+      - 8081:8081
+    networks:
+      - my-network
       
 volumes:
   rabbitmq_data:

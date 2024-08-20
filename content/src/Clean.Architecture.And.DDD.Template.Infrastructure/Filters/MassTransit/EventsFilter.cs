@@ -59,8 +59,12 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Filters.MassTransit
             {
                 var intergrationEvent = _mapperFactory
                     .GetMapper(domainEvent)
-                    .Map(domainEvent);
-                integrationEvents.Add(intergrationEvent);
+                    ?.Map(domainEvent);
+                if(intergrationEvent != null)
+                {
+                    integrationEvents.Add(intergrationEvent);
+                }
+                
             }
             return integrationEvents;
         }

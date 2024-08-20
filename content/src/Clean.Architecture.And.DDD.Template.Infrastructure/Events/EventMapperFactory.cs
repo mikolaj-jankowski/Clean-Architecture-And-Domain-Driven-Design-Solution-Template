@@ -19,7 +19,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Events
                 return mapper;
             }
 
-            throw new InvalidOperationException($"No mapper found for event type {domainEvent.GetType().Name}");
+            return null;
         }
     }
 }
