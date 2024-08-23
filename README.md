@@ -55,8 +55,7 @@ Even when encountering projects that fulfilled one of these points, they often c
 ## 3. Domain
 
 ### 3.1 Introduction
-Domain of e-commarce was chose intentionaly because it is well known and easy to understand. 
-That template consists of just two aggregates **Customer** and **Order**. I decided to keep it small and simple but fully functional.
+The e-commerce domain was deliberately chosen because it is widely known and understood. This template consists of two aggregates: Customer and Order. I decided to extend the domain just enough to utilize all the building blocks, but nothing more. The goal of this repository is to create a template that provides an example implementation.
 
 ## 4. Architecture
 
