@@ -1,7 +1,6 @@
 using Clean.Architecture.And.DDD.Template.Application.Customer.ChangeEmail;
 using Clean.Architecture.And.DDD.Template.Application.Exceptions;
 using Clean.Architecture.And.DDD.Template.Domian.Customers;
-using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;

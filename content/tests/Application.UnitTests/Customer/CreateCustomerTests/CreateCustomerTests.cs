@@ -46,41 +46,4 @@ namespace Application.UnitTests.Customer.CreateCustomerTests
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //public class ColourCheckerConsumer :
-    //IConsumer<ColourChecker>
-    //{
-    //    public async Task Consume(ConsumeContext<ColourChecker> context)
-    //    {
-
-    //        await context.RespondAsync(new ColourChecker
-    //        {
-    //            CorrelationId = context.CorrelationId,
-    //            Colour = "Black",
-    //            IsValid = context.Message.Colour == "Black"
-    //        });
-
-    //    }
-    //}
-    //public record ColourChecker
-    //{
-    //    public Guid? CorrelationId { get; set; }
-    //    public string Colour { get; init; }
-    //    public bool? IsValid { get; set; }
-    //}
-
 }

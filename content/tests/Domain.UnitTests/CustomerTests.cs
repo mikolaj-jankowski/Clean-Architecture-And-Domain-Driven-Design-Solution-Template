@@ -1,8 +1,6 @@
 using Clean.Architecture.And.DDD.Template.Domian.Customers;
 using Clean.Architecture.And.DDD.Template.Domian.Customers.DomainEvents;
 using Clean.Architecture.And.DDD.Template.Domian.Customers.Exceptions;
-using System.Diagnostics.Metrics;
-using System.IO;
 
 namespace Domain.UnitTests
 {
