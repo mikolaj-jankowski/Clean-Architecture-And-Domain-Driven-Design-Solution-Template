@@ -14,6 +14,10 @@
 
 &nbsp;&nbsp; [2.1 Motivation](#2.1-Motivation) 
 
+[3. Domain](#3-Domain)
+
+[4. Architecture](#4-Architecture)
+
 [5. Observability](#5-Observability) 
 
 
@@ -45,6 +49,14 @@ I couldn't find any repository that met the following criteria:
     3. Project created according to Clean Architecture and DDD with a domain other than e-commerce (e.g., order aggregate, etc.).
 
 Even when encountering projects that fulfilled one of these points, they often conflicted with others or omitted them entirely. Therefore, I decided to create a project that meets the above criteria. I am sharing it in case someone else is looking for something similar.
+
+## 3. Domain
+
+### 3.1 Introduction
+Domain of e-commarce was chose intentionaly because it is well known and easy to understand. 
+That template consists of just two aggregates **Customer** and **Order**. I decided to keep it small and simple but fully functional.
+
+## 4. Architecture
 
 ## 5. Observability
 Observability is one of the most important aspects that was emphasized during the creation of this project. As a result, all elements of the system that provide telemetry data have been configured to trace the lifecycle of an HTTP request from start to finish. Telemetric data is received by the Aspire Dashboard, which is responsible for their visualization.
