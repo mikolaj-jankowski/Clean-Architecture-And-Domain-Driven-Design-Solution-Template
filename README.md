@@ -18,7 +18,7 @@
 
 
 ## 1. Installation
-I do recommend using CLI than VS Wizard when creating your application based on this template. This is because VS doesn't keep folders structure properly.
+I do recommend using CLI instead Visual Studnio Wizard when creating your application based on this template because Vistual Studio doesn't keep folders structure correctly.
 
 ### 1.1 Solution Template Installation
 Install using CLI.
