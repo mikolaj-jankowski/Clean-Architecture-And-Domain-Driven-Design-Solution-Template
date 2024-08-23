@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Clean.Architecture.And.DDD.Template.Application\Clean.Architecture.And.DDD.Template.Application.csproj" />
     <ProjectReference Include="..\Clean.Architecture.And.DDD.Template.Infrastructure\Clean.Architecture.And.DDD.Template.Infrastructure.csproj" />
   </ItemGroup>
 

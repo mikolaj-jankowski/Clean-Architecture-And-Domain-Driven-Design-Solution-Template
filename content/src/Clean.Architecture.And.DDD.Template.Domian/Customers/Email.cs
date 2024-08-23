@@ -1,4 +1,5 @@
-﻿using Clean.Architecture.And.DDD.Template.Domian.Customers.Exceptions;
+﻿using Clean.Architecture.And.DDD.Template.Domian.Customers;
+using Clean.Architecture.And.DDD.Template.Domian.Customers.Exceptions;
 using System.Text.RegularExpressions;
 
 namespace Clean.Architecture.And.DDD.Template.Domian.Customers
@@ -11,7 +12,7 @@ namespace Clean.Architecture.And.DDD.Template.Domian.Customers
         {
             if (string.IsNullOrWhiteSpace(email) || !EmailRegex.IsMatch(email))
             {
-                throw new InvalidEmailDomainException(nameof(email));
+                throw new InvalidEmailDomainException(email);
             }
 
             Value = email;

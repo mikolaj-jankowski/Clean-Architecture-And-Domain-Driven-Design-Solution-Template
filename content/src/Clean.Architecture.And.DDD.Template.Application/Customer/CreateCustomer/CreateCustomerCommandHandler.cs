@@ -1,7 +1,6 @@
 ﻿using Clean.Architecture.And.DDD.Template.Domian.Customers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustomer;
 
@@ -17,7 +16,6 @@ public sealed class CreateCustomerCommandHandler : IConsumer<CreateCustomerComma
     }
 
 
-
     public async Task Consume(ConsumeContext<CreateCustomerCommand> command)
     {
         var (fullName, birthDate, email, street, houseNumber, flatNumber, country, postalCode) = command.Message;
@@ -30,9 +28,10 @@ public sealed class CreateCustomerCommandHandler : IConsumer<CreateCustomerComma
             new Address(street, houseNumber, flatNumber, country, postalCode));
 
         await _customerRespository.AddAsync(customer);
-        await command.RespondAsync<CreateCustomerResponse>(new CreateCustomerResponse(customer.CustomerId.Value));
+        await command.RespondAsync<CreateCustomerResponse>(new CreateCustomerResponse(customer.CustomerId.Value, customer.Email.Value));
 
         _logger.LogInformation("Created a customer: {FullName}, {Email}", command.Message.FullName, command.Message.Email);
     }
 
 }
+
