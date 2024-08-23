@@ -16,6 +16,8 @@
 
 [3. Domain](#3-Domain)
 
+&nbsp;&nbsp; [3.1 Introduction](#3.1-Introduction) 
+
 [4. Architecture](#4-Architecture)
 
 [5. Observability](#5-Observability) 
