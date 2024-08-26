@@ -5,14 +5,14 @@
 ## Table of contents
 
 * [1. Instalation](#1-Installation) 
-    * [1.1 Solution Template Installation](#1-Solution-Template-Installation) 
+    * [1.1 Solution Template Installation](#1.1-Solution-Template-Installation) 
 
 
 
 ## 1. Installation
 I do recommend using CLI instead Visual Studnio Wizard when creating your application based on this template because Vistual Studio doesn't keep folders structure correctly.
 
-### 1 Solution Template Installation
+### 1.1 Solution Template Installation
 Install using CLI.
 ```
 dotnet new install Clean.Architecture.And.DDD.Template::1.0.0
