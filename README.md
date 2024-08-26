@@ -5,8 +5,7 @@
 ## Table of contents
 
 * [1. Instalation](#1-Installation) 
-
-    * [1.1 Solution Template Installation](#1.1-Solution-Template-Installation) 
+    * [1.1 Solution Template Installation](#1-Solution-Template-Installation) 
 
 
 
