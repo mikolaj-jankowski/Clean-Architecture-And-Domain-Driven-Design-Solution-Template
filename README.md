@@ -1,6 +1,6 @@
 # Clean Architecture and Domain Driven Design Template 
 
-
+This repository is a template for an application created using **Clean Architecture**, utilizing **building blocks from Domain-Driven Design**. Read and write operations have been separated according to the **CQRS** pattern. Additionally, you'll find implementations of design patterns such as mediator, factory, strategy, and several others.
 
 ## Table of contents
 
@@ -12,7 +12,11 @@
 * [3. Domain](#3-Domain)
     * [3.1 Introduction](#31-Introduction) 
 * [4. Architecture](#4-Architecture)
-* [5. Observability](#5-Observability) 
+* [5. Observability](#5-Observability)
+* [6. Design patterns implemented in this project](6-Design-patterns-implemented-in-this-project)
+    * [6.1 Mediator](61-Mediator)
+    * [6.2 Factory method](62-Factory-Method)
+    * [6.3 Strategy](63-Strategy)
 
 
 
@@ -39,9 +43,9 @@ The template uses MSSQL as a database provider. Migrations will be applied autom
 
 I couldn't find any repository that met the following criteria:
 
-    1. Implemented Mediator pattern using MassTransit library instead of MediatR with added message interception support (similar to IPipelineBehaviour in MediatR).
-    2. Fully implemented system observability using Open Telemetry.
-    3. Project created according to Clean Architecture and DDD with a domain other than e-commerce (e.g., order aggregate, etc.).
+    1. Implemented Mediator pattern **using MassTransit library instead of MediatR** with added message interception support (similar to IPipelineBehaviour in MediatR).
+    2. Implemented system observability using Open Telemetry.
+    3. Implemented Domain Events as part of Eventual Consistency, so Domain Events are not published in the same transaction as saving/updating Aggregate.
 
 Even when encountering projects that fulfilled one of these points, they often conflicted with others or omitted them entirely. Therefore, I decided to create a project that meets the above criteria. I am sharing it in case someone else is looking for something similar.
 
@@ -62,7 +66,10 @@ Here are some examples of requestes
 
 ### 5.1 Open Telemtry
 
-
+## 6 Design patterns implemented in this project
+### 6.1 Mediator
+### 6.2 Factory method
+### 6.3 Strategy
 ## :hammer: Build with
 * [.NET Core 8](https://github.com/dotnet/core)
 * [ASP.NET Core 8](https://github.com/dotnet/aspnetcore)
