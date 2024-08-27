@@ -8,7 +8,8 @@ Additionally, you'll find implementations of design patterns such as mediator, f
 
 * [1. Instalation](#1-Installation) 
     * [1.1 Solution Template Installation](#11-Solution-Template-Installation) 
-    * [1.2 Database](#12-Database) 
+    * [1.2 Database](#12-Database)
+    * [1.3 Docker](#13-Docker)
 * [2. Introduction](#2-Introduction)
     * [2.1 Motivation](#21-Motivation) 
 * [3. Domain](#3-Domain)
@@ -38,6 +39,12 @@ dotnet new ca-and-ddd -o "MyDreamProject"
 ### 1.2 Database
 
 The template uses MSSQL as a database provider. Migrations will be applied automatically during project startup, so you don't have to do anything.
+
+### 1.3 Docker
+
+As a result of running command from step 1.3 all files and folders will be created. Among them you will find docker-compose.yaml.
+Simply run the command 'docker-compose up' to spawn required services.
+docker-compose.yaml provides instances of: MSSQL, Redis, RabbitMQ, and Aspire Dashboard. 
 
 ## 2. Introduction
 
