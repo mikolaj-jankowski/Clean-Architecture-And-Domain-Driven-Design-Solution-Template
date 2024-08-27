@@ -1,6 +1,8 @@
 # Clean Architecture and Domain Driven Design Template 
 
-This repository is a template for an application created using **Clean Architecture**, utilizing **building blocks from Domain-Driven Design**. Read and write operations have been separated according to the **CQRS** pattern. Additionally, you'll find implementations of design patterns such as mediator, factory, strategy, and several others.
+This repository is a template for an application created using **Clean Architecture**, utilizing **building blocks from Domain-Driven Design**. Read and write operations have been separated according to the **CQRS** pattern. 
+System observability is ensured by the implementation of OpenTelemetry and the Aspire Dashboard.
+Additionally, you'll find implementations of design patterns such as mediator, factory, strategy, and several others.
 
 ## Table of contents
 
