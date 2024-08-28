@@ -2,7 +2,7 @@
 
 namespace Clean.Architecture.And.DDD.Template.Domian.Customers
 {
-    public record FullName
+    public sealed record FullName
     {
         public string Value { get; init; }
         public FullName(string fullName)

@@ -40,3 +40,21 @@ Content-Type: application/json
 ### Get customer
 GET {{apiUrl}}/Customer?Email={{customerEmail}}
 Content-Type: application/json; charset=utf-8
+
+### Change e-mail
+POST {{apiUrl}}/Customer/change-email
+Content-Type: application/json
+
+{
+  "oldEmail": "{{customerEmail}}",
+  "newEmail": "somone@yourdomain.com"
+}
+
+### Verify e-mail
+POST {{apiUrl}}/Customer/verify-email
+Content-Type: application/json
+
+{
+  "email": "{{customerEmail}}"
+}
+

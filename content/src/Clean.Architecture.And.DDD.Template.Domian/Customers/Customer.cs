@@ -34,7 +34,7 @@ namespace Clean.Architecture.And.DDD.Template.Domian.Customers
             if(Email != email)
             {
                 Email = email;
-                AddDomainEvent(new CustomerEmailChnagedDomainEvent(email, Email));
+                AddDomainEvent(new CustomerEmailChnagedDomainEvent(email.Value, Email.Value));
             }
         }
 
@@ -45,7 +45,7 @@ namespace Clean.Architecture.And.DDD.Template.Domian.Customers
                 IsEmailVerified = true;
             }
 
-            AddDomainEvent(new CustomerEmailVerifiedDomainEvent(Email));
+            AddDomainEvent(new CustomerEmailVerifiedDomainEvent(Email.Value));
         }
 
     }

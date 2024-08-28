@@ -2,7 +2,7 @@
 
 namespace Clean.Architecture.And.DDD.Template.Domian.Customers
 {
-    public record CustomerId(Guid Value)
+    public sealed record CustomerId(Guid Value)
     {
         public static implicit operator Guid(CustomerId id) => id.Value;
 

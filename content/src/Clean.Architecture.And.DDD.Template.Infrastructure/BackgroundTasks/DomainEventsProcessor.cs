@@ -71,7 +71,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.BackgroundTasks
 
                             if (request != null)
                             {
-                                await _domainEventDispatcher.Dispatch((IDomainEvent)request); //TODO: Dispacher?
+                                await _domainEventDispatcher.Dispatch((IDomainEvent)request);
 
                                 context.Entry(@event).CurrentValues.SetValues(@event with { ComplatedAt = DateTime.UtcNow });
                                 context.SaveChanges();

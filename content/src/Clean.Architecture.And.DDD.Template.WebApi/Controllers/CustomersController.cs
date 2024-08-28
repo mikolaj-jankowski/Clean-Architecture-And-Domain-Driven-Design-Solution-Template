@@ -14,9 +14,7 @@ namespace Clean.Architecture.And.DDD.Template.WebApi.Controllers
         private readonly IMediator _mediator;
 
         public CustomerController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+            => _mediator = mediator;
 
         [HttpPost]
         public async Task<IActionResult> CreateCustomer(CreateCustomerCommand command)
