@@ -14,6 +14,9 @@ services:
   aspire-dashboard:
     image: mcr.microsoft.com/dotnet/nightly/aspire-dashboard:8.0.0-preview.6
     container_name: aspire-dashboard
+    environment:
+       - DOTNET__DASHBOARD__UNSECURED__ALLOW__ANONYMOUS=true
+       - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true
     ports:
       - 18888:18888
       - 4317:18889
@@ -30,6 +33,8 @@ services:
       - "1433:1433"
     networks:
       - my-network
+    volumes:
+      - mssql_data:/var/opt/mssql
       
   redis:
     image: redis:latest
@@ -53,10 +58,8 @@ services:
        - AppSettings__Redis__Host=redis
        - AppSettings__RabbitMq__Host=amqp://rabbitmq
        - AppSettings__Telemetry__Host=http://aspire-dashboard
+       - AppSettings__Telemetry__Port=18889
        - AppSettings__MsSql__ConnectionString=Server=mssql;Database=CleanArchitectureAndDDD;User Id=sa;Password=Th3_P@ssw0rd-421;TrustServerCertificate=True
-      # - DOTNET__DASHBOARD__UNSECURED__ALLOW__ANONYMOUS=true;
-      # - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true;
-      # - OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317;
     ports:
       - 8080:8080
       - 8081:8081
@@ -66,6 +69,7 @@ services:
 volumes:
   rabbitmq_data:
   redis_data:
+  mssql_data:
   
 networks:
   my-network:
