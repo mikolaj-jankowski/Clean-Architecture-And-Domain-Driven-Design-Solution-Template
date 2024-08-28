@@ -24,6 +24,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configu
                 address.Property(x => x.Country).HasMaxLength(100);
                 address.Property(x => x.PostalCode).HasMaxLength(6);
             });
+            builder.Property<byte[]>("Version").IsRowVersion();
         }
     }
 }

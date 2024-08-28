@@ -1,5 +1,5 @@
 @apiUrl = http://localhost:5008
-@customerId = 57AC8E47-87C3-47BC-8494-9FEC2140D3C1
+@customerId = 9b19b89f-d342-467e-beaa-d009d6d5750c
 @customerEmail = my@email.com
 
 ### Create a customer

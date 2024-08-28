@@ -17,6 +17,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configu
             {
                 shippingAddresBuilder.Property(x => x.PostalCode).HasMaxLength(6);
             });
+            builder.Property<byte[]>("Version").IsRowVersion();
         }
     }
 }
