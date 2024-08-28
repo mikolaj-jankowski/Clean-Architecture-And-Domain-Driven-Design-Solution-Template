@@ -10,7 +10,7 @@ RUN dotnet restore "./src/Clean.Architecture.And.DDD.Template.WebApi/Clean.Archi
 COPY . .
 WORKDIR "src/Clean.Architecture.And.DDD.Template.WebApi"
 
-RUN dotnet publish "./Clean.Architecture.And.DDD.Template.WebApi.csproj" -c release -o /app #--no-restore
+RUN dotnet publish "./Clean.Architecture.And.DDD.Template.WebApi.csproj" -c release -o /app --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
