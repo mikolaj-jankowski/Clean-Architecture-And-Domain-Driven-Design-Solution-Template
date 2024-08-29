@@ -1,5 +1,5 @@
 @apiUrl = http://localhost:5008
-@customerId = 9b19b89f-d342-467e-beaa-d009d6d5750c
+@customerId = f718bf4e-e94c-499e-b85b-2a8d6f1c82d6
 @customerEmail = my@email.com
 
 ### Create a customer
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "fullName": "Mikolaj Jankowski",
   "birthDate": "1990-01-01",
-  "email": "my@email.com",
+  "email": "{{customerEmail}}",
   "street": "Wall Street",
   "houseNumber": "10A",
   "flatNumber": "1",

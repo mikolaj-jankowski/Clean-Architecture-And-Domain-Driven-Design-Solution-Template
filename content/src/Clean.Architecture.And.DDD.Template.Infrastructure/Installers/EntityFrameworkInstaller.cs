@@ -19,7 +19,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
             }
         }
 
-        public async static void SeedDatabase(AppDbContext appDbContext)
+        public static void SeedDatabase(AppDbContext appDbContext)
         {
             appDbContext.Database.Migrate();
         }
