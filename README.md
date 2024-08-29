@@ -69,9 +69,7 @@ The e-commerce domain was deliberately chosen because it is widely known and und
 Observability is one of the most important aspects that was emphasized during the creation of this project. As a result, all elements of the system that provide telemetry data have been configured to trace the lifecycle of an HTTP request from start to finish. Telemetric data is received by the Aspire Dashboard, which is responsible for their visualization.
 Here are some examples of requestes
 
-[image](1)
-[image](2)
-[image](3)
+![](docs/Images/PostCustomer.gif)
 
 ### 5.1 Open Telemtry
 
