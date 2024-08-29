@@ -13,13 +13,26 @@ Additionally, you'll find implementations of design patterns such as mediator, f
 * [2. Introduction](#2-Introduction)
     * [2.1 Motivation](#21-Motivation) 
 * [3. Domain](#3-Domain)
-    * [3.1 Introduction](#31-Introduction) 
+    * [3.1 Introduction](#31-Introduction)
+    * [3.2 Aggregates](#32-Aggregates)
+    * [3.3 Domain Events](#33-Domain-Events) 
 * [4. Architecture](#4-Architecture)
+    * [4.1 Clean Architecure](#41-Clean-Architecure)
+        * [4.1.1 Presentation Layer](#411-Presentation-Layer)
+        * [4.1.2 Infrastructure Layer](#412-Infrastructure-Layer)
+        * [4.1.3 Application Layer](#413-Application-Layer)
+        * [4.1.4 Domain Layer](#414-Domain-Layer)
+    * [4.2 Eventual consistency](#42-Eventual-consistency)
+        * [4.2.1 Domain Events](#421-Domain-Events)
+        * [4.2.2 Integration Events](#422-Integration-Events)
+    * [4.3 Command Query Responsibility Segregation (CQRS)](#43-Command-Query-Responsibility-Segregation-(CQRS))
+    * [4.4 Cross Cutting Concerns](#44-Cross-Cutting-Concerns)
 * [5. Observability](#5-Observability)
 * [6. Design patterns implemented in this project](6-Design-patterns-implemented-in-this-project)
     * [6.1 Mediator](61-Mediator)
     * [6.2 Factory method](62-Factory-Method)
     * [6.3 Strategy](63-Strategy)
+* [7. Tests](7-Tests)
 
 
 
@@ -63,7 +76,24 @@ Even when encountering projects that fulfilled one of these points, they often c
 ### 3.1 Introduction
 The e-commerce domain was deliberately chosen because it is widely known and understood. This template consists of two aggregates: Customer and Order. I decided to extend the domain just enough to utilize all the building blocks, but nothing more. The goal of this repository is to create a template that provides an example implementation.
 
+### 3.2 Aggregates
+### 3.3 Domain Events
+
 ## 4. Architecture
+
+### 4.1 Clean Architecure
+#### 4.1.1 Presentation Layer
+#### 4.1.2 Infrastructure Layer
+#### 4.1.3 Application Layer
+#### 4.1.4 Domain Layer
+
+### 4.2 Eventual consistency
+### 4.2.1 Domain Events
+### 4.2.2 Integration Events
+
+### 4.3 Command Query Responsibility Segregation (CQRS)
+
+### 4.4 Cross Cutting Concerns
 
 ## 5. Observability
 Observability is one of the most important aspects that was emphasized during the creation of this project. As a result, all elements of the system that provide telemetry data have been configured to trace the lifecycle of an HTTP request from start to finish. Telemetric data is received by the Aspire Dashboard, which is responsible for their visualization.
@@ -81,3 +111,5 @@ Here are some examples of requestes
 * [.NET Core 8](https://github.com/dotnet/core)
 * [ASP.NET Core 8](https://github.com/dotnet/aspnetcore)
 * [MassTransit](https://github.com/MassTransit)
+
+## 7. Tests
