@@ -96,6 +96,7 @@ The e-commerce domain was deliberately chosen because it is widely known and und
 ### 4.4 Cross Cutting Concerns
 
 ## 5. Observability
+### 5.1 Open Telemtry
 Observability is one of the most important aspects that was emphasized during the creation of this project. As a result, all elements of the system that provide telemetry data have been configured to trace the lifecycle of an HTTP request from start to finish. Telemetric data is received by the Aspire Dashboard, which is responsible for their visualization.
 
 Aspire Dashboard is avaiable at: http://localhost:18888 once docker-compose has been launched.
@@ -104,10 +105,93 @@ Here is an example of creating a customer, which results in adding a new record 
 
 ![](docs/Images/PostCustomer.gif)
 
-### 5.1 Open Telemtry
+And here is the code responsible for setting up Open Telemetry.
+
+<details>
+  <summary><b>Code</b></summary>
+  <p>
+
+```
+public static void InstallTelemetry(this WebApplicationBuilder builder, IConfiguration configuration, ConnectionMultiplexer redisConnection)
+{
+    var telemetrySettings = builder.Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>().Telemetry;
+    var url = $"{telemetrySettings.Host}:{telemetrySettings.Port}";
+
+    builder.Services.AddOpenTelemetry()
+        .ConfigureResource(resource => resource.AddService(telemetrySettings.Name, serviceInstanceId: Environment.MachineName))
+        .WithMetrics(metrics =>
+        {
+            metrics
+                .AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation();
+
+            metrics.AddOtlpExporter(options =>
+            {
+                if (!string.IsNullOrEmpty(url))
+                {
+                    options.Endpoint = new Uri(url);
+                }
+            });
+
+        })
+        .WithTracing(tracing =>
+        {
+            tracing
+                .AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation()
+                .AddRedisInstrumentation(redisConnection, opt => opt.FlushInterval = TimeSpan.FromSeconds(1))
+                .AddEntityFrameworkCoreInstrumentation(options =>
+                {
+                    options.EnrichWithIDbCommand = (activity, command) =>
+                    {
+                        var stateDisplayName = $"{command.CommandType} {command.CommandText} Database: {command.Connection?.Database}";
+                        activity.DisplayName = stateDisplayName;
+                        activity.SetTag("db.name", stateDisplayName);
+                    };
+                });
+
+            tracing.AddOtlpExporter(options =>
+            {
+                if (!string.IsNullOrWhiteSpace(url))
+                {
+                    options.Endpoint = new Uri(url);
+                }
+            });
+        });
+
+    builder.Logging.AddOpenTelemetry(logging =>
+    {
+        if (!string.IsNullOrEmpty(url))
+        {
+            logging.AddOtlpExporter(options => options.Endpoint = new Uri(url));
+        }
+    });
+
+}
+```
+  </p>
+</details>
+
 
 ## 6 Design patterns implemented in this project
 ### 6.1 Mediator
+The Mediator from the MassTransit library was chosen because it doesn't require the implementation of any interfaces, unlike the MediatR library. 
+If we were to use the Mediator from MediatR instead of MassTransit, our domain event would look like this:
+```
+    public sealed record CustomerCreatedDomainEvent(Guid CustomerId) : INotification
+``` 
+INotification intefrace comes from MediatR library.
+However our domain events look like this:
+
+```
+    public sealed record CustomerCreatedDomainEvent(Guid CustomerId) : IDomainEvent;
+```
+IDomainEvent is just a marker interface that we keep in our Domain Layer.
+
+This is particularly important because domain events located in the domain layer can remain free of any dependencies. I believe that the domain layer should be free from all libraries, making it easier to test.
+
+https://masstransit.io/documentation/concepts/mediator
+
 ### 6.2 Factory method
 ### 6.3 Strategy
 ## :hammer: Build with
