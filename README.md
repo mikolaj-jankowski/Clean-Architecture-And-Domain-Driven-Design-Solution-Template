@@ -97,7 +97,10 @@ The e-commerce domain was deliberately chosen because it is widely known and und
 
 ## 5. Observability
 Observability is one of the most important aspects that was emphasized during the creation of this project. As a result, all elements of the system that provide telemetry data have been configured to trace the lifecycle of an HTTP request from start to finish. Telemetric data is received by the Aspire Dashboard, which is responsible for their visualization.
-Here are some examples of requestes
+
+Aspire Dashboard is avaiable at: http://localhost:18888 once docker-compose has been launched.
+
+Here is an example of creating a customer, which results in adding a new record in the Aspire Dashboard.
 
 ![](docs/Images/PostCustomer.gif)
 
