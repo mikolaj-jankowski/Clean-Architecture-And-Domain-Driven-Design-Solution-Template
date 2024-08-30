@@ -55,8 +55,8 @@ The template uses MSSQL as a database provider. Migrations will be applied autom
 
 ### 1.3 Docker
 
-As a result of running command from step 1.3 all files and folders will be created. Among them you will find docker-compose.yaml.
-Simply run the command 'docker-compose up' to spawn required services.
+As a result of running command from step 1.1 all files and folders will be created. Among them you will find docker-compose.yaml.
+Simply run the command 'docker-compose up' to create required containers.
 docker-compose.yaml provides instances of: MSSQL, Redis, RabbitMQ, and Aspire Dashboard. 
 
 ## 2. Introduction
