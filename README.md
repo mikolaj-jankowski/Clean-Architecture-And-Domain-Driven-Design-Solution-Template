@@ -28,11 +28,11 @@ Additionally, you'll find implementations of design patterns such as mediator, f
     * [4.3 Command Query Responsibility Segregation (CQRS)](#43-Command-Query-Responsibility-Segregation-(CQRS))
     * [4.4 Cross Cutting Concerns](#44-Cross-Cutting-Concerns)
 * [5. Observability](#5-Observability)
-* [6. Design patterns implemented in this project](6-Design-patterns-implemented-in-this-project)
-    * [6.1 Mediator](61-Mediator)
-    * [6.2 Factory method](62-Factory-Method)
-    * [6.3 Strategy](63-Strategy)
-* [7. Tests](7-Tests)
+* [6. Design patterns implemented in this project](#6-Design-patterns-implemented-in-this-project)
+    * [6.1 Mediator](#61-Mediator)
+    * [6.2 Factory method](#62-Factory-Method)
+    * [6.3 Strategy](#63-Strategy)
+* [7. Tests](#7-Tests)
 
 
 
