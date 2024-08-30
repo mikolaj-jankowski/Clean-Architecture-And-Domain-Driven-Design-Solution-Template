@@ -193,7 +193,50 @@ This is particularly important because domain events located in the domain layer
 https://masstransit.io/documentation/concepts/mediator
 
 ### 6.2 Factory method
+
+Domain Events are mapped to Integration Events thanks to ***EventMapperFactory*** class. 
+
+```
+    public class EventMapperFactory
+    {
+        private readonly Dictionary<Type, IEventMapper> _mappers;
+
+        public EventMapperFactory(Dictionary<Type, IEventMapper> mappers)
+        {
+            _mappers = mappers;
+        }
+
+        public IEventMapper GetMapper(IDomainEvent domainEvent)
+        {
+            if (_mappers.TryGetValue(domainEvent.GetType(), out var mapper))
+            {
+                return mapper;
+            }
+
+            return null;
+        }
+    }
+```
+
+The registration of new mappers is moved to the ***DependencyInjectionInstaller*** file presented below. As you can see, currently, we have only one mapper registered for the CustomerCreatedDomainEvent.
+To add another mapper, simply register it here. This approach supports the Open/Closed Principle.
+
+```
+            builder.Services.AddSingleton<EventMapperFactory>(provider =>
+            {
+                var mappers = new Dictionary<Type, IEventMapper>
+                {
+                    { typeof(CustomerCreatedDomainEvent), provider.GetRequiredService<CustomerCreatedEventMapper>() },
+                };
+
+                return new EventMapperFactory(mappers);
+            });
+```
+
 ### 6.3 Strategy
+
+The Strategy pattern is used to obtain the appropriate mapper for mapping Domain Events to Integration Events. Each mapper must implement the IEventMapper interface, which allows you to dynamically apply the correct mapper at runtime. 
+
 ## :hammer: Build with
 * [.NET Core 8](https://github.com/dotnet/core)
 * [ASP.NET Core 8](https://github.com/dotnet/aspnetcore)
