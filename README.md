@@ -93,7 +93,65 @@ The e-commerce domain was deliberately chosen because it is widely known and und
 
 ### 4.3 Command Query Responsibility Segregation (CQRS)
 
+Implementation of CQRS involves separating write and read requests. Commands are responsible for changing the state of aggregates (saving and updating them), and such operations are available only through specific repositories, e.g., ICustomerRepository.
+
+```
+    public interface ICustomerRepository
+    {
+        Task AddAsync(Customer customer, CancellationToken cancellationToken = default);
+        Task<Customer?> GetAsync(string email, CancellationToken cancellationToken = default);
+        Task UpdateAsync(Customer customer, CancellationToken cancellationToken = default);
+    }
+```
+
+Queries are responsible for retrieving entities from the database. Queries are placed in the infrastructure layer to directly utilize the DbContext and avoid creating unnecessary abstractions.
+
+Please take a look at the example: ***GetCustomerQueryHandler***
+
+```
+    public sealed class GetCustomerQueryHandler : IConsumer<GetCustomerQuery>
+    {
+        private readonly AppDbContext _appDbContext;
+
+        public GetCustomerQueryHandler(AppDbContext appDbContext)
+        {
+            _appDbContext = appDbContext;
+        }
+
+        public async Task Consume(ConsumeContext<GetCustomerQuery> query)
+        {
+            var email = query.Message.Email;
+            var customer = await _appDbContext.Set<Customer>().Where(x => ((string)x.Email).Contains(email)).SingleOrDefaultAsync();
+
+            if (customer == null)
+            {
+                throw new CustomerNotFoundApplicationException(email);
+            }
+            await query.RespondAsync(new GetCustomerQueryResponse(customer.FullName, customer.Age.Value, customer.Email.Value));
+        }
+    }
+```
+
 ### 4.4 Cross Cutting Concerns
+
+Cross-cutting concerns are implemented using MassTransit filters. There are three filters:
+
+```
+                cfg.ConfigureMediator((context, cfg) =>
+                {
+                    //The order of filter registration matters.
+                    //LoggingFilter will be executed last, after the changes to the database have been commited.
+
+                    cfg.UseConsumeFilter(typeof(LoggingFilter<>), context);
+                    cfg.UseConsumeFilter(typeof(RedisFilter<>), context);
+                    cfg.UseConsumeFilter(typeof(EventsFilter<>), context);
+
+                });
+```
+
+1. Logging filter - is responsible for logging requests along with their total duration and payload. The current implementation logs all requests; however, you could, for example, detect only long-running requests and log them.
+2. RedisFilter - is responsible for counting all requests per day. This is just an example implementation that uses Redis. You could implement other logic here, such as caching, checking permissions, etc.
+3. EventsFilter - is responsible for saving Domain Events and Integration Events to the database.
 
 ## 5. Observability
 ### 5.1 Open Telemtry
