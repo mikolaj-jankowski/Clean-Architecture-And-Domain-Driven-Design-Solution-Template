@@ -84,8 +84,16 @@ The e-commerce domain was deliberately chosen because it is widely known and und
 ### 4.1 Clean Architecure
 #### 4.1.1 Presentation Layer
 #### 4.1.2 Infrastructure Layer
+
+
+
 #### 4.1.3 Application Layer
+
+This layer orchestrates processes in the application. The Application Layer only references the Domain Layer. Most of the application logic resides in command handlers, where you can implement specific scenarios (use cases).
+
 #### 4.1.4 Domain Layer
+
+This is the most important layer, as it contains business logic and implements business processes. It consists of aggregates, value objects, domain services, and other domain-related elements. This layer is the heart of the whole system. The domain layer is completely independent; it does not reference other layers and does not depend on any external libraries, making it very easy to test and maintain.
 
 ### 4.2 Eventual consistency
 ### 4.2.1 Domain Events
