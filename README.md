@@ -1,6 +1,6 @@
 # Clean Architecture and Domain Driven Design Template 
 
-This repository is a template for an application created using **Clean Architecture**, utilizing **building blocks from Domain-Driven Design**. Read and write operations have been separated according to the **CQRS** pattern. 
+This is a template for creating your own application using using **Clean Architecture**, utilizing **building blocks from Domain-Driven Design**. Read and write operations have been separated according to the **CQRS** pattern. 
 System observability is ensured by the implementation of OpenTelemetry and the Aspire Dashboard.
 Additionally, you'll find implementations of design patterns such as mediator, factory, strategy, and several others.
 
@@ -74,9 +74,18 @@ Even when encountering projects that fulfilled one of these points, they often c
 ## 3. Domain
 
 ### 3.1 Introduction
-The e-commerce domain was deliberately chosen because it is widely known and understood. This template consists of two aggregates: Customer and Order. I decided to extend the domain just enough to utilize all the building blocks, but nothing more. The goal of this repository is to create a template that provides an example implementation.
+The e-commerce domain was deliberately chosen because it is widely known and understood. This template consists of two aggregates: Customer and Order.
+I decided to extend the domain just enough to utilize all the building blocks, but nothing more. The goal of this repository is to create a template that provides an example implementation.
+Keeping things simple in the Domain layer allows you to focus on understanding complex topics, such as the building blocks of the Domain-Driven Design approach.
 
 ### 3.2 Aggregates
+
+There are two aggregates in the Domain Layer. These are:
+
+**Customer** – This is the most important aggregate in our layer because it is responsible for placing orders. In other words, this is the entity that starts the process of placing orders. Besides placing orders, the customer can also change their e-mail address and verify it.
+
+**Order** – This represents a particular order. It has a list of order items, along with their price, quantity, etc.
+
 ### 3.3 Domain Events
 
 ## 4. Architecture
