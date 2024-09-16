@@ -98,9 +98,13 @@ For example: When a Customer places an order, an event called OrderCreatedDomain
 
 ### 4.1 Clean Architecure
 #### 4.1.1 Presentation Layer
+
+The presentation layer (in our case, simply a [RESTful API](https://en.wikipedia.org/wiki/REST)) is responsible for interacting with users by receiving and processing HTTP requests. It performs validation of commands and queries, and then communicates directly with the application layer to handle the request.
+
 #### 4.1.2 Infrastructure Layer
 
-
+The Infrastructure layer is responsible for implementing technical aspects such as database access and broad integrations with external systems. This layer is also responsible for implementing interfaces defined in the domain and application layers.
+The Infrastructure layer referances the Application layer. 
 
 #### 4.1.3 Application Layer
 
@@ -111,8 +115,37 @@ This layer orchestrates processes in the application. The Application Layer only
 This is the most important layer, as it contains business logic and implements business processes. It consists of aggregates, value objects, domain services, and other domain-related elements. This layer is the heart of the whole system. The domain layer is completely independent; it does not reference other layers and does not depend on any external libraries, making it very easy to test and maintain.
 
 ### 4.2 Eventual consistency
+
 ### 4.2.1 Domain Events
+Saving and publishing domain events only after the aggregate has been saved means that we must use the approach known as eventual consistency.
+
+In our case:
+When a Customer places an order, an event called **OrderCreatedDomainEvent** is stored in the database and then retrieved and published by the **DomainEventsProcessor**. An event handler, **OrderCreatedDomainEventHandler**, listens for this event and handles sending an email to the customer who placed the order.
+
+If we decided to publish the **OrderCreatedDomainEvent** just before saving the aggregate to the database, there could be a situation where we send an email to the customer, but the save operation fails, for example, due to network issues.
+
 ### 4.2.2 Integration Events
+
+Integration events are used to notify other modules or systems about important events that occurred in our system. Through these events, we can achieve consistency at the level of components or microservices by synchronizing data. In our solution, domain events are mapped to integration events and are only published after the aggregate has been successfully saved. The IntegrationEventsProcessor is responsible for fetching and publishing integration events from the database.
+
+In our solution, we have only one handler, which was included purely for demonstration purposes. The CustomerCreatedIntegrationEvent is sent to a RabbitMq queue. http://localhost:15672/ login: guest, password: guest.
+
+````
+  public class CustomerCreatedIntegrationEventHandler : IConsumer<CustomerCreatedIntegrationEvent>
+    {
+        public Task Consume(ConsumeContext<CustomerCreatedIntegrationEvent> context)
+        {
+            //The CustomerCreatedIntegrationEvent was produced by the Customer aggregate,
+            //thus this handler should have never been placed here. However this repo is meant
+            //to provide a full working template, so it was placed here just to demonstrate
+            //how to register and handle incoming integration events.
+
+            return Task.CompletedTask;
+        }
+    }
+````
+
+This handler should be placed in a separate module or another microservice.
 
 ### 4.3 Command Query Responsibility Segregation (CQRS)
 
@@ -178,7 +211,7 @@ Cross-cutting concerns are implemented using MassTransit filters. There are thre
 
 ## 5. Observability
 ### 5.1 Open Telemtry
-Observability is one of the most important aspects that was emphasized during the creation of this project. As a result, all elements of the system that provide telemetry data have been configured to trace the lifecycle of an HTTP request from start to finish. Telemetric data is received by the Aspire Dashboard, which is responsible for their visualization.
+The observability of the system has been ensured through the use of OpenTelemetry. Telemetry data is sent to the Aspire Dashboard collector and visualized there. With this approach, we can check how long an HTTP request took, how much time was spent communicating with the MSSQL database, and how much with Redis. Event logs are linked to requests, making it easy to navigate between them.
 
 Aspire Dashboard is avaiable at: http://localhost:18888 once docker-compose has been launched.
 
