@@ -33,7 +33,8 @@ Additionally, you'll find implementations of design patterns such as mediator, f
     * [6.2 Factory method](#62-Factory-Method)
     * [6.3 Strategy](#63-Strategy)
 * [7. Tests](#7-Tests)
-
+    * [7.1 Domain tests](#71-Domain-tests)
+    * [7.2 Application tests](#72-Application-tests)
 
 
 ## 1. Installation
@@ -357,3 +358,5 @@ The Strategy pattern is used to obtain the appropriate mapper for mapping Domain
 * [MassTransit](https://github.com/MassTransit)
 
 ## 7. Tests
+### 7.1 Domain tests
+### 7.2 Application tests
