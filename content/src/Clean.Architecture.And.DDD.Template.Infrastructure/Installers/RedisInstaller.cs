@@ -18,7 +18,6 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
                 Password = redisSettings.Password
 
             });
-            db.GetDatabase().SetAdd("Product1", "Spoon");
             return db;
         }
     }

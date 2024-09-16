@@ -16,12 +16,10 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
     {
         public static void InstallTelemetry(this WebApplicationBuilder builder, IConfiguration configuration, ConnectionMultiplexer redisConnection)
         {
-            //var telemetrySettings = builder.Configuration.GetSection(nameof(Telemetry)).Get<Telemetry>();
             var telemetrySettings = builder.Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>().Telemetry;
             var url = $"{telemetrySettings.Host}:{telemetrySettings.Port}";
 
             builder.Services.AddOpenTelemetry()
-                //.ConfigureResource(resource => resource.AddService(DiagnosticsConfig.ServiceName))
                 .ConfigureResource(resource => resource.AddService(telemetrySettings.Name, serviceInstanceId: Environment.MachineName))
                 .WithMetrics(metrics =>
                 {
@@ -34,10 +32,6 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
                         if (!string.IsNullOrEmpty(url))
                         {
                             options.Endpoint = new Uri(url);
-                        }
-                        else
-                        {
-                            //metrics.AddConsoleExporter();
                         }
                     });
 
@@ -64,10 +58,6 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
                         {
                             options.Endpoint = new Uri(url);
                         }
-                        else
-                        {
-                            //tracing.AddConsoleExporter();
-                        }
                     });
                 });
 
@@ -77,13 +67,8 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
                 {
                     logging.AddOtlpExporter(options => options.Endpoint = new Uri(url));
                 }
-                else
-                {
-                    //logging.AddConsoleExporter();
-                }
             });
 
         }
-
     }
 }
