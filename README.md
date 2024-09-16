@@ -350,7 +350,7 @@ To add another mapper, simply register it here. This approach supports the Open/
 
 ### 6.3 Strategy
 
-The Strategy pattern is used to obtain the appropriate mapper for mapping Domain Events to Integration Events. Each mapper must implement the IEventMapper interface, which allows you to dynamically apply the correct mapper at runtime. 
+The [Strategy pattern](https://en.wikipedia.org/wiki/Strategy_pattern) is used to obtain the appropriate mapper for mapping Domain Events to Integration Events. Each mapper must implement the IEventMapper interface, which allows you to dynamically apply the correct mapper at runtime. 
 
 ## :hammer: Build with
 * [.NET Core 8](https://github.com/dotnet/core)
