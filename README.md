@@ -98,6 +98,9 @@ For example: When a Customer places an order, an event called OrderCreatedDomain
 ## 4. Architecture
 
 ### 4.1 Clean Architecure
+
+By applying the Clean Architecture approach, we achieved a separation of the application into layers that are independent of each other, making them easy to test. The project consists of four layers, as shown in the image below.
+
 #### 4.1.1 Presentation Layer
 
 The presentation layer (in our case, simply a [RESTful API](https://en.wikipedia.org/wiki/REST)) is responsible for interacting with users by receiving and processing HTTP requests. It performs validation of commands and queries, and then communicates directly with the application layer to handle the request.
