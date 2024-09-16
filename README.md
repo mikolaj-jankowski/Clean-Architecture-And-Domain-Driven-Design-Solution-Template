@@ -100,6 +100,7 @@ For example: When a Customer places an order, an event called OrderCreatedDomain
 ### 4.1 Clean Architecure
 
 By applying the Clean Architecture approach, we achieved a separation of the application into layers that are independent of each other, making them easy to test. The project consists of four layers, as shown in the image below.
+![](docs/Images/CleanArchitectureView.png)
 
 #### 4.1.1 Presentation Layer
 
