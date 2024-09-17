@@ -29,9 +29,9 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
             builder.Services.AddSingleton<EventMapperFactory>(provider =>
             {
                 var mappers = new Dictionary<Type, IEventMapper>
-        {
-            { typeof(CustomerCreatedDomainEvent), provider.GetRequiredService<CustomerCreatedEventMapper>() },
-        };
+                {
+                    { typeof(CustomerCreatedDomainEvent), provider.GetRequiredService<CustomerCreatedEventMapper>() },
+                };
 
                 return new EventMapperFactory(mappers);
             });

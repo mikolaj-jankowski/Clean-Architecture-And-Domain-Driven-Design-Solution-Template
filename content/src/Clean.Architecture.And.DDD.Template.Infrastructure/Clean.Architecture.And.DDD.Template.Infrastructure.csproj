@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="HtmlSanitizer" Version="8.2.871-beta" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.4-develop.1867" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.2" />
