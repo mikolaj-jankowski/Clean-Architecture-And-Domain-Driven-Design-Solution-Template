@@ -363,7 +363,14 @@ The [Strategy pattern](https://en.wikipedia.org/wiki/Strategy_pattern) is used t
 ## :hammer: Build with
 * [.NET Core 8](https://github.com/dotnet/core)
 * [ASP.NET Core 8](https://github.com/dotnet/aspnetcore)
+* [RabbitMQ](https://github.com/rabbitmq)
+* [Redis](https://github.com/redis/redis)
 * [MassTransit](https://github.com/MassTransit)
+* [EF Core](https://github.com/dotnet/efcore)
+* [Moq](https://github.com/moq)
+* [xUnit](https://github.com/xunit/xunit)
+* [HtmlSanitizer](https://github.com/mganss/HtmlSanitizer)
+* [Open Telemetry](https://github.com/open-telemetry)
 
 ## 7. Tests
 ### 7.1 Domain tests
