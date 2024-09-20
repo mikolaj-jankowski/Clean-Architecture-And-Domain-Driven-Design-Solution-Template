@@ -139,7 +139,7 @@ Integration events are used to notify other modules or systems about important e
 
 In our solution, we have only one handler, which was included purely for demonstration purposes. The CustomerCreatedIntegrationEvent is sent to a RabbitMq queue. http://localhost:15672/ login: guest, password: guest.
 
-````
+```csharp
   public class CustomerCreatedIntegrationEventHandler : IConsumer<CustomerCreatedIntegrationEvent>
     {
         public Task Consume(ConsumeContext<CustomerCreatedIntegrationEvent> context)
@@ -160,7 +160,7 @@ This handler should be placed in a separate module or another microservice.
 
 Implementation of CQRS involves separating write and read requests. Commands are responsible for changing the state of aggregates (saving and updating them), and such operations are available only through specific repositories, e.g., ICustomerRepository.
 
-```
+```csharp
     public interface ICustomerRepository
     {
         Task AddAsync(Customer customer, CancellationToken cancellationToken = default);
@@ -173,7 +173,7 @@ Queries are responsible for retrieving entities from the database. Queries are p
 
 Please take a look at the example: ***GetCustomerQueryHandler***
 
-```
+```csharp
     public sealed class GetCustomerQueryHandler : IConsumer<GetCustomerQuery>
     {
         private readonly AppDbContext _appDbContext;
@@ -201,7 +201,7 @@ Please take a look at the example: ***GetCustomerQueryHandler***
 
 Cross-cutting concerns are implemented using MassTransit filters. There are three filters:
 
-```
+```csharp
                 cfg.ConfigureMediator((context, cfg) =>
                 {
                     //The order of filter registration matters.
@@ -234,7 +234,7 @@ And here is the code responsible for setting up Open Telemetry.
   <summary><b>Code</b></summary>
   <p>
 
-```
+```csharp
 public static void InstallTelemetry(this WebApplicationBuilder builder, IConfiguration configuration, ConnectionMultiplexer redisConnection)
 {
     var telemetrySettings = builder.Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>().Telemetry;
@@ -300,13 +300,13 @@ public static void InstallTelemetry(this WebApplicationBuilder builder, IConfigu
 ### 6.1 Mediator
 The Mediator from the MassTransit library was chosen because it doesn't require the implementation of any interfaces, unlike the MediatR library. 
 If we were to use the Mediator from MediatR instead of MassTransit, our domain event would look like this:
-```
+```csharp
     public sealed record CustomerCreatedDomainEvent(Guid CustomerId) : INotification
 ``` 
 INotification intefrace comes from MediatR library.
 However our domain events look like this:
 
-```
+```csharp
     public sealed record CustomerCreatedDomainEvent(Guid CustomerId) : IDomainEvent;
 ```
 IDomainEvent is just a marker interface that we keep in our Domain Layer.
@@ -319,7 +319,7 @@ https://masstransit.io/documentation/concepts/mediator
 
 Domain Events are mapped to Integration Events thanks to ***EventMapperFactory*** class. 
 
-```
+```csharp
     public class EventMapperFactory
     {
         private readonly Dictionary<Type, IEventMapper> _mappers;
@@ -344,7 +344,7 @@ Domain Events are mapped to Integration Events thanks to ***EventMapperFactory**
 The registration of new mappers is moved to the ***DependencyInjectionInstaller*** file presented below. As you can see, currently, we have only one mapper registered for the CustomerCreatedDomainEvent.
 To add another mapper, simply register it here. This approach supports the Open/Closed Principle.
 
-```
+```csharp
             builder.Services.AddSingleton<EventMapperFactory>(provider =>
             {
                 var mappers = new Dictionary<Type, IEventMapper>
