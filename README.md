@@ -360,6 +360,10 @@ To add another mapper, simply register it here. This approach supports the Open/
 
 The [Strategy pattern](https://en.wikipedia.org/wiki/Strategy_pattern) is used to obtain the appropriate mapper for mapping Domain Events to Integration Events. Each mapper must implement the IEventMapper interface, which allows you to dynamically apply the correct mapper at runtime. 
 
+## 7. Tests
+### 7.1 Domain tests
+### 7.2 Application tests
+
 ## :hammer: Build with
 * [.NET Core 8](https://github.com/dotnet/core)
 * [ASP.NET Core 8](https://github.com/dotnet/aspnetcore)
@@ -372,6 +376,4 @@ The [Strategy pattern](https://en.wikipedia.org/wiki/Strategy_pattern) is used t
 * [HtmlSanitizer](https://github.com/mganss/HtmlSanitizer)
 * [Open Telemetry](https://github.com/open-telemetry)
 
-## 7. Tests
-### 7.1 Domain tests
-### 7.2 Application tests
+
