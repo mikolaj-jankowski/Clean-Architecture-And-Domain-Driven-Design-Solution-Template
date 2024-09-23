@@ -363,6 +363,9 @@ To add another mapper, simply register it here. This approach supports the Open/
 The [Strategy pattern](https://en.wikipedia.org/wiki/Strategy_pattern) is used to obtain the appropriate mapper for mapping Domain Events to Integration Events. Each mapper must implement the IEventMapper interface, which allows you to dynamically apply the correct mapper at runtime. 
 
 ## 7. Tests
+In the project, tests were implemented for the domain and application layers.
+![](docs/Images/Tests-Overview.png)
+
 ### 7.1 Domain tests
 Thanks to separating domain logic from other layers, we are able to easily test our code. Below is a unit test responsible for creating a customer.
 ```csharp
