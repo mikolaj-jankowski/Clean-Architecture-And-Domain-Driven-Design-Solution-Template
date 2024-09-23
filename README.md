@@ -364,6 +364,7 @@ The [Strategy pattern](https://en.wikipedia.org/wiki/Strategy_pattern) is used t
 
 ## 7. Tests
 In the project, tests were implemented for the domain and application layers.
+
 ![](docs/Images/Tests-Overview.png)
 
 ### 7.1 Domain tests
@@ -416,6 +417,57 @@ Thanks to separating domain logic from other layers, we are able to easily test 
 ```
 ### 7.2 Application tests
 
+Testing the application layer essentially comes down to testing handlers. Below are selected implemented test cases.
+
+```csharp
+    [Fact]
+    public async Task Should_Change_Email_When_Customer_Exists()
+    {
+        // Arrange
+        var oldEmail = "old@email.com";
+        var newEmail = "new@email.com";
+
+        var customer = Clean.Architecture.And.DDD.Template.Domian.Customers.Customer.CreateCustomer(
+            new CustomerId(Guid.NewGuid()),
+            new FullName("Mikolaj"),
+            new Age(DateTime.Now.AddYears(-30)),
+            new Email("email@email.com"),
+            new Address("Fifth Avenue", "10A", "1", "PL", "10037"));
+
+        
+
+        _customerRepositoryMock.Setup(repo => repo.GetAsync(oldEmail, default))
+                               .ReturnsAsync(customer);
+
+        var command = new ChangeEmailCommand(oldEmail, newEmail);
+        var consumeContextMock = Mock.Of<ConsumeContext<ChangeEmailCommand>>(c => c.Message == command);
+
+        // Act
+        await _handler.Consume(consumeContextMock);
+
+        // Assert
+        Assert.Equal(newEmail, customer.Email.Value);
+        _customerRepositoryMock.Verify(repo => repo.GetAsync(It.IsAny<string>(), default), Times.Exactly(1));
+    }
+
+    [Fact]
+    public async Task Should_Throw_CustomerNotFoundApplicationException_When_Customer_Does_Not_Exist()
+    {
+        // Arrange
+        var oldEmail = "nonexistent@example.com";
+        var newEmail = "new@example.com";
+
+        _customerRepositoryMock.Setup(repo => repo.GetAsync(oldEmail, default)).ReturnsAsync((Customer?)null);
+
+        var command = new ChangeEmailCommand(oldEmail, newEmail);
+        var consumeContextMock = Mock.Of<ConsumeContext<ChangeEmailCommand>>(c => c.Message == command);
+
+        // Act & Assert
+        var exception = await Assert.ThrowsAsync<CustomerNotFoundApplicationException>(() => _handler.Consume(consumeContextMock));
+        _customerRepositoryMock.Verify(repo => repo.GetAsync(It.IsAny<string>(), default), Times.Exactly(1));
+
+    }
+```
 ## :hammer: Build with
 * [.NET Core 8](https://github.com/dotnet/core)
 * [ASP.NET Core 8](https://github.com/dotnet/aspnetcore)
