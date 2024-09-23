@@ -4,6 +4,8 @@ This is a template for creating your own application using using **Clean Archite
 System observability is ensured by the implementation of OpenTelemetry and the Aspire Dashboard.
 Additionally, you'll find implementations of design patterns such as mediator, factory, strategy, and several others.
 
+The implementation of business domain logic is kept to a minimum. Selected use cases were implemented to demonstrate communication between layers and the use of domain and integration events.
+
 ## Table of contents
 
 * [1. Instalation](#1-Installation) 
