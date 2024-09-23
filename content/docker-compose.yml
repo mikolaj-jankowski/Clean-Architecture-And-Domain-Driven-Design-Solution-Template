@@ -15,8 +15,7 @@ services:
     image: mcr.microsoft.com/dotnet/nightly/aspire-dashboard:8.0.0-preview.6
     container_name: aspire-dashboard
     environment:
-       - DOTNET__DASHBOARD__UNSECURED__ALLOW__ANONYMOUS=true
-       - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true
+      - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true
     ports:
       - 18888:18888
       - 4317:18889
@@ -48,23 +47,23 @@ services:
     networks:
       - my-network
       
-  my-app:
-    image: my-app
-    container_name: my-app
-    build:
-      context: .
-      dockerfile: src/Clean.Architecture.And.DDD.Template.WebApi/Dockerfile
-    environment:
-       - AppSettings__Redis__Host=redis
-       - AppSettings__RabbitMq__Host=amqp://rabbitmq
-       - AppSettings__Telemetry__Host=http://aspire-dashboard
-       - AppSettings__Telemetry__Port=18889
-       - AppSettings__MsSql__ConnectionString=Server=mssql;Database=CleanArchitectureAndDDD;User Id=sa;Password=Th3_P@ssw0rd-421;TrustServerCertificate=True
-    ports:
-      - 8080:8080
-      - 8081:8081
-    networks:
-      - my-network
+  # my-app:
+    # image: my-app
+    # container_name: my-app
+    # build:
+      # context: .
+      # dockerfile: src/Clean.Architecture.And.DDD.Template.WebApi/Dockerfile
+    # environment:
+       # - AppSettings__Redis__Host=redis
+       # - AppSettings__RabbitMq__Host=amqp://rabbitmq
+       # - AppSettings__Telemetry__Host=http://aspire-dashboard
+       # - AppSettings__Telemetry__Port=18889
+       # - AppSettings__MsSql__ConnectionString=Server=mssql;Database=CleanArchitectureAndDDD;User Id=sa;Password=Th3_P@ssw0rd-421;TrustServerCertificate=True
+    # ports:
+      # - 8080:8080
+      # - 8081:8081
+    # networks:
+      # - my-network
       
 volumes:
   rabbitmq_data:

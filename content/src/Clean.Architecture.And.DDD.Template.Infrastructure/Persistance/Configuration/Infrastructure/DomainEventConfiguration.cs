@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure.DomainEvents
+namespace Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure
 {
-    internal class DomainEventEntityTypeConfiguration : IEntityTypeConfiguration<DomainEvent>
+    internal class DomainEventConfiguration : IEntityTypeConfiguration<DomainEvent>
     {
         public void Configure(EntityTypeBuilder<DomainEvent> builder)
         {

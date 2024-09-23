@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure.IntergrationEvents
+namespace Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure
 {
-    internal class IntegrationEventEntityTypeConfiguration : IEntityTypeConfiguration<IntegrationEvent>
+    internal class IntegrationEventConfiguration : IEntityTypeConfiguration<IntegrationEvent>
     {
         public void Configure(EntityTypeBuilder<IntegrationEvent> builder)
         {

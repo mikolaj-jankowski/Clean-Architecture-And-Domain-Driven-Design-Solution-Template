@@ -1,6 +1,6 @@
 ﻿using Clean.Architecture.And.DDD.Template.Domian;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Events;
-using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure.DomainEvents;
+using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
