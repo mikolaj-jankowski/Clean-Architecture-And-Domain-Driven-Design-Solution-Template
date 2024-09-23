@@ -96,7 +96,7 @@ In our solution, domain events are stored in the database within the same transa
 For example: When a Customer places an order, an event called OrderCreatedDomainEvent is stored in the database and then retrieved and published by the DomainEventsProcessor. An event handler, OrderCreatedDomainEventHandler, listens for this event and handles sending an email to the customer who placed the order. Implementing the business process in this way allows for leveraging the eventual consistency approach.
 
 The diagram above shows all implemented Domain Events and their respective handlers.
-![](docs/Images/Domain-Events-Flow1.jpg)
+![](docs/Images/Domain-Events-Flow.jpg)
 
 ## 4. Architecture
 
