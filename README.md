@@ -221,6 +221,8 @@ Cross-cutting concerns are implemented using MassTransit filters. There are thre
 1. Logging filter - is responsible for logging requests along with their total duration and payload. The current implementation logs all requests; however, you could, for example, detect only long-running requests and log them.
 2. RedisFilter - is responsible for counting all requests per day. This is just an example implementation that uses Redis. You could implement other logic here, such as caching, checking permissions, etc.
 3. EventsFilter - is responsible for saving Domain Events and Integration Events to the database.
+4. HtmlSanitizerFilter - is responsible for cleaning HTML that can lead to XSS attacks.
+5. ValidationFilter - is responsible for performing validations.
 
 ## 5. Observability
 ### 5.1 Open Telemtry
