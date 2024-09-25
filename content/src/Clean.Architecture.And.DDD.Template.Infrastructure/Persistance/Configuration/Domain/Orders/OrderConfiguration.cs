@@ -16,6 +16,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configu
             builder.OwnsOne(x => x.ShippingAddress, shippingAddresBuilder =>
             {
                 shippingAddresBuilder.Property(x => x.PostalCode).HasMaxLength(6);
+                shippingAddresBuilder.Property(x => x.Street).HasMaxLength(255);
             });
             builder.Property<byte[]>("Version").IsRowVersion();
         }

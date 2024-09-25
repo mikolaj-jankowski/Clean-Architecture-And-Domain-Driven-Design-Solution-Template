@@ -7,7 +7,7 @@ namespace Clean.Architecture.And.DDD.Template.Application.Customer.CreateCustome
     {
         public CreateCustomerCommandValidator()
         {
-            RuleFor(x => x.Email).NotEmpty();
+            RuleFor(x => x.Email).NotEmpty().MaximumLength(400);
             RuleFor(x => x.FullName).NotEmpty().MaximumLength(55);
             RuleFor(x => x.Street).NotEmpty().MaximumLength(255);
             RuleFor(x => x.HouseNumber).NotEmpty().MaximumLength(15);
