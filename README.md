@@ -45,7 +45,7 @@ This project is undergoing rapid development, with new features being added freq
 I do recommend using CLI instead Visual Studnio Wizard when creating your application based on this template because Vistual Studio doesn't keep folders structure correctly.
 
 ### 1.1 Solution Template Installation
-Install using CLI.
+First and foremost, install this template on your system to be able to create applications based on it.
 ```
 dotnet new install Clean.Architecture.And.DDD.Template::1.0.2
 ```
