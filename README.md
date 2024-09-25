@@ -1,6 +1,6 @@
 # Clean Architecture and Domain Driven Design Template 
 
-This is a template for creating your own application using using **Clean Architecture**, utilizing **building blocks from Domain-Driven Design**. Read and write operations have been separated according to the **CQRS** pattern. 
+This is a template for creating your own application using **Clean Architecture**, utilizing **building blocks from Domain-Driven Design**. Read and write operations have been separated according to the **CQRS** pattern. 
 System observability is ensured by the implementation of OpenTelemetry and the Aspire Dashboard.
 Additionally, you'll find implementations of design patterns such as mediator, factory, strategy, and several others.
 
@@ -45,11 +45,11 @@ This project is undergoing rapid development, with new features being added freq
 I do recommend using CLI instead Visual Studnio Wizard when creating your application based on this template because Vistual Studio doesn't keep folders structure correctly.
 
 ### 1.1 Solution Template Installation
-Install using CLI.
+First and foremost, install this template on your system to be able to create applications based on it.
 ```
 dotnet new install Clean.Architecture.And.DDD.Template::1.0.2
 ```
-Once installed type
+Once installed type. (Replace the phrase 'MyDreamProject' with the name of your project.)
 ```
 dotnet new ca-and-ddd -o "MyDreamProject"
 ```
@@ -485,5 +485,6 @@ Testing the application layer essentially comes down to testing handlers. Below 
 * [xUnit](https://github.com/xunit/xunit)
 * [HtmlSanitizer](https://github.com/mganss/HtmlSanitizer)
 * [Open Telemetry](https://github.com/open-telemetry)
+* [FluentValidation](https://github.com/FluentValidation/FluentValidation)
 
 
