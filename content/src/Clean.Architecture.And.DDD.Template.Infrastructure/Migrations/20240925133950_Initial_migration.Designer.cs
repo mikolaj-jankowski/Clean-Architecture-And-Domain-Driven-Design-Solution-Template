@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clean.Architecture.And.DDD.Template.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240828084806_AnotherMigration99")]
-    partial class AnotherMigration99
+    [Migration("20240925133950_Initial_migration")]
+    partial class Initial_migration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,7 +63,8 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(400)
+                        .HasColumnType("nvarchar(400)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -72,6 +73,11 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Migrations
 
                     b.Property<bool>("IsEmailVerified")
                         .HasColumnType("bit");
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("CustomerId");
 
@@ -89,6 +95,11 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.HasKey("OrderId");
 
                     b.HasIndex("CustomerId");
@@ -102,6 +113,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Discount")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid?>("OrderItemId")
@@ -123,7 +135,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Migrations
                     b.ToTable("OrderItem");
                 });
 
-            modelBuilder.Entity("Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure.DomainEvents.DomainEvent", b =>
+            modelBuilder.Entity("Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure.DomainEvent", b =>
                 {
                     b.Property<Guid>("DomainEventId")
                         .ValueGeneratedOnAdd()
@@ -215,7 +227,8 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Migrations
 
                             b1.Property<string>("Street")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)");
 
                             b1.HasKey("OrderId");
 
@@ -243,6 +256,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Amount")
+                                .HasPrecision(18, 2)
                                 .HasColumnType("decimal(18,2)");
 
                             b1.Property<string>("Currency")
