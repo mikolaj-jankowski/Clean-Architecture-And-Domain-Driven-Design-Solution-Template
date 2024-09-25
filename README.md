@@ -6,6 +6,8 @@ Additionally, you'll find implementations of design patterns such as mediator, f
 
 The implementation of business domain logic is kept to a minimum. Selected use cases were implemented to demonstrate communication between layers and the use of domain and integration events.
 
+This project is undergoing rapid development, with new features being added frequently. Stay updated and click Watch button, click ⭐ if you find it useful.
+
 ## Table of contents
 
 * [1. Instalation](#1-Installation) 
