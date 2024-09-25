@@ -4,6 +4,10 @@ This is a template for creating your own application using using **Clean Archite
 System observability is ensured by the implementation of OpenTelemetry and the Aspire Dashboard.
 Additionally, you'll find implementations of design patterns such as mediator, factory, strategy, and several others.
 
+The implementation of business domain logic is kept to a minimum. Selected use cases were implemented to demonstrate communication between layers and the use of domain and integration events.
+
+This project is undergoing rapid development, with new features being added frequently. Stay updated and click Watch button, click ⭐ if you find it useful.
+
 ## Table of contents
 
 * [1. Instalation](#1-Installation) 
@@ -66,7 +70,7 @@ docker-compose.yaml provides instances of: MSSQL, Redis, RabbitMQ, and Aspire Da
 
 I couldn't find any repository that met the following criteria:
 
-1. Implemented Mediator pattern **using MassTransit library instead of MediatR** with added message interception support (similar to IPipelineBehaviour in MediatR.
+1. Implemented Mediator pattern **using MassTransit library instead of MediatR** with added message interception support (similar to IPipelineBehaviour in MediatR).
 2. Implemented system observability using Open Telemetry.
 3. Implemented Domain Events as part of Eventual Consistency, so Domain Events are not published in the same transaction as saving/updating Aggregate.
 
@@ -219,6 +223,8 @@ Cross-cutting concerns are implemented using MassTransit filters. There are thre
 1. Logging filter - is responsible for logging requests along with their total duration and payload. The current implementation logs all requests; however, you could, for example, detect only long-running requests and log them.
 2. RedisFilter - is responsible for counting all requests per day. This is just an example implementation that uses Redis. You could implement other logic here, such as caching, checking permissions, etc.
 3. EventsFilter - is responsible for saving Domain Events and Integration Events to the database.
+4. HtmlSanitizerFilter - is responsible for cleaning HTML that can lead to XSS attacks.
+5. ValidationFilter - is responsible for performing validations.
 
 ## 5. Observability
 ### 5.1 Open Telemtry
@@ -363,6 +369,10 @@ To add another mapper, simply register it here. This approach supports the Open/
 The [Strategy pattern](https://en.wikipedia.org/wiki/Strategy_pattern) is used to obtain the appropriate mapper for mapping Domain Events to Integration Events. Each mapper must implement the IEventMapper interface, which allows you to dynamically apply the correct mapper at runtime. 
 
 ## 7. Tests
+In the project, tests were implemented for the domain and application layers.
+
+![](docs/Images/Tests-Overview.png)
+
 ### 7.1 Domain tests
 Thanks to separating domain logic from other layers, we are able to easily test our code. Below is a unit test responsible for creating a customer.
 ```csharp
@@ -413,6 +423,57 @@ Thanks to separating domain logic from other layers, we are able to easily test 
 ```
 ### 7.2 Application tests
 
+Testing the application layer essentially comes down to testing handlers. Below are selected implemented test cases.
+
+```csharp
+    [Fact]
+    public async Task Should_Change_Email_When_Customer_Exists()
+    {
+        // Arrange
+        var oldEmail = "old@email.com";
+        var newEmail = "new@email.com";
+
+        var customer = Clean.Architecture.And.DDD.Template.Domian.Customers.Customer.CreateCustomer(
+            new CustomerId(Guid.NewGuid()),
+            new FullName("Mikolaj"),
+            new Age(DateTime.Now.AddYears(-30)),
+            new Email("email@email.com"),
+            new Address("Fifth Avenue", "10A", "1", "PL", "10037"));
+
+        
+
+        _customerRepositoryMock.Setup(repo => repo.GetAsync(oldEmail, default))
+                               .ReturnsAsync(customer);
+
+        var command = new ChangeEmailCommand(oldEmail, newEmail);
+        var consumeContextMock = Mock.Of<ConsumeContext<ChangeEmailCommand>>(c => c.Message == command);
+
+        // Act
+        await _handler.Consume(consumeContextMock);
+
+        // Assert
+        Assert.Equal(newEmail, customer.Email.Value);
+        _customerRepositoryMock.Verify(repo => repo.GetAsync(It.IsAny<string>(), default), Times.Exactly(1));
+    }
+
+    [Fact]
+    public async Task Should_Throw_CustomerNotFoundApplicationException_When_Customer_Does_Not_Exist()
+    {
+        // Arrange
+        var oldEmail = "nonexistent@example.com";
+        var newEmail = "new@example.com";
+
+        _customerRepositoryMock.Setup(repo => repo.GetAsync(oldEmail, default)).ReturnsAsync((Customer?)null);
+
+        var command = new ChangeEmailCommand(oldEmail, newEmail);
+        var consumeContextMock = Mock.Of<ConsumeContext<ChangeEmailCommand>>(c => c.Message == command);
+
+        // Act & Assert
+        var exception = await Assert.ThrowsAsync<CustomerNotFoundApplicationException>(() => _handler.Consume(consumeContextMock));
+        _customerRepositoryMock.Verify(repo => repo.GetAsync(It.IsAny<string>(), default), Times.Exactly(1));
+
+    }
+```
 ## :hammer: Build with
 * [.NET Core 8](https://github.com/dotnet/core)
 * [ASP.NET Core 8](https://github.com/dotnet/aspnetcore)
