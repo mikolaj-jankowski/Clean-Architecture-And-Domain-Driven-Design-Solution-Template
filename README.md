@@ -68,7 +68,7 @@ docker-compose.yaml provides instances of: MSSQL, Redis, RabbitMQ, and Aspire Da
 
 I couldn't find any repository that met the following criteria:
 
-1. Implemented Mediator pattern **using MassTransit library instead of MediatR** with added message interception support (similar to IPipelineBehaviour in MediatR.
+1. Implemented Mediator pattern **using MassTransit library instead of MediatR** with added message interception support (similar to IPipelineBehaviour in MediatR).
 2. Implemented system observability using Open Telemetry.
 3. Implemented Domain Events as part of Eventual Consistency, so Domain Events are not published in the same transaction as saving/updating Aggregate.
 
