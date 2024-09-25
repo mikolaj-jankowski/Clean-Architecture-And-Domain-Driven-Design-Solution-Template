@@ -66,7 +66,8 @@ docker-compose.yaml provides instances of: MSSQL, Redis, RabbitMQ, and Aspire Da
 
 ### 1.4 Database migrations
 
-In case you need to add a new migration, just navigate to the src/ directory and run. (Please remember to replace "Clean.Architecture.And.DDD.Template" with you project name).
+In case you need to add a new migration, just navigate to the src/ directory and run. 
+(Please remember to replace "Clean.Architecture.And.DDD.Template" with you project name).
 
 ```
 dotnet ef migrations add "Migration name" --context "AppDbContext" --project .\Clean.Architecture.And.DDD.Template.Infrastructure\ --startup-project .\Clean.Architecture.And.DDD.Template.WebApi\
