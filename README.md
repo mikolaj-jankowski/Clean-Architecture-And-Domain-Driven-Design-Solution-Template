@@ -49,7 +49,7 @@ First and foremost, install this template on your system to be able to create ap
 ```
 dotnet new install Clean.Architecture.And.DDD.Template::1.0.2
 ```
-Once installed type
+Once installed type. (Replace the phrase 'MyDreamProject' with the name of your project.)
 ```
 dotnet new ca-and-ddd -o "MyDreamProject"
 ```
