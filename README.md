@@ -485,5 +485,6 @@ Testing the application layer essentially comes down to testing handlers. Below 
 * [xUnit](https://github.com/xunit/xunit)
 * [HtmlSanitizer](https://github.com/mganss/HtmlSanitizer)
 * [Open Telemetry](https://github.com/open-telemetry)
+* [FluentValidation](https://github.com/FluentValidation/FluentValidation)
 
 
