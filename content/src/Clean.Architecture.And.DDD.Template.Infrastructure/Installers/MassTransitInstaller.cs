@@ -41,7 +41,7 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
                 {
                     //The order of filter registration matters.
 
-                    //cfg.UseConsumeFilter(typeof(LoggingFilter<>), context);
+                    cfg.UseConsumeFilter(typeof(ValidationFilter<>), context, x => x.Include(type => !type.HasInterface<IDomainEvent>()));
                     cfg.UseConsumeFilter(typeof(LoggingFilter<>), context, x => x.Include(type => !type.HasInterface<IDomainEvent>()));
                     cfg.UseConsumeFilter(typeof(RedisFilter<>), context, x => x.Include(type => !type.HasInterface<IDomainEvent>()));
                     cfg.UseConsumeFilter(typeof(EventsFilter<>), context, x => x.Include(type => !type.HasInterface<IDomainEvent>()));

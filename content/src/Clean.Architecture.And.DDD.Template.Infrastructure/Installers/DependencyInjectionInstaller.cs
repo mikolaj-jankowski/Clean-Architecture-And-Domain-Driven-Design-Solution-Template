@@ -1,15 +1,17 @@
-﻿using Clean.Architecture.And.DDD.Template.Domian;
+﻿using Clean.Architecture.And.DDD.Template.Application.Shared;
+using Clean.Architecture.And.DDD.Template.Domian;
 using Clean.Architecture.And.DDD.Template.Domian.Customers;
 using Clean.Architecture.And.DDD.Template.Domian.Customers.DomainEvents;
 using Clean.Architecture.And.DDD.Template.Domian.Orders;
 using Clean.Architecture.And.DDD.Template.Infrastructure.BackgroundTasks;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Events;
+using Clean.Architecture.And.DDD.Template.Infrastructure.Exceptions;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Customers;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Orders;
 using Clean.Architecture.And.DDD.Template.Infrastructure.Shared;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-
 
 namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
 {
@@ -35,6 +37,9 @@ namespace Clean.Architecture.And.DDD.Template.Infrastructure.Installers
 
                 return new EventMapperFactory(mappers);
             });
+            builder.Services.AddValidatorsFromAssemblyContaining<IApplicationValidator>(ServiceLifetime.Transient);
+            builder.Services.AddProblemDetails();
+            builder.Services.AddExceptionHandler<CommandValidationExceptionHandler>();
         }
 
     }

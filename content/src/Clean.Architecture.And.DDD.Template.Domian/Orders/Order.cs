@@ -6,7 +6,7 @@ namespace Clean.Architecture.And.DDD.Template.Domian.Orders
 {
     public class Order : Entity
     {
-        public OrderId OrderId { get; private set; } //UUID v7 in .NET 9
+        public OrderId OrderId { get; private set; } 
         public ShippingAddress ShippingAddress { get; private set; }
         public CustomerId CustomerId { get; private set; }
 
@@ -26,7 +26,7 @@ namespace Clean.Architecture.And.DDD.Template.Domian.Orders
         private Order(CustomerId customerId, ShippingAddress shippingAddress)
         {
             CustomerId = customerId;
-            OrderId = new OrderId(Guid.NewGuid());//Guid.CreateVersion7(DateTimeOffset.UtcNow);
+            OrderId = new OrderId(Guid.NewGuid());
             ShippingAddress = shippingAddress;
 
             _orderItems = new List<OrderItem>();
