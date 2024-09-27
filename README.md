@@ -125,7 +125,7 @@ During transaction: [jasontaylordev/CleanArchitecture](https://github.com/jasont
 
 By applying the Clean Architecture approach, we achieved a separation of the application into layers that are independent of each other, making them easy to test. The project consists of four layers, as shown in the image below.
 
-![](docs/Images/CleanArchitectureView.png)
+![](docs/images/Clean-Architecture-View.png)
 
 #### 4.1.1 Presentation Layer
 
@@ -251,7 +251,7 @@ Aspire Dashboard is avaiable at: http://localhost:18888 once docker-compose has 
 
 Here is an example of creating a customer, which results in adding a new record in the Aspire Dashboard.
 
-![](docs/Images/PostCustomer.gif)
+![](docs/images/Post-Customer.gif)
 
 And here is the code responsible for setting up Open Telemetry.
 
@@ -388,7 +388,11 @@ The [Strategy pattern](https://en.wikipedia.org/wiki/Strategy_pattern) is used t
 ## 7. Tests
 In the project, tests were implemented for the domain and application layers.
 
-![](docs/Images/Tests-Overview.png)
+![](docs/images/Tests-Overview.png)
+
+Test Explorer
+
+![](docs/images/Test-Explorer.png)
 
 ### 7.1 Domain tests
 Thanks to separating domain logic from other layers, we are able to easily test our code. Below is a unit test responsible for creating a customer.
