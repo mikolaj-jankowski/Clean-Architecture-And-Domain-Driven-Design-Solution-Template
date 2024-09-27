@@ -9,16 +9,16 @@
 	"Template",
 	"Web"
 	],
-  "identity": "Clean.Architecture.And.DDD.Template",
-  "groupIdentity": "Clean.Architecture.And.DDD.Template",  
-  "name": "Clean.Architecture.And.DDD.Template",
+  "identity": "CA.And.DDD.Template",
+  "groupIdentity": "CA.And.DDD.Template",  
+  "name": "CA.And.DDD.Template",
   "shortName": "ca-and-ddd",
-  "description": "Clean.Architecture.And.DDD.Template",
+  "description": "CA.And.DDD.Template",
   "tags": {
     "language": "C#",
     "type": "project"
   },
-  "sourceName": "Clean.Architecture.And.DDD.Template",
+  "sourceName": "CA.And.DDD.Template",
   "preferNameDirectory": true,
   "sources": [
     {

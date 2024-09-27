@@ -11,15 +11,15 @@
 
   <PropertyGroup>
     <Version>1.0.2</Version>
-    <PackageId>Clean.Architecture.And.DDD.Template</PackageId>
+    <PackageId>CA.And.DDD.Template</PackageId>
     <Title>Clean Architecture And DDD Template</Title>
     <Authors>mikol4j</Authors>
     <Description>.Net Core template in DDD and Clean Architecture approach.</Description>
     <PackageTags>dotnet;asp.net;asp-ned;csharp;template;ddd;core;web;clean-architecture;c#;</PackageTags>
-    <PackageProjectUrl>https://www.nuget.org/packages/Clean.Architecture.And.DDD.Template</PackageProjectUrl> <!-- nuget address -->
+    <PackageProjectUrl>https://www.nuget.org/packages/CA.And.DDD.Template</PackageProjectUrl> <!-- nuget address -->
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/mikol4j/Clean.Architecture.And.DDD.Template</RepositoryUrl>
+    <RepositoryUrl>https://github.com/mikol4j/CA.And.DDD.Template</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 

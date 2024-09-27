@@ -52,7 +52,7 @@ services:
     # container_name: my-app
     # build:
       # context: .
-      # dockerfile: src/Clean.Architecture.And.DDD.Template.WebApi/Dockerfile
+      # dockerfile: src/CA.And.DDD.Template.WebApi/Dockerfile
     # environment:
        # - AppSettings__Redis__Host=redis
        # - AppSettings__RabbitMq__Host=amqp://rabbitmq

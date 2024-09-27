@@ -47,7 +47,7 @@ I do recommend using CLI instead Visual Studnio Wizard when creating your applic
 ### 1.1 Solution Template Installation
 First and foremost, install this template on your system to be able to create applications based on it.
 ```
-dotnet new install Clean.Architecture.And.DDD.Template::1.0.2
+dotnet new install CA.And.DDD.Template::1.0.2
 ```
 Once installed type. (Replace the phrase 'MyDreamProject' with the name of your project.)
 ```
@@ -401,7 +401,7 @@ Thanks to separating domain logic from other layers, we are able to easily test 
             var address = new Address("Fifth Avenue", "10A", "1", "USA", "10037");
 
             // Act
-            var customer = Clean.Architecture.And.DDD.Template.Domian.Customers.Customer.CreateCustomer(
+            var customer = CA.And.DDD.Template.Domian.Customers.Customer.CreateCustomer(
                 customerId,
                 fullName,
                 age,
@@ -433,7 +433,7 @@ Testing the application layer essentially comes down to testing handlers. Below 
         var oldEmail = "old@email.com";
         var newEmail = "new@email.com";
 
-        var customer = Clean.Architecture.And.DDD.Template.Domian.Customers.Customer.CreateCustomer(
+        var customer = CA.And.DDD.Template.Domian.Customers.Customer.CreateCustomer(
             new CustomerId(Guid.NewGuid()),
             new FullName("Mikolaj"),
             new Age(DateTime.Now.AddYears(-30)),
