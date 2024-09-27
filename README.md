@@ -6,7 +6,8 @@ Additionally, you'll find implementations of design patterns such as mediator, f
 
 The implementation of business domain logic is kept to a minimum. Selected use cases were implemented to demonstrate communication between layers and the use of domain and integration events.
 
-This project is undergoing rapid development, with new features being added frequently. Stay updated and click Watch button, click ⭐ if you find it useful.
+This project is undergoing rapid development, with new features being added frequently. 
+Stay updated and click Watch button, click ⭐ if you find it useful.
 
 ## Table of contents
 
@@ -64,6 +65,15 @@ As a result of running command from step 1.1 all files and folders will be creat
 Simply run the command 'docker-compose up' to create required containers.
 docker-compose.yaml provides instances of: MSSQL, Redis, RabbitMQ, and Aspire Dashboard. 
 
+### 1.4 Database migrations
+
+In case you need to add a new migration, just navigate to the src/ directory and run. 
+(Please remember to replace "Clean.Architecture.And.DDD.Template" with you project name).
+
+```
+dotnet ef migrations add "Migration name" --context "AppDbContext" --project .\Clean.Architecture.And.DDD.Template.Infrastructure\ --startup-project .\Clean.Architecture.And.DDD.Template.WebApi\
+```
+
 ## 2. Introduction
 
 ### 2.1 Motivation
@@ -101,6 +111,13 @@ For example: When a Customer places an order, an event called OrderCreatedDomain
 
 The diagram above shows all implemented Domain Events and their respective handlers.
 ![](docs/Images/Domain-Events-Flow.jpg)
+
+
+Dispatching domain events within the same transaction or outside of it is a sticking point in the community. You can find various implementations on the web.
+
+Outside transaction: [ardalis/CleanArchitecture](https://github.com/ardalis/CleanArchitecture/blob/main/src/Clean.Architecture.Infrastructure/Data/AppDbContext.cs)
+During transaction: [jasontaylordev/CleanArchitecture](https://github.com/jasontaylordev/CleanArchitecture/blob/main/src/Infrastructure/Data/Interceptors/DispatchDomainEventsInterceptor.cs)
+
 
 ## 4. Architecture
 
