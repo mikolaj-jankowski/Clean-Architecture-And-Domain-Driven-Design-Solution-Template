@@ -48,11 +48,11 @@ I do recommend using CLI instead Visual Studnio Wizard when creating your applic
 ### 1.1 Solution Template Installation
 First and foremost, install this template on your system to be able to create applications based on it.
 ```
-dotnet new install CA.And.DDD.Template::1.0.2
+dotnet new install CA.And.DDD.Template
 ```
 Once installed type. (Replace the phrase 'MyDreamProject' with the name of your project.)
 ```
-dotnet new ca-and-ddd -o "MyDreamProject"
+dotnet new ca-and-ddd -o MyDreamProject
 ```
 
 ### 1.2 Database
