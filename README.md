@@ -135,7 +135,7 @@ The presentation layer (in our case, simply a [RESTful API](https://en.wikipedia
 #### 4.1.2 Infrastructure Layer
 
 The Infrastructure layer is responsible for implementing technical aspects such as database access and broad integrations with external systems. This layer is also responsible for implementing interfaces defined in the domain and application layers.
-The Infrastructure layer referances the Application layer. 
+The Infrastructure layer references the Application layer. 
 
 #### 4.1.3 Application Layer
 
