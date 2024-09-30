@@ -14,7 +14,7 @@ namespace CA.And.DDD.Template.WebApi.Controllers
             => _mediator = mediator;
 
         [HttpPost(Name = "CreateOrder")]
-        public async Task<IActionResult> Post(CreateOrderCommand command)
+        public async Task<IActionResult> CreatePost(CreateOrderCommand command)
         {
             await _mediator.Send<CreateOrderCommand>(command);
             return NoContent();
