@@ -116,6 +116,7 @@ The diagram above shows all implemented Domain Events and their respective handl
 Dispatching domain events within the same transaction or outside of it is a sticking point in the community. You can find various implementations on the web.
 
 Outside transaction: [ardalis/CleanArchitecture](https://github.com/ardalis/CleanArchitecture/blob/main/src/Clean.Architecture.Infrastructure/Data/AppDbContext.cs)
+
 During transaction: [jasontaylordev/CleanArchitecture](https://github.com/jasontaylordev/CleanArchitecture/blob/main/src/Infrastructure/Data/Interceptors/DispatchDomainEventsInterceptor.cs)
 
 
