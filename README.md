@@ -422,7 +422,7 @@ Thanks to separating domain logic from other layers, we are able to easily test 
             var address = new Address("Fifth Avenue", "10A", "1", "USA", "10037");
 
             // Act
-            var customer = CA.And.DDD.Template.Domian.Customers.Customer.CreateCustomer(
+            var customer = CA.And.DDD.Template.Domain.Customers.Customer.CreateCustomer(
                 customerId,
                 fullName,
                 age,
@@ -454,7 +454,7 @@ Testing the application layer essentially comes down to testing handlers. Below 
         var oldEmail = "old@email.com";
         var newEmail = "new@email.com";
 
-        var customer = CA.And.DDD.Template.Domian.Customers.Customer.CreateCustomer(
+        var customer = CA.And.DDD.Template.Domain.Customers.Customer.CreateCustomer(
             new CustomerId(Guid.NewGuid()),
             new FullName("Mikolaj"),
             new Age(DateTime.Now.AddYears(-30)),

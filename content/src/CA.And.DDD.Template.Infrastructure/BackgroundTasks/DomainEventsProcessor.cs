@@ -1,4 +1,4 @@
-﻿using CA.And.DDD.Template.Domian;
+﻿using CA.And.DDD.Template.Domain;
 using CA.And.DDD.Template.Infrastructure.Events;
 using CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;

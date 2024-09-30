@@ -1,7 +1,7 @@
-using CA.And.DDD.Template.Domian.Customers;
-using CA.And.DDD.Template.Domian.Orders;
-using CA.And.DDD.Template.Domian.Orders.DomainEvents;
-using CA.And.DDD.Template.Domian.Orders.Exceptions;
+using CA.And.DDD.Template.Domain.Customers;
+using CA.And.DDD.Template.Domain.Orders;
+using CA.And.DDD.Template.Domain.Orders.DomainEvents;
+using CA.And.DDD.Template.Domain.Orders.Exceptions;
 
 namespace CA.And.DDD.Template.Domain.UnitTests
 {

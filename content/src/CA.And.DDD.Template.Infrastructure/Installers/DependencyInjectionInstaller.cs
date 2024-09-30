@@ -1,8 +1,8 @@
 ﻿using CA.And.DDD.Template.Application.Shared;
-using CA.And.DDD.Template.Domian;
-using CA.And.DDD.Template.Domian.Customers;
-using CA.And.DDD.Template.Domian.Customers.DomainEvents;
-using CA.And.DDD.Template.Domian.Orders;
+using CA.And.DDD.Template.Domain;
+using CA.And.DDD.Template.Domain.Customers;
+using CA.And.DDD.Template.Domain.Customers.DomainEvents;
+using CA.And.DDD.Template.Domain.Orders;
 using CA.And.DDD.Template.Infrastructure.BackgroundTasks;
 using CA.And.DDD.Template.Infrastructure.Events;
 using CA.And.DDD.Template.Infrastructure.Exceptions;

@@ -1,6 +1,6 @@
 using CA.And.DDD.Template.Application.Customer.ChangeEmail;
 using CA.And.DDD.Template.Application.Exceptions;
-using CA.And.DDD.Template.Domian.Customers;
+using CA.And.DDD.Template.Domain.Customers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -27,7 +27,7 @@ namespace CA.And.DDD.Template.Application.UnitTests.Customer.ChangeEmailTests
             var oldEmail = "old@email.com";
             var newEmail = "new@email.com";
 
-            var customer = Domian.Customers.Customer.CreateCustomer(
+            var customer = Domain.Customers.Customer.CreateCustomer(
                 new CustomerId(Guid.NewGuid()),
                 new FullName("Mikolaj"),
                 new Age(DateTime.Now.AddYears(-30)),
@@ -57,7 +57,7 @@ namespace CA.And.DDD.Template.Application.UnitTests.Customer.ChangeEmailTests
             var oldEmail = "nonexistent@example.com";
             var newEmail = "new@example.com";
 
-            _customerRepositoryMock.Setup(repo => repo.GetAsync(oldEmail, default)).ReturnsAsync((CA.And.DDD.Template.Domian.Customers.Customer?)null);
+            _customerRepositoryMock.Setup(repo => repo.GetAsync(oldEmail, default)).ReturnsAsync((CA.And.DDD.Template.Domain.Customers.Customer?)null);
 
             var command = new ChangeEmailCommand(oldEmail, newEmail);
             var consumeContextMock = Mock.Of<ConsumeContext<ChangeEmailCommand>>(c => c.Message == command);

@@ -1,5 +1,5 @@
 ﻿using CA.And.DDD.Template.Application.Exceptions;
-using CA.And.DDD.Template.Domian.Customers;
+using CA.And.DDD.Template.Domain.Customers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 

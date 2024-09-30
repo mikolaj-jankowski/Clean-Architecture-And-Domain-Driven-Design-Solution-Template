@@ -53,7 +53,7 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                     b.ToTable("IntegrationEvent");
                 });
 
-            modelBuilder.Entity("CA.And.DDD.Template.Domian.Customers.Customer", b =>
+            modelBuilder.Entity("CA.And.DDD.Template.Domain.Customers.Customer", b =>
                 {
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
@@ -87,7 +87,7 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                     b.ToTable("Customer");
                 });
 
-            modelBuilder.Entity("CA.And.DDD.Template.Domian.Orders.Order", b =>
+            modelBuilder.Entity("CA.And.DDD.Template.Domain.Orders.Order", b =>
                 {
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
@@ -107,7 +107,7 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                     b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("CA.And.DDD.Template.Domian.Orders.OrderItem", b =>
+            modelBuilder.Entity("CA.And.DDD.Template.Domain.Orders.OrderItem", b =>
                 {
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
@@ -163,9 +163,9 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                     b.ToTable("DomainEvent");
                 });
 
-            modelBuilder.Entity("CA.And.DDD.Template.Domian.Customers.Customer", b =>
+            modelBuilder.Entity("CA.And.DDD.Template.Domain.Customers.Customer", b =>
                 {
-                    b.OwnsOne("CA.And.DDD.Template.Domian.Customers.Address", "Address", b1 =>
+                    b.OwnsOne("CA.And.DDD.Template.Domain.Customers.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("CustomerId")
                                 .HasColumnType("uniqueidentifier");
@@ -207,15 +207,15 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CA.And.DDD.Template.Domian.Orders.Order", b =>
+            modelBuilder.Entity("CA.And.DDD.Template.Domain.Orders.Order", b =>
                 {
-                    b.HasOne("CA.And.DDD.Template.Domian.Customers.Customer", null)
+                    b.HasOne("CA.And.DDD.Template.Domain.Customers.Customer", null)
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("CA.And.DDD.Template.Domian.Orders.ShippingAddress", "ShippingAddress", b1 =>
+                    b.OwnsOne("CA.And.DDD.Template.Domain.Orders.ShippingAddress", "ShippingAddress", b1 =>
                         {
                             b1.Property<Guid>("OrderId")
                                 .HasColumnType("uniqueidentifier");
@@ -242,15 +242,15 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CA.And.DDD.Template.Domian.Orders.OrderItem", b =>
+            modelBuilder.Entity("CA.And.DDD.Template.Domain.Orders.OrderItem", b =>
                 {
-                    b.HasOne("CA.And.DDD.Template.Domian.Orders.Order", null)
+                    b.HasOne("CA.And.DDD.Template.Domain.Orders.Order", null)
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("CA.And.DDD.Template.Domian.Orders.Money", "Price", b1 =>
+                    b.OwnsOne("CA.And.DDD.Template.Domain.Orders.Money", "Price", b1 =>
                         {
                             b1.Property<Guid>("OrderItemOrderId")
                                 .HasColumnType("uniqueidentifier");
@@ -275,7 +275,7 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CA.And.DDD.Template.Domian.Orders.Order", b =>
+            modelBuilder.Entity("CA.And.DDD.Template.Domain.Orders.Order", b =>
                 {
                     b.Navigation("OrderItems");
                 });

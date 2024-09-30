@@ -5,7 +5,7 @@ using CA.And.DDD.Template.Application.Customer.VerifyEmail;
 using CA.And.DDD.Template.Application.Order.CreateOrder;
 using CA.And.DDD.Template.Application.Order.CreateOrder.DomainEventHandlers;
 using CA.And.DDD.Template.Application.Shared;
-using CA.And.DDD.Template.Domian;
+using CA.And.DDD.Template.Domain;
 using CA.And.DDD.Template.Infrastructure.Filters.MassTransit;
 using CA.And.DDD.Template.Infrastructure.Queries.GetCustomer;
 using CA.And.DDD.Template.Infrastructure.Settings;

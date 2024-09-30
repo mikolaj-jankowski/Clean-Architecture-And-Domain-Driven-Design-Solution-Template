@@ -1,6 +1,6 @@
-using CA.And.DDD.Template.Domian.Customers;
-using CA.And.DDD.Template.Domian.Customers.DomainEvents;
-using CA.And.DDD.Template.Domian.Customers.Exceptions;
+using CA.And.DDD.Template.Domain.Customers;
+using CA.And.DDD.Template.Domain.Customers.DomainEvents;
+using CA.And.DDD.Template.Domain.Customers.Exceptions;
 
 namespace CA.And.DDD.Template.Domain.UnitTests
 {

@@ -1,4 +1,4 @@
-﻿using CA.And.DDD.Template.Domian.Orders;
+﻿using CA.And.DDD.Template.Domain.Orders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

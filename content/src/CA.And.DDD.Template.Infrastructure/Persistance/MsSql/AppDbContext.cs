@@ -1,4 +1,4 @@
-﻿using CA.And.DDD.Template.Domian.Customers;
+﻿using CA.And.DDD.Template.Domain.Customers;
 using Microsoft.EntityFrameworkCore;
 
 namespace CA.And.DDD.Template.Infrastructure.Persistance.MsSql

@@ -1,4 +1,4 @@
-﻿using CA.And.DDD.Template.Domian.Orders.DomainEvents;
+﻿using CA.And.DDD.Template.Domain.Orders.DomainEvents;
 using MassTransit;
 
 namespace CA.And.DDD.Template.Application.Order.CreateOrder.DomainEventHandlers

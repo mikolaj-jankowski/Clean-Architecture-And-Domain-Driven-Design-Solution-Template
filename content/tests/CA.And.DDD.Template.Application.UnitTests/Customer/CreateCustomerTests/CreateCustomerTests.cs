@@ -1,5 +1,5 @@
 ﻿using CA.And.DDD.Template.Application.Customer.CreateCustomer;
-using CA.And.DDD.Template.Domian.Customers;
+using CA.And.DDD.Template.Domain.Customers;
 using CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Customers;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using MassTransit;
@@ -42,7 +42,7 @@ namespace CA.And.DDD.Template.Application.UnitTests.Customer.CreateCustomerTests
             Assert.Equal(email, response.Result.Message.Email);
             Assert.True(await harness.Sent.Any<CreateCustomerResponse>());
             Assert.True(await harness.Consumed.Any<CreateCustomerCommand>());
-            mockCustomerRepository.Verify(repo => repo.AddAsync(It.IsAny<Domian.Customers.Customer>(), default), Times.Exactly(1));
+            mockCustomerRepository.Verify(repo => repo.AddAsync(It.IsAny<Domain.Customers.Customer>(), default), Times.Exactly(1));
 
         }
     }

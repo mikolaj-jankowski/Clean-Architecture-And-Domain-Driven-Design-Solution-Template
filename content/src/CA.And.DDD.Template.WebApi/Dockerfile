@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY ["src/CA.And.DDD.Template.Domian/CA.And.DDD.Template.Domian.csproj", "src/CA.And.DDD.Template.Domian/"]
+COPY ["src/CA.And.DDD.Template.Domain/CA.And.DDD.Template.Domain.csproj", "src/CA.And.DDD.Template.Domain/"]
 COPY ["src/CA.And.DDD.Template.Application/CA.And.DDD.Template.Application.csproj", "src/CA.And.DDD.Template.Application/"]
 COPY ["src/CA.And.DDD.Template.Infrastructure/CA.And.DDD.Template.Infrastructure.csproj", "src/CA.And.DDD.Template.Infrastructure/"]
 COPY ["src/CA.And.DDD.Template.WebApi/CA.And.DDD.Template.WebApi.csproj", "src/CA.And.DDD.Template.WebApi/"]

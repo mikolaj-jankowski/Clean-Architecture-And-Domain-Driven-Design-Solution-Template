@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CA.And.DDD.Template.Domian\CA.And.DDD.Template.Domian.csproj" />
+    <ProjectReference Include="..\..\src\CA.And.DDD.Template.Domain\CA.And.DDD.Template.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

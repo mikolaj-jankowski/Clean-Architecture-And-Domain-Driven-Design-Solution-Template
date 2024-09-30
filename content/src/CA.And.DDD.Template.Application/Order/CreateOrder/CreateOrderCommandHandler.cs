@@ -1,5 +1,5 @@
-﻿using CA.And.DDD.Template.Domian.Customers;
-using CA.And.DDD.Template.Domian.Orders;
+﻿using CA.And.DDD.Template.Domain.Customers;
+using CA.And.DDD.Template.Domain.Orders;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +20,7 @@ namespace CA.And.DDD.Template.Application.Order.CreateOrder
 
         public async Task Consume(ConsumeContext<CreateOrderCommand> command)
         {
-            var order = Domian.Orders.Order.Create(
+            var order = Domain.Orders.Order.Create(
                 new CustomerId(command.Message.CustomerId),
                 new ShippingAddress(command.Message.Street, command.Message.PostalCode));
 

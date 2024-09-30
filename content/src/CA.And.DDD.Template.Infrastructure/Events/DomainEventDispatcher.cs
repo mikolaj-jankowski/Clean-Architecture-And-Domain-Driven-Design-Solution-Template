@@ -1,4 +1,4 @@
-﻿using CA.And.DDD.Template.Domian;
+﻿using CA.And.DDD.Template.Domain;
 using MassTransit.Mediator;
 
 namespace CA.And.DDD.Template.Infrastructure.Events

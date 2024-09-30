@@ -1,4 +1,4 @@
-﻿using CA.And.DDD.Template.Domian.Orders;
+﻿using CA.And.DDD.Template.Domain.Orders;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 
 namespace CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Orders

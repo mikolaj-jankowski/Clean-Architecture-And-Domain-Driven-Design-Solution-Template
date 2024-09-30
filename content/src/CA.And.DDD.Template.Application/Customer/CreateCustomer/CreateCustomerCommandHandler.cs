@@ -1,4 +1,4 @@
-﻿using CA.And.DDD.Template.Domian.Customers;
+﻿using CA.And.DDD.Template.Domain.Customers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +20,7 @@ public sealed class CreateCustomerCommandHandler : IConsumer<CreateCustomerComma
     {
         var (fullName, birthDate, email, street, houseNumber, flatNumber, country, postalCode) = command.Message;
 
-        var customer = Domian.Customers.Customer.CreateCustomer(
+        var customer = Domain.Customers.Customer.CreateCustomer(
             new CustomerId(Guid.NewGuid()),
             new FullName(fullName),
             new Age(birthDate),
