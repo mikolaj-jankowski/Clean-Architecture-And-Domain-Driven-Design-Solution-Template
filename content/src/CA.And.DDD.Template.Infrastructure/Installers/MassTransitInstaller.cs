@@ -36,6 +36,7 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
                 cfg.AddConsumer<ChangeEmailCommandHandler>();
                 cfg.AddConsumer<VerifyEmailCommandHandler>();
                 cfg.AddConsumer<GetCustomerQueryHandler>();
+                cfg.AddConsumer<GetOrderQueryHandler>();
 
                 cfg.ConfigureMediator((context, cfg) =>
                 {

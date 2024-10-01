@@ -1,9 +1,9 @@
-@apiUrl = http://localhost:5008
-@customerId = f718bf4e-e94c-499e-b85b-2a8d6f1c82d6
+@apiUrl = http://localhost:5008/api
+@customerId = C69903F5-E6FF-4B85-9CA2-7C95C17A82B8
 @customerEmail = my@email.com
 
 ### Create a customer
-POST {{apiUrl}}/customer
+POST {{apiUrl}}/customers
 Content-Type: application/json
 
 {
@@ -19,7 +19,7 @@ Content-Type: application/json
 
 
 ### Create an order
-POST {{apiUrl}}/order
+POST {{apiUrl}}/orders
 Content-Type: application/json
 
 {
@@ -38,11 +38,11 @@ Content-Type: application/json
 }
 
 ### Get customer
-GET {{apiUrl}}/Customer?Email={{customerEmail}}
+GET {{apiUrl}}/customers?Email={{customerEmail}}
 Content-Type: application/json; charset=utf-8
 
 ### Change e-mail
-POST {{apiUrl}}/Customer/change-email
+POST {{apiUrl}}/customers/change-email
 Content-Type: application/json
 
 {
@@ -51,7 +51,7 @@ Content-Type: application/json
 }
 
 ### Verify e-mail
-POST {{apiUrl}}/Customer/verify-email
+POST {{apiUrl}}/customers/verify-email
 Content-Type: application/json
 
 {

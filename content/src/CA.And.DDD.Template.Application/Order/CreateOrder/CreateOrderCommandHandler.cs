@@ -1,4 +1,6 @@
-﻿using CA.And.DDD.Template.Domain.Customers;
+﻿using CA.And.DDD.Template.Application.Customer.CreateCustomer;
+using CA.And.DDD.Template.Application.Customer.GetCustomer;
+using CA.And.DDD.Template.Domain.Customers;
 using CA.And.DDD.Template.Domain.Orders;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -29,6 +31,8 @@ namespace CA.And.DDD.Template.Application.Order.CreateOrder
                 order.AddOrderItem(product.ProductId, product.ProductName, product.Price, product.Currency, product.Quantity);
             }
             await _orderRepository.AddAsync(order);
+            await command.RespondAsync<CreateOrderResponse>(new CreateOrderResponse(order.OrderId.Value, order.OrderItems.MapToOrderItemDto()));
+
             _logger.LogInformation("Created an order: {OrderId} ", order.OrderId);
         }
 

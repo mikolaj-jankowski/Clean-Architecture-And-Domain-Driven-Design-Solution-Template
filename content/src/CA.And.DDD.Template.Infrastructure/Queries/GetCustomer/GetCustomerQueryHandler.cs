@@ -19,7 +19,10 @@ namespace CA.And.DDD.Template.Infrastructure.Queries.GetCustomer
         public async Task Consume(ConsumeContext<GetCustomerQuery> query)
         {
             var email = query.Message.Email;
-            var customer = await _appDbContext.Set<Customer>().Where(x => ((string)x.Email).Contains(email)).SingleOrDefaultAsync();
+            var customer = await _appDbContext
+                .Set<Customer>()
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x=> ((string)x.Email) == email);
 
             if (customer == null)
             {
