@@ -7,6 +7,11 @@ namespace CA.And.DDD.Template.Application.Customer.CreateCustomer.DomainEventHan
     {
         public Task Consume(ConsumeContext<CustomerCreatedDomainEvent> context)
         {
+            //Here, you could send a welcome email to the newly created customer.
+
+            // You could also include other logic here that should be part 
+            // of the eventual consistency pattern.
+
             return Task.CompletedTask;
         }
     }

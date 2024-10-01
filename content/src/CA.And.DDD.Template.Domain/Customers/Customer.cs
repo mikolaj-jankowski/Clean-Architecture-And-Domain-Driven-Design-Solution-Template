@@ -34,7 +34,7 @@ namespace CA.And.DDD.Template.Domain.Customers
             if(Email != email)
             {
                 Email = email;
-                AddDomainEvent(new CustomerEmailChnagedDomainEvent(email.Value, Email.Value));
+                AddDomainEvent(new CustomerEmailChangedDomainEvent(email.Value, Email.Value));
             }
         }
 

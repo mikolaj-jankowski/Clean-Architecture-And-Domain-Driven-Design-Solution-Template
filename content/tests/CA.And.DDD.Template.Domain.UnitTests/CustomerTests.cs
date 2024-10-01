@@ -92,7 +92,7 @@ namespace CA.And.DDD.Template.Domain.UnitTests
             Assert.Equal(2, domainEvents.Count);
 
             Assert.Single(domainEvents.OfType<CustomerCreatedDomainEvent>());
-            Assert.Single(domainEvents.OfType<CustomerEmailChnagedDomainEvent>());
+            Assert.Single(domainEvents.OfType<CustomerEmailChangedDomainEvent>());
         }
 
         [Fact]
