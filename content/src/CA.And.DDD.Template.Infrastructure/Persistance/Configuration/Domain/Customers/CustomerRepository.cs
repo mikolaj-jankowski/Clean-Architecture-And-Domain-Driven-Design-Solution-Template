@@ -18,9 +18,5 @@ namespace CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Cu
         public async Task<Customer?> GetAsync(string email, CancellationToken cancellationToken = default)
             => await _appDbContext.Set<Customer>().Where(x => ((string)x.Email).Contains(email)).SingleOrDefaultAsync();
 
-        public async Task UpdateAsync(Customer customer, CancellationToken cancellationToken = default)
-        {
-            _appDbContext.Update(customer);
-        }
     }
 }
