@@ -32,6 +32,7 @@ Stay updated and click Watch button, click ⭐ if you find it useful.
         * [4.2.2 Integration Events](#422-Integration-Events)
     * [4.3 Command Query Responsibility Segregation (CQRS)](#43-Command-Query-Responsibility-Segregation-(CQRS))
     * [4.4 Cross Cutting Concerns](#44-Cross-Cutting-Concerns)
+    * [4.5 Validations](#45-Validations)
 * [5. Observability](#5-Observability)
 * [6. Design patterns implemented in this project](#6-Design-patterns-implemented-in-this-project)
     * [6.1 Mediator](#61-Mediator)
@@ -243,6 +244,10 @@ Cross-cutting concerns are implemented using MassTransit filters. There are thre
 3. EventsFilter - is responsible for saving Domain Events and Integration Events to the database.
 4. HtmlSanitizerFilter - is responsible for cleaning HTML that can lead to XSS attacks.
 5. ValidationFilter - is responsible for performing validations.
+
+### 4.5 Validations
+
+In the application layer, commands and queries sent by the user are validated using the Fluent Validation library. In the domain layer, business rules and invariants are validated.
 
 ## 5. Observability
 ### 5.1 Open Telemtry
