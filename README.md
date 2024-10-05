@@ -32,7 +32,6 @@ Stay updated and click Watch button, click ⭐ if you find it useful.
         * [4.2.2 Integration Events](#422-Integration-Events)
     * [4.3 Command Query Responsibility Segregation (CQRS)](#43-Command-Query-Responsibility-Segregation-(CQRS))
     * [4.4 Cross Cutting Concerns](#44-Cross-Cutting-Concerns)
-    * [4.5 Validations](#45-Validations)
 * [5. Observability](#5-Observability)
 * [6. Design patterns implemented in this project](#6-Design-patterns-implemented-in-this-project)
     * [6.1 Mediator](#61-Mediator)
@@ -224,30 +223,107 @@ Please take a look at the example: ***GetCustomerQueryHandler***
 
 ### 4.4 Cross Cutting Concerns
 
-Cross-cutting concerns are implemented using MassTransit filters. There are three filters:
+Cross-cutting concerns are implemented using MassTransit filters. This is a very convenient and elegant approach to achieving these kinds of tasks.
+MassTransit filters follow the same concept as IPipelineBehavior<TRequest, TResponse> in the MediatR library.
+There are several filters implemented in our code:
 
 ```csharp
                 cfg.ConfigureMediator((context, cfg) =>
                 {
-                    //The order of filter registration matters.
-                    //LoggingFilter will be executed last, after the changes to the database have been commited.
-
-                    cfg.UseConsumeFilter(typeof(LoggingFilter<>), context);
-                    cfg.UseConsumeFilter(typeof(RedisFilter<>), context);
-                    cfg.UseConsumeFilter(typeof(EventsFilter<>), context);
+                    cfg.UseConsumeFilter(typeof(ValidationFilter<>), context, x => x.Include(type => !type.HasInterface<IDomainEvent>()));
+                    cfg.UseConsumeFilter(typeof(LoggingFilter<>), context, x => x.Include(type => !type.HasInterface<IDomainEvent>()));
+                    cfg.UseConsumeFilter(typeof(RedisFilter<>), context, x => x.Include(type => !type.HasInterface<IDomainEvent>()));
+                    cfg.UseConsumeFilter(typeof(EventsFilter<>), context, x => x.Include(type => !type.HasInterface<IDomainEvent>()));
+                    cfg.UseConsumeFilter(typeof(HtmlSanitizerFilter<>), context, x => x.Include(type => !type.HasInterface<IDomainEvent>()));
 
                 });
 ```
+1. ValidationFilter – is responsible for performing validation of commands and queries sent by the user. The validations are done using the FluentValidation library.
+If a validation error occurs, processing is interrupted, and a response is sent to the user with details about what went wrong.
 
-1. Logging filter - is responsible for logging requests along with their total duration and payload. The current implementation logs all requests; however, you could, for example, detect only long-running requests and log them.
-2. RedisFilter - is responsible for counting all requests per day. This is just an example implementation that uses Redis. You could implement other logic here, such as caching, checking permissions, etc.
-3. EventsFilter - is responsible for saving Domain Events and Integration Events to the database.
-4. HtmlSanitizerFilter - is responsible for cleaning HTML that can lead to XSS attacks.
-5. ValidationFilter - is responsible for performing validations.
+<details>
+  <summary><b>Code</b></summary>
+  <p>
 
-### 4.5 Validations
+```csharp
+    public class ValidationFilter<T> : IFilter<ConsumeContext<T>> where T : class
+    {
+        private readonly IEnumerable<IValidator<T>> _validators;
 
-In the application layer, commands and queries sent by the user are validated using the Fluent Validation library. In the domain layer, business rules and invariants are validated.
+        public ValidationFilter(IEnumerable<IValidator<T>> validators)
+        {
+            _validators = validators;
+        }
+
+        public async Task Send(ConsumeContext<T> context, IPipe<ConsumeContext<T>> next)
+        {
+            var _context = new ValidationContext<T>(context.Message);
+
+            var validationFailures = await Task.WhenAll(
+                _validators.Select(v => v.ValidateAsync(context.Message)));
+
+
+            if (validationFailures.Any(x => x.Errors.Any()))
+            {
+                var groupedErrors = validationFailures.SelectMany(x => x.Errors).GroupBy(x => x.PropertyName)
+                    .ToDictionary(g => g.Key, g => g.Select(a => a.ErrorMessage).ToArray());
+
+                throw new CommandValidationException(String.Empty, groupedErrors);
+            }
+
+            await next.Send(context);
+
+        }
+
+        public void Probe(ProbeContext context) { }
+
+    }
+```
+</p>
+</details>
+2. Logging filter - is responsible for logging requests along with their total duration and payload. The current implementation logs all requests; however, you could, for example, detect only long-running requests and log them.
+<details>
+  <summary><b>Code</b></summary>
+  <p>
+
+```csharp
+    public class LoggingFilter<T> : IFilter<ConsumeContext<T>> where T : class
+    {
+        private readonly ILogger<LoggingFilter<T>> _logger;
+
+        public LoggingFilter(ILogger<LoggingFilter<T>> logger)
+        {
+            _logger = logger;
+        }
+        public async Task Send(ConsumeContext<T> context, IPipe<ConsumeContext<T>> next)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            try
+            {
+                await next.Send(context);
+            }
+            finally
+            {
+                stopwatch.Stop();
+
+            }
+            _logger.LogTrace($"Operation duration: {stopwatch.Elapsed.TotalMilliseconds} ms", context);
+
+        }
+
+
+        public void Probe(ProbeContext context) { }
+    }
+```
+</p>
+</details>
+3. RedisFilter - is responsible for counting all requests per day. This is just an example implementation that uses Redis. You could implement other logic here, such as caching, checking permissions, etc.
+4. EventsFilter - is responsible for saving Domain Events and Integration Events to the database.
+5. HtmlSanitizerFilter - is responsible for cleaning HTML that can lead to XSS attacks.
+
+
 
 ## 5. Observability
 ### 5.1 Open Telemtry
