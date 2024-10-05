@@ -238,7 +238,7 @@ There are several filters implemented in our code:
 
                 });
 ```
-ValidationFilter – is responsible for performing validation of commands and queries sent by the user. The validations are done using the FluentValidation library.
+**ValidationFilter** – is responsible for performing validation of commands and queries sent by the user. The validations are done using the FluentValidation library.
 If a validation error occurs, processing is interrupted, and a response is sent to the user with details about what went wrong.
 
 <details>
@@ -282,7 +282,7 @@ If a validation error occurs, processing is interrupted, and a response is sent 
 </p>
 </details>
 
-Logging filter - is responsible for logging requests along with their total duration and payload. The current implementation logs all requests; however, you could, for example, detect only long-running requests and log them.
+**LoggingFilter** - is responsible for logging requests along with their total duration and payload. The current implementation logs all requests; however, you could, for example, detect only long-running requests and log them.
 
 <details>
   <summary><b>Code</b></summary>
@@ -321,11 +321,11 @@ Logging filter - is responsible for logging requests along with their total dura
 ```
 </p>
 </details>
-RedisFilter - is responsible for counting all requests per day. This is just an example implementation that uses Redis. You could implement other logic here, such as caching, checking permissions, etc.
+**RedisFilter** - is responsible for counting all requests per day. This is just an example implementation that uses Redis. You could implement other logic here, such as caching, checking permissions, etc.
 
-EventsFilter - is responsible for saving Domain Events and Integration Events to the database.
+**EventsFilter** - is responsible for saving Domain Events and Integration Events to the database.
 
-HtmlSanitizerFilter - is responsible for cleaning HTML that can lead to XSS attacks.
+**HtmlSanitizerFilter** - is responsible for cleaning HTML that can lead to XSS attacks.
 
 
 
