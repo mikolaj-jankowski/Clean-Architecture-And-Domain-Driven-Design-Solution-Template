@@ -2,7 +2,6 @@ using CA.And.DDD.Template.Application.Customer.GetCustomer;
 using CA.And.DDD.Template.Application.Order.CreateOrder;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace CA.And.DDD.Template.WebApi.Controllers
 {
@@ -16,7 +15,8 @@ namespace CA.And.DDD.Template.WebApi.Controllers
             => _mediator = mediator;
 
         [HttpGet]
-        [ProducesResponseType(typeof(GetOrderQueryResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(GetOrderQueryResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetOrder([FromQuery] GetOrderQuery query)
         {
             var client = _mediator.CreateRequestClient<GetOrderQuery>();
@@ -25,7 +25,7 @@ namespace CA.And.DDD.Template.WebApi.Controllers
         }
 
         [HttpPost()]
-        [ProducesResponseType(typeof(CreateOrderResponse), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(CreateOrderResponse), StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateOrder(CreateOrderCommand command)
         {
             var client = _mediator.CreateRequestClient<CreateOrderCommand>();

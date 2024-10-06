@@ -4,7 +4,6 @@ using CA.And.DDD.Template.Application.Customer.GetCustomer;
 using CA.And.DDD.Template.Application.Customer.VerifyEmail;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace CA.And.DDD.Template.WebApi.Controllers
 {
@@ -18,7 +17,9 @@ namespace CA.And.DDD.Template.WebApi.Controllers
             => _mediator = mediator;
 
         [HttpGet]
-        [ProducesResponseType(typeof(GetCustomerQueryResponse), (int)HttpStatusCode.OK)]
+        [HttpGet]
+        [ProducesResponseType(typeof(GetCustomerQueryResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCustomer([FromQuery] GetCustomerQuery query)
         {
             var client = _mediator.CreateRequestClient<GetCustomerQuery>();
@@ -27,7 +28,7 @@ namespace CA.And.DDD.Template.WebApi.Controllers
         }
 
         [HttpPost()]
-        [ProducesResponseType(typeof(CreateCustomerResponse), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(CreateCustomerResponse), StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateCustomer(CreateCustomerCommand command)
         {
             var client = _mediator.CreateRequestClient<CreateCustomerCommand>();
@@ -36,7 +37,7 @@ namespace CA.And.DDD.Template.WebApi.Controllers
         }
 
         [HttpPost("change-email")]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> ChangeEmail(ChangeEmailCommand command)
         {
             await _mediator.Send<ChangeEmailCommand>(command);
@@ -44,7 +45,7 @@ namespace CA.And.DDD.Template.WebApi.Controllers
         }
 
         [HttpPost("verify-email")]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> VerifyEmail(VerifyEmailCommand command)
         {
             await _mediator.Send<VerifyEmailCommand>(command);
