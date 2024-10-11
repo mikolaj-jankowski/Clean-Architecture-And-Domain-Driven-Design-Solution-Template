@@ -1,7 +1,6 @@
-﻿using CA.And.DDD.Template.Application.Customer.ChangeEmail;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace CA.And.DDD.Template.Application.Customer.CreateCustomer
+namespace CA.And.DDD.Template.Application.Customer.ChangeEmail
 {
     public class ChangeEmailCommandValidator : AbstractValidator<ChangeEmailCommand>, IValidator
     {

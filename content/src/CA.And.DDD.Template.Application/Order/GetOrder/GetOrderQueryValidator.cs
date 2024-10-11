@@ -1,7 +1,6 @@
-﻿using CA.And.DDD.Template.Application.Customer.GetCustomer;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace CA.And.DDD.Template.Application.Customer.CreateCustomer
+namespace CA.And.DDD.Template.Application.Order.GetOrder
 {
     public class GetOrderQueryValidator : AbstractValidator<GetOrderQuery>, IValidator
     {

@@ -36,7 +36,6 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
                 cfg.AddConsumer<ChangeEmailCommandHandler>();
                 cfg.AddConsumer<VerifyEmailCommandHandler>();
                 cfg.AddConsumer<GetCustomerQueryHandler>();
-                cfg.AddConsumer<GetOrderQueryHandler>();
 
                 cfg.ConfigureMediator((context, cfg) =>
                 {
@@ -47,6 +46,10 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
                     cfg.UseConsumeFilter(typeof(RedisFilter<>), context, x => x.Include(type => !type.HasInterface<IDomainEvent>()));
                     cfg.UseConsumeFilter(typeof(EventsFilter<>), context, x => x.Include(type => !type.HasInterface<IDomainEvent>()));
                     cfg.UseConsumeFilter(typeof(HtmlSanitizerFilter<>), context, x => x.Include(type => !type.HasInterface<IDomainEvent>()));
+
+
+                    //cfg.UseConsumeFilter<GetCustomerQueryCacheFilter>(context);
+
 
                     //cfg.UseMessageRetry(x => x.Interval(3, TimeSpan.FromSeconds(15))); //causes long response to HTTP requests
                 });

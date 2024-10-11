@@ -1,4 +1,5 @@
 ﻿using CA.And.DDD.Template.Application.Customer.CreateCustomer;
+using CA.And.DDD.Template.Application.Customer.Shared;
 using CA.And.DDD.Template.Domain.Customers;
 using CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Customers;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
@@ -37,10 +38,10 @@ namespace CA.And.DDD.Template.Application.UnitTests.Customer.CreateCustomerTests
 
 
             var client = harness.GetRequestClient<CreateCustomerCommand>();
-            var response = client.GetResponse<CreateCustomerResponse>(command);
+            var response = client.GetResponse<CustomerDto>(command);
 
             Assert.Equal(email, response.Result.Message.Email);
-            Assert.True(await harness.Sent.Any<CreateCustomerResponse>());
+            Assert.True(await harness.Sent.Any<CustomerDto>());
             Assert.True(await harness.Consumed.Any<CreateCustomerCommand>());
             mockCustomerRepository.Verify(repo => repo.AddAsync(It.IsAny<Domain.Customers.Customer>(), default), Times.Exactly(1));
 

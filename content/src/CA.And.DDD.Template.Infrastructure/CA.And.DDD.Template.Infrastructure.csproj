@@ -12,8 +12,8 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0-preview.5.24306.3" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.0-rc.1.24452.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <!--<PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.9.0" />-->
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.7.0" />
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.7.0" />
@@ -22,6 +22,8 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.7.1" />
     <PackageReference Include="OpenTelemetry.Instrumentation.StackExchangeRedis" Version="1.0.0-rc9.14" />
     <PackageReference Include="StackExchange.Redis" Version="2.8.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.8.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CA.And.DDD.Template.Application\CA.And.DDD.Template.Application.csproj" />

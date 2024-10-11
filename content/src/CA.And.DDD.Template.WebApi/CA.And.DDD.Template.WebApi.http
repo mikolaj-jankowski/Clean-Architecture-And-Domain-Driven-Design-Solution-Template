@@ -1,5 +1,6 @@
 @apiUrl = http://localhost:5008/api
 @customerId = C69903F5-E6FF-4B85-9CA2-7C95C17A82B8
+@orderId = C69903F5-E6FF-4B85-9CA2-7C95C17A82B8
 @customerEmail = my@email.com
 
 ### Create a customer
@@ -39,6 +40,10 @@ Content-Type: application/json
 
 ### Get customer
 GET {{apiUrl}}/customers?Email={{customerEmail}}
+Content-Type: application/json; charset=utf-8
+
+### Get order
+GET {{apiUrl}}/orders?Id={{orderId}}
 Content-Type: application/json; charset=utf-8
 
 ### Change e-mail

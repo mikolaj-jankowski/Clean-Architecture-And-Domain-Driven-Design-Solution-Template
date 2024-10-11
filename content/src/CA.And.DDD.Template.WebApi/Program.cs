@@ -9,10 +9,11 @@ builder.InstallEntityFramework();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.InstallSwagger();
 builder.InstallApplicationSettings();
 
 var redisConnection = builder.InstallRedis();
+builder.InstallRedisCache();
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(redisConnection);
 

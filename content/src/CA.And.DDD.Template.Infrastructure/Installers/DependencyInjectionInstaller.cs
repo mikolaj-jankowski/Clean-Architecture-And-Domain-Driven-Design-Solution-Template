@@ -40,6 +40,7 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
             builder.Services.AddValidatorsFromAssemblyContaining<IApplicationValidator>(ServiceLifetime.Transient);
             builder.Services.AddProblemDetails();
             builder.Services.AddExceptionHandler<CommandValidationExceptionHandler>();
+            builder.Services.AddSingleton<ICacheService, CacheService>();
         }
 
     }

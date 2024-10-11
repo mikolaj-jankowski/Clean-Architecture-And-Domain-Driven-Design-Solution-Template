@@ -1,6 +1,7 @@
 ﻿using CA.And.DDD.Template.Application.Customer.GetCustomer;
 using CA.And.DDD.Template.Application.Exceptions;
 using CA.And.DDD.Template.Application.Order;
+using CA.And.DDD.Template.Application.Order.GetOrder;
 using CA.And.DDD.Template.Domain.Orders;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using MassTransit;

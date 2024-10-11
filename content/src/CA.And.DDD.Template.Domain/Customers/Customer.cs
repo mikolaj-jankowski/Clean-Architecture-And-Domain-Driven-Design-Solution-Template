@@ -20,7 +20,7 @@ namespace CA.And.DDD.Template.Domain.Customers
             Age = age;
             Email = email;
             IsEmailVerified = false;
-            AddDomainEvent(new CustomerCreatedDomainEvent(this.CustomerId.Value));
+            AddDomainEvent(new CustomerCreatedDomainEvent(this.CustomerId.Value, this.FullName, this.Age.Value, this.Email.Value));
             Address = address;
         }
 
@@ -34,7 +34,7 @@ namespace CA.And.DDD.Template.Domain.Customers
             if(Email != email)
             {
                 Email = email;
-                AddDomainEvent(new CustomerEmailChangedDomainEvent(email.Value, Email.Value));
+                AddDomainEvent(new CustomerEmailChangedDomainEvent(this.CustomerId, email.Value, Email.Value));
             }
         }
 

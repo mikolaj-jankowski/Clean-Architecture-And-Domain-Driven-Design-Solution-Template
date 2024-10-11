@@ -1,4 +1,5 @@
-﻿using CA.And.DDD.Template.Domain.Customers;
+﻿using CA.And.DDD.Template.Application.Customer.Shared;
+using CA.And.DDD.Template.Domain.Customers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
@@ -28,7 +29,7 @@ public sealed class CreateCustomerCommandHandler : IConsumer<CreateCustomerComma
             new Address(street, houseNumber, flatNumber, country, postalCode));
 
         await _customerRespository.AddAsync(customer);
-        await command.RespondAsync<CreateCustomerResponse>(new CreateCustomerResponse(customer.CustomerId.Value, customer.Email.Value));
+        await command.RespondAsync<CustomerDto>(new CustomerDto(customer.CustomerId.Value, customer.FullName.Value, customer.Age.Value, customer.Email.Value));
 
         _logger.LogInformation("Created a customer: {FullName}, {Email}", command.Message.FullName, command.Message.Email);
     }
