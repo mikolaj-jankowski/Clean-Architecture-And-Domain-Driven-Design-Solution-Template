@@ -32,6 +32,7 @@ Stay updated and click Watch button, click ⭐ if you find it useful.
         * [4.2.2 Integration Events](#422-Integration-Events)
     * [4.3 Command Query Responsibility Segregation (CQRS)](#43-Command-Query-Responsibility-Segregation-(CQRS))
     * [4.4 Cross Cutting Concerns](#44-Cross-Cutting-Concerns)
+    * [4.5 Caching](#45-Caching)
 * [5. Observability](#5-Observability)
 * [6. Design patterns implemented in this project](#6-Design-patterns-implemented-in-this-project)
     * [6.1 Mediator](#61-Mediator)
@@ -327,7 +328,61 @@ If a validation error occurs, processing is interrupted, and a response is sent 
 
 **HtmlSanitizerFilter** - is responsible for cleaning HTML that can lead to XSS attacks.
 
+## 4.5 Caching
 
+Caching was provided through the implementation of the Cache Aside Pattern. It is a simple pattern that can be described in three steps:
+
+    1. Retrieve data from the cache if it exists
+    2. Fetch data from the database if it doesn’t exist in the cache (known as cache miss)
+    3. Store the data in the cache if it wasn’t there
+
+In our case, the implementation looks like this:
+
+<details>
+  <summary><b>Code</b></summary>
+  <p>
+
+```csharp
+        /// <summary>
+        /// This handler demonstrates the usage of the Cache Aside Pattern.
+        /// First, we check if the data is available in the cache (Redis). If not,
+        /// we retrieve the data from the database and store it in the cache.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        /// <exception cref="OrderNotFoundApplicationException"></exception>
+        public async Task Consume(ConsumeContext<GetOrderQuery> query)
+        {
+            var cachedOder = await _cacheService.GetAsync<OrderDto>(CacheKeyBuilder.GetOrderKey(query.Message.Id));
+            if (cachedOder is { })
+            {
+                await query.RespondAsync(cachedOder);
+            }
+
+            var id = query.Message.Id;
+            var order = await _appDbContext
+                .Set<Order>()
+                .AsNoTracking()
+                .AsSplitQuery()
+                .Include(x => x.OrderItems)
+                .Where(x => ((Guid)x.OrderId) == id)
+                .FirstOrDefaultAsync();
+
+            if (order == null)
+            {
+                throw new OrderNotFoundApplicationException(id);
+            }
+
+            await _cacheService.SetAsync(CacheKeyBuilder.GetOrderKey(query.Message.Id), order);
+            await query.RespondAsync(
+                new OrderDto(
+                    order.OrderId.Value,
+                    order.OrderItems.MapToOrderItemDto()
+                    )
+                );
+        }
+```
+</details>
 
 ## 5. Observability
 ### 5.1 Open Telemtry
