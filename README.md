@@ -382,7 +382,7 @@ In our case, the implementation looks like this:
                 );
         }
 ```
-
+</details>
 
 ## 5. Observability
 ### 5.1 Open Telemtry
