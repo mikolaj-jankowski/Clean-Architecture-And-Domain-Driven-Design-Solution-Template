@@ -328,7 +328,7 @@ If a validation error occurs, processing is interrupted, and a response is sent 
 
 **HtmlSanitizerFilter** - is responsible for cleaning HTML that can lead to XSS attacks.
 
-### 4.5 Caching
+## 4.5 Caching
 
 Caching was provided through the implementation of the Cache Aside Pattern. It is a simple pattern that can be described in three steps:
 
