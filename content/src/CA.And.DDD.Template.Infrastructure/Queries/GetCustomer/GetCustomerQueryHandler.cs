@@ -6,7 +6,6 @@ using CA.And.DDD.Template.Domain.Customers;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace CA.And.DDD.Template.Infrastructure.Queries.GetCustomer
 {
@@ -20,13 +19,20 @@ namespace CA.And.DDD.Template.Infrastructure.Queries.GetCustomer
             _appDbContext = appDbContext;
             _cacheService = cacheService;
         }
-
+        /// <summary>
+        /// This handler demonstrates the usage of the Cache Aside Pattern.
+        /// First, we check if the data is available in the cache (Redis). If not,
+        /// we retrieve the data from the database and store it in the cache.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        /// <exception cref="CustomerNotFoundApplicationException"></exception>
         public async Task Consume(ConsumeContext<GetCustomerQuery> query)
         {
             var cachedCustomerDto = await _cacheService.GetAsync<CustomerDto>(CacheKeyBuilder.GetCustomerKey(query.Message.Email));
             if (cachedCustomerDto is { })
             {
-                await query.RespondAsync(new CustomerDto(cachedCustomerDto.CustomerId, cachedCustomerDto.FullName, cachedCustomerDto.Age, cachedCustomerDto.Email));
+                await query.RespondAsync(cachedCustomerDto);
             }
 
             var email = query.Message.Email;
@@ -40,8 +46,8 @@ namespace CA.And.DDD.Template.Infrastructure.Queries.GetCustomer
                 throw new CustomerNotFoundApplicationException(email);
             }
 
-            await _cacheService.SetAsync(CacheKeyBuilder.GetCustomerKey(query.Message.Email), customer);
-            await query.RespondAsync(new CustomerDto(customer.CustomerId, customer.FullName, customer.Age.Value, customer.Email.Value));
+            await _cacheService.SetAsync(CacheKeyBuilder.GetCustomerKey(query.Message.Email), customer.ToDto());
+            await query.RespondAsync(customer.ToDto());
         }
     }
 }

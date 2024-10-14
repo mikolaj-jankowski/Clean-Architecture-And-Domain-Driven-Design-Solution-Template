@@ -6,5 +6,6 @@
         public Telemetry Telemetry { get; set; }
         public RabbitMq RabbitMq { get; set; }
         public MsSql MsSql { get; set; }
+        public Cache Cache { get; set; }
     }
 }
