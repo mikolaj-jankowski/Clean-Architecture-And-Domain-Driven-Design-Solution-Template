@@ -356,7 +356,7 @@ In our case, the implementation looks like this:
             var cachedOder = await _cacheService.GetAsync<OrderDto>(CacheKeyBuilder.GetOrderKey(query.Message.Id));
             if (cachedOder is { })
             {
-                await query.RespondAsync(new OrderDto(cachedOder.OrderId, cachedOder.OrderItems));
+                await query.RespondAsync(cachedOder);
             }
 
             var id = query.Message.Id;
