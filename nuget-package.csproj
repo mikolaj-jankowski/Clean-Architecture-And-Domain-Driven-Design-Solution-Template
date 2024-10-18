@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <PackageId>CA.And.DDD.Template</PackageId>
     <Title>Clean Architecture And DDD Template</Title>
     <Authors>mikol4j</Authors>

@@ -24,10 +24,8 @@ namespace CA.And.DDD.Template.Application.Customer.ChangeEmail.DomainEventHandle
             var customerDto = await _cacheService.GetAsync<CustomerDto>(CacheKeyBuilder.GetCustomerKey(context.Message.OldEmailAddress));
             if(customerDto is { })
             {
-                var updatedCustomerDto = customerDto with { Email = context.Message.NewEmailAddress };
-                await _cacheService.ReplaceAsync(CacheKeyBuilder.GetCustomerKey(context.Message.OldEmailAddress), updatedCustomerDto);
+                await _cacheService.RemoveAsync(CacheKeyBuilder.GetCustomerKey(context.Message.OldEmailAddress));
             }
-
         }
     }
 }

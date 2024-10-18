@@ -30,11 +30,15 @@ namespace CA.And.DDD.Template.Infrastructure.Shared
             return customerDto;
         }
 
-        public async Task SetAsync<T>(string key, T value)
+        public async Task SetAsync<T>(string key, T value, int expirationTimeSeconds = default)
         {
+            if(expirationTimeSeconds == default)
+            {
+                expirationTimeSeconds = _appSettings.Value.Cache.ExpirationTimeSeconds;
+            }
             var cacheOptions = new DistributedCacheEntryOptions
             {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(_appSettings.Value.Cache.ExpirationTimeSeconds)
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expirationTimeSeconds)
             };
             await _distributedCache.SetStringAsync(key, JsonConvert.SerializeObject(value), cacheOptions);
         }
