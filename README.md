@@ -1,4 +1,4 @@
-# Clean Architecture and Domain Driven Design Template 
+<h1> Clean Architecture and Domain Driven Design Template </h1>
 
 This is a template for creating your own application using **Clean Architecture**, utilizing **building blocks from Domain-Driven Design**. Read and write operations have been separated according to the **CQRS** pattern. 
 System observability is ensured by the implementation of OpenTelemetry and the Aspire Dashboard.
@@ -11,38 +11,42 @@ Stay updated and click Watch button, click ⭐ if you find it useful.
 
 ## Table of contents
 
-* [1. Instalation](#1-Installation) 
-    * [1.1 Solution Template Installation](#11-Solution-Template-Installation) 
-    * [1.2 Database](#12-Database)
-    * [1.3 Docker](#13-Docker)
-* [2. Introduction](#2-Introduction)
-    * [2.1 Motivation](#21-Motivation) 
-* [3. Domain](#3-Domain)
-    * [3.1 Introduction](#31-Introduction)
-    * [3.2 Aggregates](#32-Aggregates)
-    * [3.3 Domain Events](#33-Domain-Events) 
-* [4. Architecture](#4-Architecture)
-    * [4.1 Clean Architecure](#41-Clean-Architecure)
-        * [4.1.1 Presentation Layer](#411-Presentation-Layer)
-        * [4.1.2 Infrastructure Layer](#412-Infrastructure-Layer)
-        * [4.1.3 Application Layer](#413-Application-Layer)
-        * [4.1.4 Domain Layer](#414-Domain-Layer)
-    * [4.2 Eventual consistency](#42-Eventual-consistency)
-        * [4.2.1 Domain Events](#421-Domain-Events)
-        * [4.2.2 Integration Events](#422-Integration-Events)
-    * [4.3 Command Query Responsibility Segregation (CQRS)](#43-Command-Query-Responsibility-Segregation-(CQRS))
-    * [4.4 Cross Cutting Concerns](#44-Cross-Cutting-Concerns)
-    * [4.5 Caching](#45-Caching)
-        * [4.5.1 Cache Aside pattern](#451-Cache-aside-pattern)
-        * [4.5.2 Cache invalidation](#452-Cache-invalidation)
-* [5. Observability](#5-Observability)
-* [6. Design patterns implemented in this project](#6-Design-patterns-implemented-in-this-project)
-    * [6.1 Mediator](#61-Mediator)
-    * [6.2 Factory method](#62-Factory-Method)
-    * [6.3 Strategy](#63-Strategy)
-* [7. Tests](#7-Tests)
-    * [7.1 Domain tests](#71-Domain-tests)
-    * [7.2 Application tests](#72-Application-tests)
+- [Table of contents](#table-of-contents)
+- [1. Installation](#1-installation)
+  - [1.1 Solution Template Installation](#11-solution-template-installation)
+  - [1.2 Database](#12-database)
+  - [1.3 Docker](#13-docker)
+  - [1.4 Database migrations](#14-database-migrations)
+- [2. Introduction](#2-introduction)
+  - [2.1 Motivation](#21-motivation)
+- [3. Domain](#3-domain)
+  - [3.1 Introduction](#31-introduction)
+  - [3.2 Aggregates](#32-aggregates)
+  - [3.3 Domain Events](#33-domain-events)
+- [4. Architecture](#4-architecture)
+  - [4.1 Clean Architecure](#41-clean-architecure)
+    - [4.1.1 Presentation Layer](#411-presentation-layer)
+    - [4.1.2 Infrastructure Layer](#412-infrastructure-layer)
+    - [4.1.3 Application Layer](#413-application-layer)
+    - [4.1.4 Domain Layer](#414-domain-layer)
+  - [4.2 Eventual consistency](#42-eventual-consistency)
+  - [4.2.1 Domain Events](#421-domain-events)
+  - [4.2.2 Integration Events](#422-integration-events)
+  - [4.3 Command Query Responsibility Segregation (CQRS)](#43-command-query-responsibility-segregation-cqrs)
+  - [4.4 Cross Cutting Concerns](#44-cross-cutting-concerns)
+- [4.5 Caching](#45-caching)
+  - [4.5.1 Cache Aside pattern](#451-cache-aside-pattern)
+  - [4.5.2 Cache invalidation](#452-cache-invalidation)
+- [5. Observability](#5-observability)
+  - [5.1 Open Telemtry](#51-open-telemtry)
+- [6 Design patterns implemented in this project](#6-design-patterns-implemented-in-this-project)
+  - [6.1 Mediator](#61-mediator)
+  - [6.2 Factory method](#62-factory-method)
+  - [6.3 Strategy](#63-strategy)
+- [7. Tests](#7-tests)
+  - [7.1 Domain tests](#71-domain-tests)
+  - [7.2 Application tests](#72-application-tests)
+- [8. Build with](#8-build-with)
 
 
 ## 1. Installation
@@ -678,7 +682,7 @@ Testing the application layer essentially comes down to testing handlers. Below 
 
     }
 ```
-## :hammer: Build with
+## 8. Build with
 * [.NET Core 8](https://github.com/dotnet/core)
 * [ASP.NET Core 8](https://github.com/dotnet/aspnetcore)
 * [RabbitMQ](https://github.com/rabbitmq)
