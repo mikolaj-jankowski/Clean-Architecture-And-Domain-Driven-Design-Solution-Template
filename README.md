@@ -33,6 +33,8 @@ Stay updated and click Watch button, click ⭐ if you find it useful.
     * [4.3 Command Query Responsibility Segregation (CQRS)](#43-Command-Query-Responsibility-Segregation-(CQRS))
     * [4.4 Cross Cutting Concerns](#44-Cross-Cutting-Concerns)
     * [4.5 Caching](#45-Caching)
+        * [4.5.1 Cache Aside pattern](#451-Cache-aside-pattern)
+        * [4.5.2 Cache invalidation](#452-Cache-invalidation)
 * [5. Observability](#5-Observability)
 * [6. Design patterns implemented in this project](#6-Design-patterns-implemented-in-this-project)
     * [6.1 Mediator](#61-Mediator)
@@ -329,12 +331,14 @@ If a validation error occurs, processing is interrupted, and a response is sent 
 **HtmlSanitizerFilter** - is responsible for cleaning HTML that can lead to XSS attacks.
 
 ## 4.5 Caching
+### 4.5.1 Cache Aside pattern
+
 
 Caching was provided through the implementation of the Cache Aside Pattern. It is a simple pattern that can be described in three steps:
 
-    1. Retrieve data from the cache if it exists
-    2. Fetch data from the database if it doesn’t exist in the cache (known as cache miss)
-    3. Store the data in the cache if it wasn’t there
+    1. When the application requests data, it first checks if they are available in the cache.
+    2. If they are available, they are returned.
+    3. If they are not available, the data is retrieved from the database, stored in the cache, and then returned.
 
 In our case, the implementation looks like this:
 
@@ -383,6 +387,44 @@ In our case, the implementation looks like this:
         }
 ```
 </details>
+
+### 4.5.2 Cache invalidation
+
+Cache invalidation can be implemented in various ways. I decided to invalidate the cache as a result of processing commands, because they produce domain events.
+When a customer changes their email, an event called  ```csharp CustomerEmailChangedDomainEvent ``` is emitted, and we can react to it by invalidating the cache.
+
+<details>
+  <summary><b>Code</b></summary>
+  <p>
+     
+```csharp
+    public class CustomerEmailChangedDomainEventHandler : IConsumer<CustomerEmailChangedDomainEvent>
+    {
+        private readonly ICacheService _cacheService;
+
+        public CustomerEmailChangedDomainEventHandler(ICacheService cacheService)
+        {
+            _cacheService = cacheService;
+        }
+        public async Task Consume(ConsumeContext<CustomerEmailChangedDomainEvent> context)
+        {
+            //Here, you could send an emails to old and new e-email addresses
+            //informing about the correct change of the email address.
+
+            // You could also include other logic here that should be part 
+            // of the eventual consistency pattern.
+
+            var customerDto = await _cacheService.GetAsync<CustomerDto>(CacheKeyBuilder.GetCustomerKey(context.Message.OldEmailAddress));
+            if(customerDto is { })
+            {
+                await _cacheService.RemoveAsync(CacheKeyBuilder.GetCustomerKey(context.Message.OldEmailAddress));
+            }
+        }
+    }
+```
+  </p>
+</details>
+
 
 ## 5. Observability
 ### 5.1 Open Telemtry
