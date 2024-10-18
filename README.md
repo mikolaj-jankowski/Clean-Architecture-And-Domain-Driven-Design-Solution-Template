@@ -391,7 +391,7 @@ In our case, the implementation looks like this:
 ### 4.5.2 Cache invalidation
 
 Cache invalidation can be implemented in various ways. I decided to invalidate the cache as a result of processing commands, because they produce domain events.
-When a customer changes their email, an event called  ```csharp CustomerEmailChangedDomainEvent ``` is emitted, and we can react to it by invalidating the cache.
+When a customer changes their email, an event called  ``` csharp CustomerEmailChangedDomainEvent ``` is emitted, and we can react to it by invalidating the cache.
 
 <details>
   <summary><b>Code</b></summary>
