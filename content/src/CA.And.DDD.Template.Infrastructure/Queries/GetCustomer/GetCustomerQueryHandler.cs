@@ -33,6 +33,7 @@ namespace CA.And.DDD.Template.Infrastructure.Queries.GetCustomer
             if (cachedCustomerDto is { })
             {
                 await query.RespondAsync(cachedCustomerDto);
+                return;
             }
 
             var email = query.Message.Email;

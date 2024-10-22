@@ -35,6 +35,7 @@ namespace CA.And.DDD.Template.Infrastructure.Queries.GetCustomer
             if (cachedOder is { })
             {
                 await query.RespondAsync(cachedOder);
+                return;
             }
 
             var id = query.Message.Id;

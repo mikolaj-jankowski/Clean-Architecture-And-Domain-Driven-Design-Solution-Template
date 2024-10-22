@@ -13,11 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.And.DDD.Template.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.And.DDD.Template.WebApi", "src\CA.And.DDD.Template.WebApi\CA.And.DDD.Template.WebApi.csproj", "{DBF61CD1-1FD2-4D2D-AB1C-283B52EBA238}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.UnitTests", "tests\CA.And.DDD.Template.Domain.UnitTests\CA.And.DDD.Template.Domain.UnitTests.csproj", "{386F8BC2-A7CA-4CC9-9ED2-796507DD83A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.And.DDD.Template.Domain.UnitTests", "tests\CA.And.DDD.Template.Domain.UnitTests\CA.And.DDD.Template.Domain.UnitTests.csproj", "{386F8BC2-A7CA-4CC9-9ED2-796507DD83A3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{679F0742-FA81-4758-B44A-82AD4C3D7C3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UnitTests", "tests\CA.And.DDD.Template.Application.UnitTests\CA.And.DDD.Template.Application.UnitTests.csproj", "{CD6D9E32-E325-4DB1-8865-9C84F12B1773}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.And.DDD.Template.Application.UnitTests", "tests\CA.And.DDD.Template.Application.UnitTests\CA.And.DDD.Template.Application.UnitTests.csproj", "{CD6D9E32-E325-4DB1-8865-9C84F12B1773}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.And.DDD.Template.Infrastructure.UnitTests", "tests\CA.And.DDD.Template.Infrastructure.UnitTests\CA.And.DDD.Template.Infrastructure.UnitTests.csproj", "{4D8879BE-53DA-48FC-BA83-8905A5440996}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{CD6D9E32-E325-4DB1-8865-9C84F12B1773}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD6D9E32-E325-4DB1-8865-9C84F12B1773}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD6D9E32-E325-4DB1-8865-9C84F12B1773}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D8879BE-53DA-48FC-BA83-8905A5440996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D8879BE-53DA-48FC-BA83-8905A5440996}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D8879BE-53DA-48FC-BA83-8905A5440996}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D8879BE-53DA-48FC-BA83-8905A5440996}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{DBF61CD1-1FD2-4D2D-AB1C-283B52EBA238} = {23CFBA6E-F585-4BAC-BF73-FE0EBFD56051}
 		{386F8BC2-A7CA-4CC9-9ED2-796507DD83A3} = {679F0742-FA81-4758-B44A-82AD4C3D7C3C}
 		{CD6D9E32-E325-4DB1-8865-9C84F12B1773} = {679F0742-FA81-4758-B44A-82AD4C3D7C3C}
+		{4D8879BE-53DA-48FC-BA83-8905A5440996} = {679F0742-FA81-4758-B44A-82AD4C3D7C3C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18039CD5-5741-4052-A053-1832B2A74E8D}
