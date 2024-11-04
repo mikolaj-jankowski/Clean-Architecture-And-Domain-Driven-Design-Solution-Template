@@ -78,7 +78,7 @@ In case you need to add a new migration, just navigate to the src/ directory and
 (Please remember to replace "Clean.Architecture.And.DDD.Template" with you project name).
 
 ```
-dotnet ef migrations add "Migration name" --context "AppDbContext" --project .\Clean.Architecture.And.DDD.Template.Infrastructure\ --startup-project .\Clean.Architecture.And.DDD.Template.WebApi\
+dotnet ef migrations add "Migration name" --context "AppDbContext" --project .\CA.And.DDD.Template.Infrastructure\ --startup-project .\CA.And.DDD.Template.WebApi\
 ```
 
 ## 2. Introduction
