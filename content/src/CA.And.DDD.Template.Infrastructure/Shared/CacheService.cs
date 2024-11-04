@@ -19,12 +19,12 @@ namespace CA.And.DDD.Template.Infrastructure.Shared
             _distributedCache = distributedCache;
             _appSettings = appSettings;
         }
-        public async Task<T> GetAsync<T>(string key)
+        public async Task<T?> GetAsync<T>(string key)
         {
             var cachedValue = await _distributedCache.GetStringAsync(key);
             if(string.IsNullOrEmpty(cachedValue))
             {
-                return default;
+                return default(T?);
             }
             var customerDto = JsonConvert.DeserializeObject<T>(cachedValue);
             return customerDto;

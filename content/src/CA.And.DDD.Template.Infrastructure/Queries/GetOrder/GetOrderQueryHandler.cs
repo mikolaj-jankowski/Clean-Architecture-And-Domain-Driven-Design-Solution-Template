@@ -12,10 +12,10 @@ namespace CA.And.DDD.Template.Infrastructure.Queries.GetCustomer
 {
     public sealed class GetOrderQueryHandler : IConsumer<GetOrderQuery>
     {
-        private readonly AppDbContext _appDbContext;
+        private readonly IAppDbContext _appDbContext;
         private readonly ICacheService _cacheService;
 
-        public GetOrderQueryHandler(AppDbContext appDbContext, ICacheService cacheService)
+        public GetOrderQueryHandler(IAppDbContext appDbContext, ICacheService cacheService)
         {
             _appDbContext = appDbContext;
             _cacheService = cacheService;
@@ -40,7 +40,7 @@ namespace CA.And.DDD.Template.Infrastructure.Queries.GetCustomer
 
             var id = query.Message.Id;
             var order = await _appDbContext
-                .Set<Order>()
+                .Orders
                 .AsNoTracking()
                 .AsSplitQuery()
                 .Include(x => x.OrderItems)

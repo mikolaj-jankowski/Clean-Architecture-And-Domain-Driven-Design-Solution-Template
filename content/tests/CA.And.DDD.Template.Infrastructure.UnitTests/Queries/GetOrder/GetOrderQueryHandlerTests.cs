@@ -30,7 +30,7 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
 
             })
             .AddSingleton<ICacheService>(cacheServiceMock.Object)
-            .AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("TestDatabase").LogTo(sql => sqlQueries.Add(sql)))
+            .AddDbContext<IAppDbContext,AppDbContext>()
             .BuildServiceProvider(true);
 
             var harness = provider.GetRequiredService<ITestHarness>();

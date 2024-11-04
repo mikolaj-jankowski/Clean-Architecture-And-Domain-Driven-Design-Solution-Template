@@ -11,10 +11,10 @@ namespace CA.And.DDD.Template.Infrastructure.Queries.GetCustomer
 {
     public sealed class GetCustomerQueryHandler : IConsumer<GetCustomerQuery>
     {
-        private readonly AppDbContext _appDbContext;
+        private readonly IAppDbContext _appDbContext;
         private readonly ICacheService _cacheService;
 
-        public GetCustomerQueryHandler(AppDbContext appDbContext, ICacheService cacheService)
+        public GetCustomerQueryHandler(IAppDbContext appDbContext, ICacheService cacheService)
         {
             _appDbContext = appDbContext;
             _cacheService = cacheService;
@@ -38,7 +38,7 @@ namespace CA.And.DDD.Template.Infrastructure.Queries.GetCustomer
 
             var email = query.Message.Email;
             var customer = await _appDbContext
-                .Set<Customer>()
+                .Customers
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x=> ((string)x.Email) == email);
 
