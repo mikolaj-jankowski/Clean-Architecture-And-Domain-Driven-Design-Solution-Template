@@ -1,11 +1,16 @@
-﻿using CA.And.DDD.Template.Domain;
+﻿using AngleSharp.Dom.Events;
+using CA.And.DDD.Template.Application.Shared;
+using CA.And.DDD.Template.Domain;
 using CA.And.DDD.Template.Infrastructure.Events;
 using CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
+using CA.And.DDD.Template.Infrastructure.Settings;
 using MassTransit;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace CA.And.DDD.Template.Infrastructure.BackgroundTasks
@@ -16,15 +21,18 @@ namespace CA.And.DDD.Template.Infrastructure.BackgroundTasks
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
         private Dictionary<string, System.Reflection.Assembly> _assemblies = new();
+        private string conntectionString;
 
         public DomainEventsProcessor(
             ILogger<DomainEventsProcessor> logger,
             IServiceScopeFactory serviceScopeFactory,
-            IDomainEventDispatcher domainEventDispatcher)
+            IDomainEventDispatcher domainEventDispatcher,
+             IOptions<AppSettings> appSettings)
         {
             _logger = logger;
             _serviceScopeFactory = serviceScopeFactory;
             _domainEventDispatcher = domainEventDispatcher;
+            conntectionString = appSettings.Value.MsSql.ConnectionString;
         }
 
         /// <summary>
@@ -54,31 +62,63 @@ namespace CA.And.DDD.Template.Infrastructure.BackgroundTasks
 
         private async Task ProcessDomainEvents(CancellationToken stoppingToken)
         {
-            using (var scope = _serviceScopeFactory.CreateScope())
+            while (!stoppingToken.IsCancellationRequested)
             {
-                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                var events = context.Set<DomainEvent>().Where(x => x.ComplatedAt == null).ToList();
-
-                foreach (var @event in events)
+                List<DomainEvent> domainEvents = new List<DomainEvent>();
+                using (var connection = new SqlConnection(conntectionString))
                 {
-                    var assembly = _assemblies.SingleOrDefault(assembly => assembly.Value.GetName().Name == @event.AssemblyName);
-                    if (assembly is { })
+                    await connection.OpenAsync(stoppingToken);
+                    using (var command = new SqlCommand("SELECT DomainEventId, OccuredAt, Type, Payload, AssemblyName FROM DomainEvent WHERE ComplatedAt IS NULL", connection))
                     {
-                        var eventType = assembly.Value.GetType(@event.Type);
-                        if (eventType != null)
+                        var reader = await command.ExecuteReaderAsync(stoppingToken);
+
+                        while (await reader.ReadAsync(stoppingToken))
                         {
-                            var request = JsonSerializer.Deserialize(@event.Payload, eventType);
+                            var model = new DomainEvent(
+                                reader.GetGuid(reader.GetOrdinal("DomainEventId")),
+                                reader.GetDateTime(reader.GetOrdinal("OccuredAt")),
+                                reader.GetString(reader.GetOrdinal("Type")),
+                                reader.GetString(reader.GetOrdinal("AssemblyName")),
+                                reader.GetString(reader.GetOrdinal("Payload"))
+                                );
 
-                            if (request != null)
+                            domainEvents.Add(model);
+                        }
+                        await reader.CloseAsync();
+
+                        foreach (var domainEvent in domainEvents)
+                        {
+                            await Publish(domainEvent);
+
+                            using (var updateCommand = new SqlCommand("UPDATE DomainEvent SET ComplatedAt = @ComplatedAt WHERE DomainEventId = @Id", connection))
                             {
-                                await _domainEventDispatcher.Dispatch((IDomainEvent)request);
+                                updateCommand.Parameters.AddWithValue("@ComplatedAt", DateTime.UtcNow);
+                                updateCommand.Parameters.AddWithValue("@Id", domainEvent.DomainEventId);
 
-                                context.Entry(@event).CurrentValues.SetValues(@event with { ComplatedAt = DateTime.UtcNow });
-                                context.SaveChanges();
+                                int rowsAffected = await updateCommand.ExecuteNonQueryAsync(stoppingToken);
                             }
                         }
                     }
+                }
 
+            }
+        }
+
+        private async Task Publish(DomainEvent @event)
+        {
+            var assembly = _assemblies.SingleOrDefault(assembly => assembly.Value.GetName().Name == @event.AssemblyName);
+            if (assembly is { })
+            {
+                var eventType = assembly.Value.GetType(@event.Type);
+                if (eventType != null)
+                {
+                    var request = JsonSerializer.Deserialize(@event.Payload, eventType);
+
+                    if (request != null)
+                    {
+                        await _domainEventDispatcher.Dispatch((IDomainEvent)request);
+
+                    }
                 }
             }
         }

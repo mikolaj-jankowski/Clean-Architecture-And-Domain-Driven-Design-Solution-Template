@@ -1,10 +1,11 @@
 ﻿using CA.And.DDD.Template.Application.Shared;
-using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
+using CA.And.DDD.Template.Infrastructure.Settings;
 using MassTransit;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace CA.And.DDD.Template.Infrastructure.BackgroundTasks
@@ -14,11 +15,16 @@ namespace CA.And.DDD.Template.Infrastructure.BackgroundTasks
         private readonly ILogger<IntegrationEventsProcessor> _logger;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private Dictionary<string, System.Reflection.Assembly> _assemblies = new();
+        private IPublishEndpoint _publishEndpoint;
+        private string conntectionString;
 
-        public IntegrationEventsProcessor(ILogger<IntegrationEventsProcessor> logger, IServiceScopeFactory serviceScopeFactory)
+        public IntegrationEventsProcessor(ILogger<IntegrationEventsProcessor> logger, IServiceScopeFactory serviceScopeFactory, IOptions<AppSettings> appSettings)
         {
             _logger = logger;
             _serviceScopeFactory = serviceScopeFactory;
+            _publishEndpoint = serviceScopeFactory.CreateScope().ServiceProvider.GetRequiredService<IPublishEndpoint>();
+            conntectionString = appSettings.Value.MsSql.ConnectionString;
+
         }
 
         /// <summary>
@@ -48,33 +54,64 @@ namespace CA.And.DDD.Template.Infrastructure.BackgroundTasks
 
         private async Task ProcessIntegrationEvents(CancellationToken stoppingToken)
         {
-            using (var scope = _serviceScopeFactory.CreateScope())
+            while (!stoppingToken.IsCancellationRequested)
             {
-                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                var publishEndpoint = scope.ServiceProvider.GetRequiredService<IPublishEndpoint>();
-
-                var integrationEvents = context.Set<IntegrationEvent>().Where(x => x.PublishedAt == null).ToList();
-
-                foreach (var @event in integrationEvents)
+                List<IntegrationEvent> integrationEvents = new List<IntegrationEvent>();
+                using (var connection = new SqlConnection(conntectionString))
                 {
-                    var assembly = _assemblies.SingleOrDefault(assembly => assembly.Value.GetName().Name == @event.AssemblyName);
-                    if (assembly is { })
+                    await connection.OpenAsync(stoppingToken);
+                    using (var command = new SqlCommand("SELECT IntergrationEventId, OccuredAt, Type, Payload, AssemblyName FROM IntegrationEvent WHERE PublishedAt IS NULL", connection))
                     {
-                        var eventType = assembly.Value.GetType(@event.Type);
-                        if (eventType != null)
+                        var reader = await command.ExecuteReaderAsync(stoppingToken);
+
+                        while (await reader.ReadAsync(stoppingToken))
                         {
-                            var request = JsonSerializer.Deserialize(@event.Payload, eventType);
+                            var model = new IntegrationEvent(
+                                reader.GetGuid(reader.GetOrdinal("IntergrationEventId")),
+                                reader.GetDateTime(reader.GetOrdinal("OccuredAt")),
+                                reader.GetString(reader.GetOrdinal("Type")),
+                                reader.GetString(reader.GetOrdinal("AssemblyName")),
+                                reader.GetString(reader.GetOrdinal("Payload"))
+                                );
 
-                            if (request != null)
+                            integrationEvents.Add(model);
+                        }
+                        await reader.CloseAsync();
+
+                        foreach (var integrationEvent in integrationEvents)
+                        {
+                            await Publish(integrationEvent);
+
+                            using (var updateCommand = new SqlCommand("UPDATE IntegrationEvent SET PublishedAt = @PublishedAt WHERE IntergrationEventId = @Id", connection))
                             {
-                                await publishEndpoint.Publish(request);
+                                updateCommand.Parameters.AddWithValue("@PublishedAt", DateTime.UtcNow);
+                                updateCommand.Parameters.AddWithValue("@Id", integrationEvent.IntergrationEventId);
 
-                                context.Entry(@event).CurrentValues.SetValues(@event with { PublishedAt = DateTime.UtcNow });
-                                context.SaveChanges();
+                                int rowsAffected = await updateCommand.ExecuteNonQueryAsync(stoppingToken);
                             }
                         }
                     }
+                    await connection.CloseAsync();
+                }
+            }
+        }
 
+
+        private async Task Publish(IntegrationEvent @event)
+        {
+            var assembly = _assemblies.SingleOrDefault(assembly => assembly.Value.GetName().Name == @event.AssemblyName);
+            if (assembly is { })
+            {
+                var eventType = assembly.Value.GetType(@event.Type);
+                if (eventType != null)
+                {
+                    var request = JsonSerializer.Deserialize(@event.Payload, eventType);
+
+                    if (request != null)
+                    {
+                        await _publishEndpoint.Publish(request);
+
+                    }
                 }
             }
         }
