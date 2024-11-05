@@ -1,20 +1,11 @@
-﻿using CA.And.DDD.Template.Application.Customer.ChangeEmail;
-using CA.And.DDD.Template.Application.Customer.CreateCustomer;
-using CA.And.DDD.Template.Application.Customer.CreateCustomer.DomainEventHandlers;
-using CA.And.DDD.Template.Application.Customer.VerifyEmail;
-using CA.And.DDD.Template.Application.Order.CreateOrder;
-using CA.And.DDD.Template.Application.Order.CreateOrder.DomainEventHandlers;
-using CA.And.DDD.Template.Application.Shared;
+﻿using CA.And.DDD.Template.Application.Customer.CreateCustomer;
 using CA.And.DDD.Template.Domain;
 using CA.And.DDD.Template.Infrastructure.Filters.MassTransit;
-using CA.And.DDD.Template.Infrastructure.Queries.GetCustomer;
 using CA.And.DDD.Template.Infrastructure.Settings;
-using Google.Protobuf;
 using MassTransit;
 using MassTransit.Internals;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using static CA.And.DDD.Template.Application.Customer.CreateCustomer.CreateCustomerCommandHandler;
 
 namespace CA.And.DDD.Template.Infrastructure.Installers
 {
@@ -26,16 +17,8 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
 
             builder.Services.AddMediator(cfg =>
             {
-                //below Consumers for Mediator (in memory)
-                cfg.AddConsumer<CustomerCreatedDomainEventHandler>();
-                cfg.AddConsumer<OrderCreatedDomainEventHandler>();
+                AddMediatorConsumersFromAssembly(cfg);
 
-                cfg.AddConsumer<CreateOrderCommandHandler>();
-
-                cfg.AddConsumer<CreateCustomerCommandHandler>();
-                cfg.AddConsumer<ChangeEmailCommandHandler>();
-                cfg.AddConsumer<VerifyEmailCommandHandler>();
-                cfg.AddConsumer<GetCustomerQueryHandler>();
 
                 cfg.ConfigureMediator((context, cfg) =>
                 {
@@ -69,6 +52,11 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
                     cfg.ConfigureEndpoints(context);
                 });
             });
+        }
+
+        private static void AddMediatorConsumersFromAssembly(IMediatorRegistrationConfigurator cfg)
+        {
+            cfg.AddConsumers(typeof(CreateCustomerCommandHandler).Assembly);
         }
     }
 

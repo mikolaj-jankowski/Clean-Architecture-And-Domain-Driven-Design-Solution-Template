@@ -1,10 +1,12 @@
-﻿using CA.And.DDD.Template.Application.Shared;
+﻿using CA.And.DDD.Template.Application.Customer.CreateCustomer;
+using CA.And.DDD.Template.Application.Shared;
 using CA.And.DDD.Template.Domain;
 using CA.And.DDD.Template.Infrastructure.Events;
 using CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using MassTransit;
 using Newtonsoft.Json;
+using System.Runtime.Intrinsics.Arm;
 
 namespace CA.And.DDD.Template.Infrastructure.Filters.MassTransit
 {
@@ -40,6 +42,8 @@ namespace CA.And.DDD.Template.Infrastructure.Filters.MassTransit
                     Guid.NewGuid(),
                     _dateTimeProvider.UtcNow,
                     domainEvent.GetType().FullName,
+                    domainEvent.GetType().Assembly.GetName().Name,
+                    //typeof(CustomerCreatedIntegrationEvent).Assembly.GetName().Name,
                     JsonConvert.SerializeObject(domainEvent, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All })));
             }
 

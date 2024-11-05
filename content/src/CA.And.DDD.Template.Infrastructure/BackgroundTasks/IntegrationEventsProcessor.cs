@@ -4,6 +4,7 @@ using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
 using System.Text.Json;
 
 namespace CA.And.DDD.Template.Infrastructure.BackgroundTasks
@@ -56,7 +57,7 @@ namespace CA.And.DDD.Template.Infrastructure.BackgroundTasks
 
                 foreach (var @event in integrationEvents)
                 {
-                    var assembly = _assemblies.SingleOrDefault(assembly => @event.Type.Contains(assembly.Value.GetName().Name));
+                    var assembly = _assemblies.SingleOrDefault(assembly => assembly.Value.GetName().Name == @event.AssemblyName);
                     if (assembly is { })
                     {
                         var eventType = assembly.Value.GetType(@event.Type);

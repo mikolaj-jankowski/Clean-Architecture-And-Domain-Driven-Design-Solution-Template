@@ -61,7 +61,7 @@ namespace CA.And.DDD.Template.Infrastructure.BackgroundTasks
 
                 foreach (var @event in events)
                 {
-                    var assembly = _assemblies.SingleOrDefault(assembly => @event.Type.Contains(assembly.Value.GetName().Name));
+                    var assembly = _assemblies.SingleOrDefault(assembly => assembly.Value.GetName().Name == @event.AssemblyName);
                     if (assembly is { })
                     {
                         var eventType = assembly.Value.GetType(@event.Type);
