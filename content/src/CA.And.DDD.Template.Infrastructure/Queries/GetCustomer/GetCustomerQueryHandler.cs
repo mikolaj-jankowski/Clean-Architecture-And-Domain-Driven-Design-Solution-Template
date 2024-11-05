@@ -39,6 +39,7 @@ namespace CA.And.DDD.Template.Infrastructure.Queries.GetCustomer
             var email = query.Message.Email;
             var customer = await _appDbContext
                 .Customers
+                .TagWith(nameof(GetCustomerQueryHandler))
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x=> ((string)x.Email) == email);
 

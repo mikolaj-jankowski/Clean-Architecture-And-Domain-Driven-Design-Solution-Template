@@ -1,9 +1,7 @@
 ﻿using CA.And.DDD.Template.Application.Exceptions;
-using CA.And.DDD.Template.Application.Order;
 using CA.And.DDD.Template.Application.Order.GetOrder;
 using CA.And.DDD.Template.Application.Order.Shared;
 using CA.And.DDD.Template.Application.Shared;
-using CA.And.DDD.Template.Domain.Orders;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +39,7 @@ namespace CA.And.DDD.Template.Infrastructure.Queries.GetCustomer
             var id = query.Message.Id;
             var order = await _appDbContext
                 .Orders
+                .TagWith(nameof(GetOrderQueryHandler))
                 .AsNoTracking()
                 .AsSplitQuery()
                 .Include(x => x.OrderItems)
