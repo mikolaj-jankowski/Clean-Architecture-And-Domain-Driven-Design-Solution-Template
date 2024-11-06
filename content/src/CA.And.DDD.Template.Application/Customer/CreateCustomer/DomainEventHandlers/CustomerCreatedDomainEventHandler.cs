@@ -27,22 +27,12 @@ namespace CA.And.DDD.Template.Application.Customer.CreateCustomer.DomainEventHan
 
         private async Task SendWelcomeEmail(CustomerCreatedDomainEvent @event)
         {
-            var htmlTemplate = await _emailTemplateFactory.GetTemplateAsync(Domain.Enums.EmailTemplateType.WelcomeEmail);
-
             var replacements = new Dictionary<string, string>
             {
                 { "FullName", @event.FullName }
             };
 
-            foreach (var replacement in replacements)
-            {
-                htmlTemplate = htmlTemplate.Replace($"{{{{{replacement.Key}}}}}", replacement.Value);
-            }
-
-            await _emailService.SendEmailAsync(
-                @event.Email,
-                "Welcome to Our Service!",
-                htmlTemplate);
+            await _emailService.SendWelcomeEmail(@event.Email, replacements);
         }
     }
 }
