@@ -28,4 +28,9 @@
   <ItemGroup>
     <ProjectReference Include="..\CA.And.DDD.Template.Application\CA.And.DDD.Template.Application.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="EmailTemplates\WelcomeEmail.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

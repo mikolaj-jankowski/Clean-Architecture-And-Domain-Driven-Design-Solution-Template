@@ -41,6 +41,9 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
             builder.Services.AddProblemDetails();
             builder.Services.AddExceptionHandler<CommandValidationExceptionHandler>();
             builder.Services.AddSingleton<ICacheService, CacheService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<IEmailTemplateFactory, EmailTemplateFactory>();
+
         }
 
     }
