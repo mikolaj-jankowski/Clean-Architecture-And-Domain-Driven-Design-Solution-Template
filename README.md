@@ -694,5 +694,5 @@ Testing the application layer essentially comes down to testing handlers. Below 
 * [HtmlSanitizer](https://github.com/mganss/HtmlSanitizer)
 * [Open Telemetry](https://github.com/open-telemetry)
 * [FluentValidation](https://github.com/FluentValidation/FluentValidation)
-* [MailHog]([https://github.com/FluentValidation/FluentValidation](https://github.com/mailhog/MailHog)
+* [MailHog](https://github.com/mailhog/MailHog)
 
