@@ -13,9 +13,11 @@ namespace CA.And.DDD.Template.Domain.UnitTests
             // Arrange
             var customerId = new CustomerId(Guid.NewGuid());
             var shippingAddress = new ShippingAddress("Fifth Avenue 10A", "10037");
+            var totalSpentMoneyInLast31Days = 100;
+            var orderDate = DateTime.UtcNow;
 
             // Act
-            var order = Order.Create(customerId, shippingAddress);
+            var order = Order.Create(customerId, shippingAddress, new Money(totalSpentMoneyInLast31Days), orderDate);
 
             // Assert
             var domainEvents = order.DomainEvents;
@@ -28,11 +30,13 @@ namespace CA.And.DDD.Template.Domain.UnitTests
             // Arrange
             var customerId = new CustomerId(Guid.NewGuid());
             var shippingAddress = new ShippingAddress("Fifth Avenue 10A", "10037");
+            var totalSpentMoneyInLast31Days = 100;
+            var orderDate = DateTime.UtcNow;
 
             // Act && Assert
             Assert.Throws<MaximumQuantityExceededDomainException>(() =>
             {
-                Order.Create(customerId, shippingAddress).AddOrderItem(1, "Tent", 100, "USD", 6);
+                Order.Create(customerId, shippingAddress, new Money(totalSpentMoneyInLast31Days), orderDate).AddOrderItem(1, "Tent", 100, "USD", 6);
             });
         }
     }

@@ -8,7 +8,6 @@ using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using CA.And.DDD.Template.Infrastructure.Queries.GetCustomer;
 using MassTransit;
 using MassTransit.Testing;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 
@@ -37,7 +36,9 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
 
             var customerId = new CustomerId(Guid.NewGuid());
             var shippingAddress = new ShippingAddress("Fifth Avenue 10A", "10037");
-            var order = Order.Create(customerId, shippingAddress).ToDto();
+            var totalSpentMoneyInLast31Days = 100;
+            var orderDate = DateTime.UtcNow;
+            var order = Order.Create(customerId, shippingAddress, new Money(totalSpentMoneyInLast31Days), orderDate).ToDto();
 
             cacheServiceMock
                 .Setup(repo => repo.GetAsync<OrderDto>(CA.And.DDD.Template.Application.Shared.CacheKeyBuilder.GetOrderKey(order.OrderId)))

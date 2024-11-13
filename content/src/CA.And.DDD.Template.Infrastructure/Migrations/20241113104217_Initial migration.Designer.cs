@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CA.And.DDD.Template.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241104104723_Initial migration")]
+    [Migration("20241113104217_Initial migration")]
     partial class Initialmigration
     {
         /// <inheritdoc />
@@ -30,6 +30,11 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                     b.Property<Guid>("IntergrationEventId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AssemblyName")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("OccuredAt")
                         .ValueGeneratedOnAdd()
@@ -95,6 +100,9 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<byte[]>("Version")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
@@ -140,6 +148,11 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                     b.Property<Guid>("DomainEventId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AssemblyName")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime?>("ComplatedAt")
                         .HasColumnType("datetime2");
@@ -261,7 +274,8 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
 
                             b1.Property<string>("Currency")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(3)
+                                .HasColumnType("nvarchar(3)");
 
                             b1.HasKey("OrderItemOrderId");
 

@@ -18,6 +18,7 @@ namespace CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Or
                 shippingAddresBuilder.Property(x => x.PostalCode).HasMaxLength(6);
                 shippingAddresBuilder.Property(x => x.Street).HasMaxLength(255);
             });
+            builder.Property(x => x.OrderDate);
             builder.Property<byte[]>("Version").IsRowVersion();
         }
     }

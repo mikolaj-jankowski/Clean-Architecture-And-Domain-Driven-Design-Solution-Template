@@ -39,6 +39,7 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                     DomainEventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OccuredAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
                     Type = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    AssemblyName = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Payload = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ComplatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -54,6 +55,7 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                     IntergrationEventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OccuredAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
                     Type = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    AssemblyName = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Payload = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PublishedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -70,6 +72,7 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                     ShippingAddress_Street = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     ShippingAddress_PostalCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Version = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
@@ -94,7 +97,7 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                     Discount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Quantity = table.Column<long>(type: "bigint", nullable: false),
                     Price_Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Price_Currency = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Price_Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false)
                 },
                 constraints: table =>
                 {

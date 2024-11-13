@@ -18,7 +18,7 @@ namespace CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Or
             builder.OwnsOne(x => x.Price, price =>
             {
                 price.Property(x => x.Amount).HasPrecision(18,2);
-                price.Property(x => x.Currency);
+                price.Property(x => x.Currency).HasMaxLength(3);
             });
             builder.Property(x => x.Discount).HasPrecision(18, 2);
 

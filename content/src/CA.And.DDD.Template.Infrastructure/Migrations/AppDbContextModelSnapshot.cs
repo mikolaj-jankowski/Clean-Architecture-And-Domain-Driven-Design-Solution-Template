@@ -97,6 +97,9 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<byte[]>("Version")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
@@ -268,7 +271,8 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
 
                             b1.Property<string>("Currency")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(3)
+                                .HasColumnType("nvarchar(3)");
 
                             b1.HasKey("OrderItemOrderId");
 
