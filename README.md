@@ -22,7 +22,8 @@ Stay updated and click Watch button, click ⭐ if you find it useful.
 - [3. Domain](#3-domain)
   - [3.1 Introduction](#31-introduction)
   - [3.2 Aggregates](#32-aggregates)
-  - [3.3 Domain Events](#33-domain-events)
+  - [3.3 Policies](#33-policies)
+  - [3.4 Domain Events](#34-domain-events)
 - [4. Architecture](#4-architecture)
   - [4.1 Clean Architecure](#41-clean-architecure)
     - [4.1.1 Presentation Layer](#411-presentation-layer)
@@ -38,7 +39,7 @@ Stay updated and click Watch button, click ⭐ if you find it useful.
   - [4.5.1 Cache Aside pattern](#451-cache-aside-pattern)
   - [4.5.2 Cache invalidation](#452-cache-invalidation)
 - [5. Observability](#5-observability)
-  - [5.1 Open Telemtry](#51-open-telemtry)
+  - [5.1 Open Telemetry](#51-open-telemetry)
 - [6 Design patterns implemented in this project](#6-design-patterns-implemented-in-this-project)
   - [6.1 Mediator](#61-mediator)
   - [6.2 Factory method](#62-factory-method)
@@ -104,11 +105,45 @@ Keeping things simple in the Domain layer allows you to focus on understanding c
 
 There are two aggregates in the Domain Layer. These are:
 
+### 3.3 Policies
+
+The Policy pattern allows encapsulating domain logic into a separate class. This is very useful for testing and modifying it.
+In our case, there is a policy called AmountBasedDiscountPolicy, which is responsible for applying a discount to an order.
+As you can see below, the discount amount depends on how much the user spent last month, if not on the value of their current order.
+
+<details>
+  <summary><b>Code</b></summary>
+  <p>
+
+```csharp
+    public class AmountBasedDiscountPolicy
+    {
+        public decimal CalculateDiscount(Money totalSpentAmountInLast31Days, IReadOnlyCollection<OrderItem> orderItems)
+        {
+            var currentTotalAmount = orderItems.Sum(x => x.Quantity * x.Price.Amount);
+            if (totalSpentAmountInLast31Days.Amount >= 500 || currentTotalAmount > 800)
+            {
+                return 0.05m;
+            }
+            else if (totalSpentAmountInLast31Days.Amount >= 250 || currentTotalAmount > 600)
+            {
+                return 0.025m;
+            }
+            else
+            {
+                return 0.00m;
+            }
+        }
+    }
+```
+</p>
+</details>
+
 **Customer** – This is the most important aggregate in our layer because it is responsible for placing orders. In other words, this is the entity that starts the process of placing orders. Besides placing orders, the customer can also change their e-mail address and verify it.
 
 **Order** – This represents a particular order. It has a list of order items, along with their price, quantity, etc.
 
-### 3.3 Domain Events
+### 3.4 Domain Events
 
 Domain events allow informing other parts of the application about changes that have occurred within our domain. They are an excellent way to implement business processes in a loosely coupled manner. Each domain event represents a specific action adhering to the [(Single Responsibility Principle, SRP)](https://en.wikipedia.org/wiki/Single-responsibility_principle) that has happened in the system; therefore, event names are represented in the past tense, e.g., OrderCreatedDomainEvent. When a domain event is published, all interested parties can react to it. As the number of "interested parties" for a given domain event grows, all that needs to be done is to create an additional handler to perform extra logic. This approach also aligns with the [Open/Closed Principle](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle).
 
@@ -431,7 +466,7 @@ When a customer changes their email, an event called  **CustomerEmailChangedDoma
 
 
 ## 5. Observability
-### 5.1 Open Telemtry
+### 5.1 Open Telemetry
 The observability of the system has been ensured through the use of OpenTelemetry. Telemetry data is sent to the Aspire Dashboard collector and visualized there. With this approach, we can check how long an HTTP request took, how much time was spent communicating with the MSSQL database, and how much with Redis. Event logs are linked to requests, making it easy to navigate between them.
 
 Aspire Dashboard is avaiable at: http://localhost:18888 once docker-compose has been launched.
