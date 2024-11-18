@@ -10,7 +10,7 @@ namespace CA.And.DDD.Template.Application.Order.Shared
     {
         public static OrderDto ToDto(this CA.And.DDD.Template.Domain.Orders.Order order)
         {
-            return new OrderDto(order.OrderId.Value, order.OrderItems.ToDto(), order.TotalAmount().Amount, order.TotalAmount().Currency);
+            return new OrderDto(order.OrderId.Value, order.OrderItems.ToDto(), order.TotalAmount.Amount, order.TotalAmount.Currency);
         }
         public static List<OrderItemDto> ToDto(this IReadOnlyCollection<OrderItem> orderItems)
         {

@@ -16,7 +16,7 @@ namespace CA.And.DDD.Template.Domain.Orders
         private readonly List<OrderItem> _orderItems;
         public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
 
-        private Money _totalSpentMoneyInLast31Days;
+        public Money TotalAmount { get; private set; }
 
         private Order()
         {
@@ -26,16 +26,14 @@ namespace CA.And.DDD.Template.Domain.Orders
         public static Order Create(
             CustomerId customerId,
             ShippingAddress shippingAddress,
-            Money totalSpentMoneyInLast31Days,
             DateTime orderDate)
         {
-            return new Order(customerId, shippingAddress, totalSpentMoneyInLast31Days, orderDate);
+            return new Order(customerId, shippingAddress, orderDate);
         }
 
 
 
-        private Order(CustomerId customerId, ShippingAddress shippingAddress,
-            Money totalSpentMoneyInLast31Days, DateTime orderDate)
+        private Order(CustomerId customerId, ShippingAddress shippingAddress, DateTime orderDate)
         {
             CustomerId = customerId;
             OrderId = new OrderId(Guid.NewGuid());
@@ -45,9 +43,8 @@ namespace CA.And.DDD.Template.Domain.Orders
             _orderItems = new List<OrderItem>();
 
             AddDomainEvent(new OrderCreatedDomainEvent(this.OrderId.Value, this.CustomerId.Value));
-            _totalSpentMoneyInLast31Days = totalSpentMoneyInLast31Days;
         }
-        private decimal ApplyDiscount(Money totalSpentMoneyInLast31Days)
+        internal decimal ApplyDiscount(Money totalSpentMoneyInLast31Days)
         {
             var discount = new AmountBasedDiscountPolicy().CalculateDiscount(totalSpentMoneyInLast31Days, _orderItems);
             return discount;
@@ -62,15 +59,6 @@ namespace CA.And.DDD.Template.Domain.Orders
 
             var orderItem = OrderItem.Create(productId, productName, price, currency, quantity);
             _orderItems.Add(orderItem);
-        }
-
-        public Money TotalAmount()
-        {
-            var discount = ApplyDiscount(_totalSpentMoneyInLast31Days);
-            var orderAmount = _orderItems.Sum(x => x.Quantity * x.Price.Amount);
-            var discountAmount = orderAmount * discount;
-            var totalAmount = orderAmount - discountAmount;
-            return new Money(totalAmount);
         }
     }
 }

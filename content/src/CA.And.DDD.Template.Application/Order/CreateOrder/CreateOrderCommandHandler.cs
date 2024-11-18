@@ -13,15 +13,18 @@ namespace CA.And.DDD.Template.Application.Order.CreateOrder
         private readonly IOrderRepository _orderRepository;
         private readonly ILogger<CreateOrderCommandHandler> _logger;
         private readonly IDateTimeProvider _dateTimeProvider;
+        private readonly OrderDomainService _orderDomainService;
 
         public CreateOrderCommandHandler(
             IOrderRepository orderRepository,
             ILogger<CreateOrderCommandHandler> logger,
-            IDateTimeProvider dateTimeProvider)
+            IDateTimeProvider dateTimeProvider,
+            OrderDomainService orderDomainService)
         {
             _orderRepository = orderRepository;
             _logger = logger;
             _dateTimeProvider = dateTimeProvider;
+            _orderDomainService = orderDomainService;
         }
 
 
@@ -32,17 +35,16 @@ namespace CA.And.DDD.Template.Application.Order.CreateOrder
             var order = Domain.Orders.Order.Create(
                 new CustomerId(command.Message.CustomerId),
                 new ShippingAddress(command.Message.Street, command.Message.PostalCode),
-                new Money(orderTotalLast31Days),
                 _dateTimeProvider.UtcNow);
 
             foreach(var product in command.Message.Products) 
             {
                 order.AddOrderItem(product.ProductId, product.ProductName, product.Price, product.Currency, product.Quantity);
             }
-
-
+            var totalAmount = await _orderDomainService.CalculateDiscountAsync(order);
             await _orderRepository.AddAsync(order);
-            await command.RespondAsync<OrderDto>(new OrderDto(order.OrderId.Value, order.OrderItems.ToDto(), order.TotalAmount().Amount, order.TotalAmount().Currency));
+
+            await command.RespondAsync<OrderDto>(new OrderDto(order.OrderId.Value, order.OrderItems.ToDto(), totalAmount.Amount, totalAmount.Currency));
 
             _logger.LogInformation("Created an order: {OrderId} ", order.OrderId);
         }

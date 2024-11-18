@@ -43,6 +43,7 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
             builder.Services.AddSingleton<ICacheService, CacheService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IEmailTemplateFactory, EmailTemplateFactory>();
+            builder.Services.AddScoped<OrderDomainService>();
 
         }
 

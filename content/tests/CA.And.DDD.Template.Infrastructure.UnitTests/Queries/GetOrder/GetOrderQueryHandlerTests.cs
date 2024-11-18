@@ -36,9 +36,8 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
 
             var customerId = new CustomerId(Guid.NewGuid());
             var shippingAddress = new ShippingAddress("Fifth Avenue 10A", "10037");
-            var totalSpentMoneyInLast31Days = 100;
             var orderDate = DateTime.UtcNow;
-            var order = Order.Create(customerId, shippingAddress, new Money(totalSpentMoneyInLast31Days), orderDate).ToDto();
+            var order = Order.Create(customerId, shippingAddress, orderDate).ToDto();
 
             cacheServiceMock
                 .Setup(repo => repo.GetAsync<OrderDto>(CA.And.DDD.Template.Application.Shared.CacheKeyBuilder.GetOrderKey(order.OrderId)))

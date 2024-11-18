@@ -13,10 +13,10 @@ namespace CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Cu
             _appDbContext = appDbContext;
         }
         public async Task AddAsync(Customer customer, CancellationToken cancellationToken = default)
-            => await _appDbContext.AddAsync(customer);
+            => await _appDbContext.AddAsync(customer, cancellationToken);
 
         public async Task<Customer?> GetAsync(string email, CancellationToken cancellationToken = default)
-            => await _appDbContext.Set<Customer>().Where(x => ((string)x.Email).Contains(email)).SingleOrDefaultAsync();
+            => await _appDbContext.Set<Customer>().Where(x => ((string)x.Email).Contains(email)).SingleOrDefaultAsync(cancellationToken);
 
     }
 }
