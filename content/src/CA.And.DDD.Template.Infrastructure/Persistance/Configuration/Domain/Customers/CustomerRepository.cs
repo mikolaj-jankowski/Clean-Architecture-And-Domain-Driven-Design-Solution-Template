@@ -1,4 +1,5 @@
 ﻿using CA.And.DDD.Template.Domain.Customers;
+using CA.And.DDD.Template.Infrastructure.Exceptions;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,18 @@ namespace CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Cu
             => await _appDbContext.AddAsync(customer, cancellationToken);
 
         public async Task<Customer?> GetAsync(string email, CancellationToken cancellationToken = default)
-            => await _appDbContext.Set<Customer>().Where(x => ((string)x.Email).Contains(email)).SingleOrDefaultAsync(cancellationToken);
+        {
+            var customer = await _appDbContext
+               .Customers
+               .Where(x => ((string)x.Email)
+               .Contains(email)).SingleOrDefaultAsync(cancellationToken);
 
+            if (customer is null)
+            {
+                throw new NotFoundException(email);
+            }
+
+            return customer;
+        }
     }
 }

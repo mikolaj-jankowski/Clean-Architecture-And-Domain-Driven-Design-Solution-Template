@@ -1,4 +1,6 @@
-﻿namespace CA.And.DDD.Template.Domain.Orders
+﻿using CA.And.DDD.Template.Domain.Orders.Policies;
+
+namespace CA.And.DDD.Template.Domain.Orders
 {
     public class OrderDomainService
     {
@@ -9,14 +11,25 @@
             _orderRepository = orderRepository;
         }
 
-        public async Task<Money> CalculateDiscountAsync(Order order)
+        public async Task CalculateDiscountBaseOnLast31DaysSpendingAsync(Order order)
         {
-            var totalSpentMoneyInLast31Days = await _orderRepository.GetTotalSpentInLast31DaysAsync(order.CustomerId);
-            var discount = order.ApplyDiscount(new Money(totalSpentMoneyInLast31Days));
-            var orderAmount = order.OrderItems.Sum(x => x.Quantity * x.Price.Amount);
-            var discountAmount = orderAmount * discount;
-            var totalAmount = orderAmount - discountAmount;
-            return new Money(totalAmount);
+            var anyOtherDiscountWasNotApplied = order.Discount is null;
+            if (order.OrderItems.Any() && anyOtherDiscountWasNotApplied) 
+            {
+                var totalSpentMoneyInLast31Days = await _orderRepository.GetTotalSpentInLast31DaysAsync(order.CustomerId);
+
+                if(totalSpentMoneyInLast31Days > 1000)
+                {
+                    var discount = new TotalSpentMoneyInLast31DaysDiscountPolicy().CalculateDiscount(new Money(totalSpentMoneyInLast31Days));
+                    if (discount > 0)
+                    {
+                        var discountAmount = order.TotalAmount.Amount * discount;
+                        order.Discount = new Discount(discountAmount, DiscountType.TotalSpentMoneyInLast31Days);
+                        order.TotalAmount = new Money(order.TotalAmount.Amount - discountAmount);
+                    }
+
+                }
+            }
         }
     }
 }

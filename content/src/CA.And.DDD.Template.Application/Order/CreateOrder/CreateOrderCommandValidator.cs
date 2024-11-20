@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using CA.And.DDD.Template.Domain.Orders;
+using FluentValidation;
 
 namespace CA.And.DDD.Template.Application.Order.CreateOrder
 {
@@ -7,8 +8,8 @@ namespace CA.And.DDD.Template.Application.Order.CreateOrder
         public CreateOrderCommandValidator()
         {
             RuleFor(x => x.CustomerId).NotEmpty();
-            RuleFor(x => x.PostalCode).NotEmpty().MaximumLength(6);
-            RuleFor(x => x.Street).NotEmpty().MaximumLength(255);
+            RuleFor(x => x.PostalCode).NotEmpty().MaximumLength(OrderConstants.Order.PostalCodeMaxLength);
+            RuleFor(x => x.Street).NotEmpty().MaximumLength(OrderConstants.Order.StreetMaxLength);
             RuleFor(x => x.Products).Must(i=> i != null && i.Count() > 0);
         }
     }

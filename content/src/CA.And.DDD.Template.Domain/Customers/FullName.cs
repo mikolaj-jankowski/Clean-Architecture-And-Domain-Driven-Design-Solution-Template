@@ -1,4 +1,5 @@
 ﻿using CA.And.DDD.Template.Domain.Customers.Exceptions;
+using CA.And.DDD.Template.Domain.Orders;
 
 namespace CA.And.DDD.Template.Domain.Customers
 {
@@ -7,7 +8,7 @@ namespace CA.And.DDD.Template.Domain.Customers
         public string Value { get; init; }
         public FullName(string fullName)
         {
-            if (string.IsNullOrWhiteSpace(fullName) || fullName.Length < 3 || fullName.Length > 150)
+            if (string.IsNullOrWhiteSpace(fullName) || fullName.Length < CustomerConstants.Customer.FullNameMinLength || fullName.Length > CustomerConstants.Customer.FullNameMaxLength)
             {
                 throw new InvalidFullNameDomainException(fullName);
             }

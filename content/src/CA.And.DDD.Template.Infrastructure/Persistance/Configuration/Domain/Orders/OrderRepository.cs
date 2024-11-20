@@ -1,4 +1,5 @@
 ﻿using CA.And.DDD.Template.Domain.Orders;
+using CA.And.DDD.Template.Infrastructure.Exceptions;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,25 @@ namespace CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Or
         {
             await _appDbContext.AddAsync(order, cancellationToken);
         }
+
+        public async Task<Order> GetOrderById(OrderId orderId, CancellationToken cancellationToken = default)
+        {
+            var order = await _appDbContext
+                .Orders
+                .TagWith(nameof(GetOrderById))
+                .AsSplitQuery()
+                .Include(x => x.OrderItems)
+                .Where(x => ((Guid)x.OrderId) == orderId.Value)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (order is null)
+            {
+                throw new NotFoundException(orderId.Value.ToString());
+            }
+
+            return order;
+         }
+
         public async Task<decimal> GetTotalSpentInLast31DaysAsync(Guid customerId, CancellationToken cancellationToken = default)
         {
             var oneMonthAgo = DateTime.UtcNow.AddMonths(-1);

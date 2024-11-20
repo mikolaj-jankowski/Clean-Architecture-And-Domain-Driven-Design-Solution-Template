@@ -1,4 +1,5 @@
 ﻿using CA.And.DDD.Template.Domain.Customers.Exceptions;
+using CA.And.DDD.Template.Domain.Orders;
 
 namespace CA.And.DDD.Template.Domain.Customers
 {
@@ -16,7 +17,7 @@ namespace CA.And.DDD.Template.Domain.Customers
         {
             var age = currentDate.Year - birthDate.Year;
             if (birthDate.Date > currentDate.AddYears(-age)) age--;
-            if (age < 18)
+            if (age < CustomerConstants.Customer.MinAllowedAge)
             {
                 throw new InvalidCustomerAgeDomainException();
             }

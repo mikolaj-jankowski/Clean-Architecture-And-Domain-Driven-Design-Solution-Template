@@ -3,7 +3,6 @@ using CA.And.DDD.Template.Application.Customer.Shared;
 using CA.And.DDD.Template.Application.Shared;
 using CA.And.DDD.Template.Domain.Customers;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
-using CA.And.DDD.Template.Infrastructure.Queries.GetCustomer;
 using MassTransit;
 using MassTransit.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +14,7 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
     public class GetCustomerQueryHandlerTests
     {
         private readonly Mock<ICacheService> _cacheServiceMock = new Mock<ICacheService>();
+        private readonly Mock<ICustomerRepository> _customerRepository = new Mock<ICustomerRepository>();
         private ServiceProvider _provider;
         private ITestHarness _harness;
 
@@ -30,6 +30,7 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
             _provider = new ServiceCollection()
                 .AddMassTransitTestHarness(x => x.AddConsumer<GetCustomerQueryHandler>())
                 .AddSingleton(_cacheServiceMock.Object)
+                .AddScoped<ICustomerRepository>(_ =>_customerRepository.Object)
                 .AddDbContext<IAppDbContext, AppDbContext>(options => options.UseInMemoryDatabase("TestDatabase"))
                 .BuildServiceProvider(true);
 
@@ -40,7 +41,6 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
         public async Task Should_Get_Customer_From_Cache()
         {
             //Arrange
-            var sqlQueries = new List<string>();
 
             SetupProviderAndHarness();
 
@@ -64,7 +64,8 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
             //Assert
             Assert.True(await harness.Sent.Any<CustomerDto>());
             _cacheServiceMock.Verify(repo => repo.GetAsync<CustomerDto>(It.IsAny<string>()), Times.Exactly(1));
-            Assert.Empty(sqlQueries);
+            _customerRepository.Verify(repo => repo.GetAsync(It.IsAny<string>(), default), Times.Exactly(0));
+
             Assert.Equal(response.Message, expectedCustomer);
 
         }
@@ -76,18 +77,15 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
             //Arrange
             SetupProviderAndHarness();
 
-            using (var scope = _provider.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                context.Customers.Add(_customer);
-                context.SaveChanges();
-            }
-
             var harness = _provider.GetRequiredService<ITestHarness>();
 
             _cacheServiceMock
                 .Setup(repo => repo.GetAsync<CustomerDto?>(CA.And.DDD.Template.Application.Shared.CacheKeyBuilder.GetCustomerKey(_customer.Email.Value)))
                 .ReturnsAsync((CustomerDto?)null);
+
+            _customerRepository
+                .Setup(repo => repo.GetAsync(_customer.Email.Value, default))
+                .ReturnsAsync(_customer);
 
             await harness.Start();
 
@@ -99,6 +97,7 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
             //Assert
             Assert.True(await harness.Sent.Any<CustomerDto>());
             _cacheServiceMock.Verify(repo => repo.GetAsync<CustomerDto>(It.IsAny<string>()), Times.Exactly(1));
+            _customerRepository.Verify(repo => repo.GetAsync(It.IsAny<string>(), default), Times.Exactly(1));
             Assert.Equal(response.Message, _customer.ToDto());
 
         }

@@ -16,8 +16,8 @@ namespace CA.And.DDD.Template.Domain.Orders
         private readonly List<OrderItem> _orderItems;
         public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
 
-        public Money TotalAmount { get; private set; }
-
+        public Money TotalAmount { get; internal set; } = new Money(0);
+        public Discount Discount { get; internal set; }
         private Order()
         {
 
@@ -44,21 +44,40 @@ namespace CA.And.DDD.Template.Domain.Orders
 
             AddDomainEvent(new OrderCreatedDomainEvent(this.OrderId.Value, this.CustomerId.Value));
         }
-        internal decimal ApplyDiscount(Money totalSpentMoneyInLast31Days)
+        private decimal ApplyDiscount()
         {
-            var discount = new AmountBasedDiscountPolicy().CalculateDiscount(totalSpentMoneyInLast31Days, _orderItems);
+            var discount = new AmountBasedDiscountPolicy().CalculateDiscount(_orderItems);
             return discount;
         }
 
         public void AddOrderItem(long productId, string productName, decimal price, string currency, uint quantity = 1)
         {
-            if (quantity > 5)
+            if (quantity > OrderConstants.Order.MaxQuantity)
             {
                 throw new MaximumQuantityExceededDomainException();
             }
 
             var orderItem = OrderItem.Create(productId, productName, price, currency, quantity);
             _orderItems.Add(orderItem);
+            CalculateTotalAmount();
+        }
+        private Money CalculateTotalAmount()
+        {
+            var discount = ApplyDiscount();
+            var orderAmount = _orderItems.Sum(x => x.Quantity * x.Price.Amount);
+
+            if (discount > 0)
+            {
+                var discountAmount = orderAmount * discount;
+                Discount = new Discount(discountAmount, DiscountType.OrderBasedAmount);
+                TotalAmount = new Money(orderAmount - discountAmount);
+                return TotalAmount;
+            }
+            else
+            {
+                TotalAmount = new Money(orderAmount);
+                return TotalAmount;
+            }
         }
     }
 }

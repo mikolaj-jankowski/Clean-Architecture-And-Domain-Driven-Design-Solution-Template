@@ -1,4 +1,5 @@
 ﻿using CA.And.DDD.Template.Domain.Customers;
+using CA.And.DDD.Template.Domain.Orders;
 using FluentValidation;
 
 namespace CA.And.DDD.Template.Application.Customer.CreateCustomer
@@ -7,13 +8,13 @@ namespace CA.And.DDD.Template.Application.Customer.CreateCustomer
     {
         public CreateCustomerCommandValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().MaximumLength(400);
-            RuleFor(x => x.FullName).NotEmpty().MaximumLength(55);
-            RuleFor(x => x.Street).NotEmpty().MaximumLength(255);
-            RuleFor(x => x.HouseNumber).NotEmpty().MaximumLength(15);
-            RuleFor(x => x.FlatNumber).NotEmpty().MaximumLength(15);
-            RuleFor(x => x.Country).NotEmpty().MaximumLength(100);
-            RuleFor(x => x.PostalCode).NotEmpty().MaximumLength(6);
+            RuleFor(x => x.Email).NotEmpty().MaximumLength(CustomerConstants.Customer.EmailMaxLength);
+            RuleFor(x => x.FullName).NotEmpty().MaximumLength(CustomerConstants.Customer.FullNameMaxLength).MinimumLength(CustomerConstants.Customer.FullNameMinLength);
+            RuleFor(x => x.Street).NotEmpty().MaximumLength(CustomerConstants.Customer.StreetMaxLength);
+            RuleFor(x => x.HouseNumber).NotEmpty().MaximumLength(CustomerConstants.Customer.HouseNumberMaxLength);
+            RuleFor(x => x.FlatNumber).NotEmpty().MaximumLength(CustomerConstants.Customer.FlatNumberMaxLength);
+            RuleFor(x => x.Country).NotEmpty().MaximumLength(CustomerConstants.Customer.CountryMaxLength);
+            RuleFor(x => x.PostalCode).NotEmpty().MaximumLength(CustomerConstants.Customer.PostalCodeMaxLength);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace CA.And.DDD.Template.Application.Order.Shared
 {
-    public sealed record OrderDto(Guid OrderId, List<OrderItemDto> OrderItems, decimal TotalAmount, string currency);
+    public sealed record OrderDto(Guid OrderId, List<OrderItemDto> OrderItems, decimal TotalAmount, string Currency);
 
     public sealed record OrderItemDto(Guid OrderItemId, string productName, decimal price, uint quantity);
 

@@ -16,7 +16,7 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                 columns: table => new
                 {
                     CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Age = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
                     IsEmailVerified = table.Column<bool>(type: "bit", nullable: false),
@@ -73,6 +73,10 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                     ShippingAddress_PostalCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalAmount_Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    TotalAmount_Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    Discount_Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Discount_Type = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Version = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>

@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using CA.And.DDD.Template.Domain.Orders;
+using FluentValidation;
 
 namespace CA.And.DDD.Template.Application.Customer.ChangeEmail
 {
@@ -6,8 +7,8 @@ namespace CA.And.DDD.Template.Application.Customer.ChangeEmail
     {
         public ChangeEmailCommandValidator()
         {
-            RuleFor(x => x.OldEmail).NotEmpty().MaximumLength(400);
-            RuleFor(x => x.NewEmail).NotEmpty().MaximumLength(400);
+            RuleFor(x => x.OldEmail).NotEmpty().MaximumLength(CustomerConstants.Customer.EmailMaxLength);
+            RuleFor(x => x.NewEmail).NotEmpty().MaximumLength(CustomerConstants.Customer.EmailMaxLength);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace CA.And.DDD.Template.Application.Order.CreateOrder
         public CreateOrderCommandHandler(
             IOrderRepository orderRepository,
             ILogger<CreateOrderCommandHandler> logger,
-            IDateTimeProvider dateTimeProvider,
+            IDateTimeProvider dateTimeProvider, 
             OrderDomainService orderDomainService)
         {
             _orderRepository = orderRepository;
@@ -41,14 +41,14 @@ namespace CA.And.DDD.Template.Application.Order.CreateOrder
             {
                 order.AddOrderItem(product.ProductId, product.ProductName, product.Price, product.Currency, product.Quantity);
             }
-            var totalAmount = await _orderDomainService.CalculateDiscountAsync(order);
+
+            await _orderDomainService.CalculateDiscountBaseOnLast31DaysSpendingAsync(order);
             await _orderRepository.AddAsync(order);
 
-            await command.RespondAsync<OrderDto>(new OrderDto(order.OrderId.Value, order.OrderItems.ToDto(), totalAmount.Amount, totalAmount.Currency));
+            await command.RespondAsync<OrderDto>(order.ToDto());
 
             _logger.LogInformation("Created an order: {OrderId} ", order.OrderId);
         }
-
 
     }
 }
