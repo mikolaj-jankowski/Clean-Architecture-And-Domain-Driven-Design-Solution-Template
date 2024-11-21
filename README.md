@@ -144,9 +144,6 @@ As you can see below, the discount amount depends on how much the user spent las
 </p>
 </details>
 
-**Customer** – This is the most important aggregate in our layer because it is responsible for placing orders. In other words, this is the entity that starts the process of placing orders. Besides placing orders, the customer can also change their e-mail address and verify it.
-
-**Order** – This represents a particular order. It has a list of order items, along with their price, quantity, etc.
 
 ### 3.4 Domain services
 
