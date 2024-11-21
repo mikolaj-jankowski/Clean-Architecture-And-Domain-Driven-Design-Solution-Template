@@ -250,27 +250,34 @@ Queries are responsible for retrieving entities from the database. Queries are p
 Please take a look at the example: ***GetCustomerQueryHandler***
 
 ```csharp
-    public sealed class GetCustomerQueryHandler : IConsumer<GetCustomerQuery>
-    {
-        private readonly AppDbContext _appDbContext;
-
-        public GetCustomerQueryHandler(AppDbContext appDbContext)
+        public GetCustomerQueryHandler(ICacheService cacheService, ICustomerRepository customerRepository)
         {
-            _appDbContext = appDbContext;
+            _cacheService = cacheService;
+            _customerRepository = customerRepository;
         }
-
+        /// <summary>
+        /// This handler demonstrates the usage of the Cache Aside Pattern.
+        /// First, we check if the data is available in the cache (Redis). If not,
+        /// we retrieve the data from the database and store it in the cache.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        /// <exception cref="CustomerNotFoundApplicationException"></exception>
         public async Task Consume(ConsumeContext<GetCustomerQuery> query)
         {
-            var email = query.Message.Email;
-            var customer = await _appDbContext.Set<Customer>().Where(x => ((string)x.Email).Contains(email)).SingleOrDefaultAsync();
-
-            if (customer == null)
+            var cachedCustomerDto = await _cacheService.GetAsync<CustomerDto>(CacheKeyBuilder.GetCustomerKey(query.Message.Email));
+            if (cachedCustomerDto is { })
             {
-                throw new CustomerNotFoundApplicationException(email);
+                await query.RespondAsync(cachedCustomerDto);
+                return;
             }
-            await query.RespondAsync(new GetCustomerQueryResponse(customer.FullName, customer.Age.Value, customer.Email.Value));
+
+            var email = query.Message.Email;
+            var customer = (await _customerRepository.GetAsync(email))!.ToDto();
+
+            await _cacheService.SetAsync(CacheKeyBuilder.GetCustomerKey(query.Message.Email), customer);
+            await query.RespondAsync(customer);
         }
-    }
 ```
 
 ### 4.4 Cross Cutting Concerns
