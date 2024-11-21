@@ -105,6 +105,10 @@ Keeping things simple in the Domain layer allows you to focus on understanding c
 
 There are two aggregates in the Domain Layer. These are:
 
+**Customer** – This is the most important aggregate in our layer because it is responsible for placing orders. In other words, this is the entity that starts the process of placing orders. Besides placing orders, the customer can also change their e-mail address and verify it.
+
+**Order** – This represents a particular order. It has a list of order items, along with their price, quantity, etc.
+
 ### 3.3 Policies
 
 The Policy pattern allows encapsulating domain logic into a separate class. This is very useful for testing and modifying it.
@@ -118,14 +122,14 @@ As you can see below, the discount amount depends on how much the user spent las
 ```csharp
     public class AmountBasedDiscountPolicy
     {
-        public decimal CalculateDiscount(Money totalSpentAmountInLast31Days, IReadOnlyCollection<OrderItem> orderItems)
+        public decimal CalculateDiscount(IReadOnlyCollection<OrderItem> orderItems)
         {
             var currentTotalAmount = orderItems.Sum(x => x.Quantity * x.Price.Amount);
-            if (totalSpentAmountInLast31Days.Amount >= 500 || currentTotalAmount > 800)
+            if (currentTotalAmount > 800)
             {
                 return 0.05m;
             }
-            else if (totalSpentAmountInLast31Days.Amount >= 250 || currentTotalAmount > 600)
+            else if (currentTotalAmount > 600)
             {
                 return 0.025m;
             }
@@ -138,10 +142,6 @@ As you can see below, the discount amount depends on how much the user spent las
 ```
 </p>
 </details>
-
-**Customer** – This is the most important aggregate in our layer because it is responsible for placing orders. In other words, this is the entity that starts the process of placing orders. Besides placing orders, the customer can also change their e-mail address and verify it.
-
-**Order** – This represents a particular order. It has a list of order items, along with their price, quantity, etc.
 
 ### 3.4 Domain Events
 
