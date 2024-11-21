@@ -23,7 +23,8 @@ Stay updated and click Watch button, click ⭐ if you find it useful.
   - [3.1 Introduction](#31-introduction)
   - [3.2 Aggregates](#32-aggregates)
   - [3.3 Policies](#33-policies)
-  - [3.4 Domain Events](#34-domain-events)
+  - [3.4 Domain services](#34-domain-services)
+  - [3.5 Domain Events](#35-domain-events)
 - [4. Architecture](#4-architecture)
   - [4.1 Clean Architecure](#41-clean-architecure)
     - [4.1.1 Presentation Layer](#411-presentation-layer)
@@ -143,7 +144,15 @@ As you can see below, the discount amount depends on how much the user spent las
 
 **Order** – This represents a particular order. It has a list of order items, along with their price, quantity, etc.
 
-### 3.4 Domain Events
+### 3.4 Domain services
+
+Domain services are building blocks that help encapsulate business logic that does not belong to any specific entity or aggregate.
+
+In our example, we use it to calculate a discount for the order. We retrieve the total amount of money spent in the last month and pass it to the domain service named OrderDomainService. There, we calculate the discount using the TotalSpentMoneyInLast31DaysDiscountPolicy class.
+
+Whenever possible, you should avoid creating domain services. Relying on them shifts the business logic from aggregates to these services, making the aggregates more anemic.
+
+### 3.5 Domain Events
 
 Domain events allow informing other parts of the application about changes that have occurred within our domain. They are an excellent way to implement business processes in a loosely coupled manner. Each domain event represents a specific action adhering to the [(Single Responsibility Principle, SRP)](https://en.wikipedia.org/wiki/Single-responsibility_principle) that has happened in the system; therefore, event names are represented in the past tense, e.g., OrderCreatedDomainEvent. When a domain event is published, all interested parties can react to it. As the number of "interested parties" for a given domain event grows, all that needs to be done is to create an additional handler to perform extra logic. This approach also aligns with the [Open/Closed Principle](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle).
 
