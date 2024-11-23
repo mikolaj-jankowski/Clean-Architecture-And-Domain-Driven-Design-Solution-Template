@@ -1,7 +1,6 @@
 ﻿using CA.And.DDD.Template.Application.Customer.Shared;
 using CA.And.DDD.Template.Application.Exceptions;
 using CA.And.DDD.Template.Application.Shared;
-using CA.And.DDD.Template.Domain.Customers;
 using MassTransit;
 
 namespace CA.And.DDD.Template.Application.Customer.GetCustomer
@@ -9,12 +8,12 @@ namespace CA.And.DDD.Template.Application.Customer.GetCustomer
     public sealed class GetCustomerQueryHandler : IConsumer<GetCustomerQuery>
     {
         private readonly ICacheService _cacheService;
-        private readonly ICustomerRepository _customerRepository;
+        private readonly ICustomerReadService _customerReadService;
 
-        public GetCustomerQueryHandler(ICacheService cacheService, ICustomerRepository customerRepository)
+        public GetCustomerQueryHandler(ICacheService cacheService, ICustomerReadService customerReadService)
         {
             _cacheService = cacheService;
-            _customerRepository = customerRepository;
+            _customerReadService = customerReadService;
         }
         /// <summary>
         /// This handler demonstrates the usage of the Cache Aside Pattern.
@@ -34,10 +33,10 @@ namespace CA.And.DDD.Template.Application.Customer.GetCustomer
             }
 
             var email = query.Message.Email;
-            var customer = (await _customerRepository.GetAsync(email))!.ToDto();
+            var customerDto = await _customerReadService.GetCustomerByEamil(email, query.CancellationToken);
 
-            await _cacheService.SetAsync(CacheKeyBuilder.GetCustomerKey(query.Message.Email), customer);
-            await query.RespondAsync(customer);
+            await _cacheService.SetAsync(CacheKeyBuilder.GetCustomerKey(query.Message.Email), customerDto);
+            await query.RespondAsync(customerDto);
         }
     }
 }

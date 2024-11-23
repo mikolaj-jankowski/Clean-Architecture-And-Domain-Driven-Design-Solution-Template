@@ -8,6 +8,7 @@ using CA.And.DDD.Template.Infrastructure.Events;
 using CA.And.DDD.Template.Infrastructure.Exceptions;
 using CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Customers;
 using CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Orders;
+using CA.And.DDD.Template.Infrastructure.ReadServices;
 using CA.And.DDD.Template.Infrastructure.Shared;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
@@ -44,6 +45,8 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IEmailTemplateFactory, EmailTemplateFactory>();
             builder.Services.AddScoped<OrderDomainService>();
+            builder.Services.AddScoped<IOrderReadService, OrderReadService>();
+            builder.Services.AddScoped<ICustomerReadService, CustomerReadService>();
 
         }
 

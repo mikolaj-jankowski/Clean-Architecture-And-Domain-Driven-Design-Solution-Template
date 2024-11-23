@@ -1,3 +1,4 @@
+using CA.And.DDD.Template.Application.Order.BrowseOrders;
 using CA.And.DDD.Template.Application.Order.CreateOrder;
 using CA.And.DDD.Template.Application.Order.GetOrder;
 using CA.And.DDD.Template.Application.Order.Shared;
@@ -25,6 +26,16 @@ namespace CA.And.DDD.Template.WebApi.Controllers
         {
             var client = _mediator.CreateRequestClient<GetOrderQuery>();
             var response = await client.GetResponse<OrderDto>(query);
+            return Ok(response);
+        }
+
+        [HttpGet("browse-orders")]
+        [SwaggerOperation(Summary = "Browse orders")]
+        [ProducesResponseType(typeof(BrowseOrdersDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> BrowseOrders([FromQuery] BrowseOrdersQuery query)
+        {
+            var client = _mediator.CreateRequestClient<BrowseOrdersQuery>();
+            var response = await client.GetResponse<BrowseOrdersDto>(query);
             return Ok(response);
         }
 

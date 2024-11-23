@@ -1,6 +1,5 @@
 ﻿using CA.And.DDD.Template.Application.Order.Shared;
 using CA.And.DDD.Template.Application.Shared;
-using CA.And.DDD.Template.Domain.Orders;
 using MassTransit;
 
 namespace CA.And.DDD.Template.Application.Order.GetOrder
@@ -8,14 +7,12 @@ namespace CA.And.DDD.Template.Application.Order.GetOrder
     public sealed class GetOrderQueryHandler : IConsumer<GetOrderQuery>
     {
         private readonly ICacheService _cacheService;
-        private readonly IOrderRepository _orderRepository;
-        private readonly OrderDomainService _orderDomainService;
+        private readonly IOrderReadService _ordersReadService;
 
-        public GetOrderQueryHandler(ICacheService cacheService, IOrderRepository orderRepository, OrderDomainService orderDomainService)
+        public GetOrderQueryHandler(ICacheService cacheService, IOrderReadService ordersReadService)
         {
             _cacheService = cacheService;
-            _orderRepository = orderRepository;
-            _orderDomainService = orderDomainService;
+            _ordersReadService = ordersReadService;
         }
 
         /// <summary>
@@ -35,12 +32,10 @@ namespace CA.And.DDD.Template.Application.Order.GetOrder
                 return;
             }
 
-            var id = new OrderId(query.Message.Id);
-            var order = await _orderRepository.GetOrderById(id);
-            await _orderDomainService.CalculateDiscountBaseOnLast31DaysSpendingAsync(order);
+            var orderDto = await _ordersReadService.GetOrderById(query.Message.Id, default);
 
-            await _cacheService.SetAsync(CacheKeyBuilder.GetOrderKey(query.Message.Id), order.ToDto());
-            await query.RespondAsync(order.ToDto());
+            await _cacheService.SetAsync(CacheKeyBuilder.GetOrderKey(query.Message.Id), orderDto);
+            await query.RespondAsync(orderDto);
         }
     }
 }
