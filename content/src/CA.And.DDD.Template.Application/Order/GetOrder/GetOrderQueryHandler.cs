@@ -24,14 +24,14 @@ namespace CA.And.DDD.Template.Application.Order.GetOrder
         /// <exception cref="OrderNotFoundApplicationException"></exception>
         public async Task Consume(ConsumeContext<GetOrderQuery> query)
         {
-            var cachedOder = await _cacheService.GetAsync<OrderDto>(CacheKeyBuilder.GetOrderKey(query.Message.Id));
+            var cachedOder = await _cacheService.GetAsync<OrderDto>(CacheKeyBuilder.GetOrderKey(query.Message.Id), query.CancellationToken);
             if (cachedOder is { })
             {
                 await query.RespondAsync(cachedOder);
                 return;
             }
 
-            var orderDto = await _ordersReadService.GetOrderById(query.Message.Id, default);
+            var orderDto = await _ordersReadService.GetOrderById(query.Message.Id, query.CancellationToken);
 
             await _cacheService.SetAsync(CacheKeyBuilder.GetOrderKey(query.Message.Id), orderDto);
             await query.RespondAsync(orderDto);

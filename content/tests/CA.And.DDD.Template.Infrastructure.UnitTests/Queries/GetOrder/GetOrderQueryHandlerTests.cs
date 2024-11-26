@@ -42,7 +42,7 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
 
 
             cacheServiceMock
-                .Setup(repo => repo.GetAsync<OrderDto>(CA.And.DDD.Template.Application.Shared.CacheKeyBuilder.GetOrderKey(order.OrderId)))
+                .Setup(repo => repo.GetAsync<OrderDto>(CA.And.DDD.Template.Application.Shared.CacheKeyBuilder.GetOrderKey(order.OrderId), default))
                 .ReturnsAsync(order);
 
 
@@ -59,7 +59,7 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
             Assert.True(await harness.Sent.Any<OrderDto>());
             Assert.Equal(response.Message.OrderId, order.OrderId);
             Assert.Equal(response.Message.OrderItems, order.OrderItems);
-            cacheServiceMock.Verify(repo => repo.GetAsync<OrderDto>(It.IsAny<string>()), Times.Exactly(1));
+            cacheServiceMock.Verify(repo => repo.GetAsync<OrderDto>(It.IsAny<string>(), default), Times.Exactly(1));
             orderReporistoryMock.Verify(repo => repo.GetOrderById(new OrderId(order.OrderId), default), Times.Exactly(0));
 
         }

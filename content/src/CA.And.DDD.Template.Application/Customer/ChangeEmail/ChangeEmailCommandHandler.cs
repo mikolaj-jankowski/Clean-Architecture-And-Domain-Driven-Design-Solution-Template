@@ -20,7 +20,7 @@ public sealed class ChangeEmailCommandHandler : IConsumer<ChangeEmailCommand>
     public async Task Consume(ConsumeContext<ChangeEmailCommand> command)
     {
         var (oldEmail, newEmail) = command.Message;
-        var customer = await _customerRespository.GetAsync(oldEmail);
+        var customer = await _customerRespository.GetAsync(oldEmail, command.CancellationToken);
 
         if (customer == null)
         {

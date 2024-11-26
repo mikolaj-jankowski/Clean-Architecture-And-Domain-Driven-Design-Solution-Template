@@ -28,7 +28,7 @@ public sealed class CreateCustomerCommandHandler : IConsumer<CreateCustomerComma
             new Email(email),
             new Address(street, houseNumber, flatNumber, country, postalCode));
 
-        await _customerRespository.AddAsync(customer);
+        await _customerRespository.AddAsync(customer, command.CancellationToken);
         await command.RespondAsync<CustomerDto>(new CustomerDto(customer.CustomerId.Value, customer.FullName.Value, customer.Age.Value, customer.Email.Value));
 
         _logger.LogInformation("Created a customer: {FullName}, {Email}", command.Message.FullName, command.Message.Email);

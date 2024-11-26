@@ -20,7 +20,7 @@ public sealed class VerifyEmailCommandHandler : IConsumer<VerifyEmailCommand>
     public async Task Consume(ConsumeContext<VerifyEmailCommand> command)
     {
         var email = command.Message.Email;
-        var customer = await _customerRespository.GetAsync(email);
+        var customer = await _customerRespository.GetAsync(email, command.CancellationToken);
 
         if (customer == null)
         {

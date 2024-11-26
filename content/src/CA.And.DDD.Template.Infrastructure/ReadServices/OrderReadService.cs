@@ -46,7 +46,7 @@ namespace CA.And.DDD.Template.Infrastructure.ReadServices
                 .Where(o => (Guid)o.CustomerId == customerId)
                 .Select(o =>
                 new BrowseOrderDto(o.OrderId.Value))
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             return new BrowseOrdersDto(orderDtos);
         }

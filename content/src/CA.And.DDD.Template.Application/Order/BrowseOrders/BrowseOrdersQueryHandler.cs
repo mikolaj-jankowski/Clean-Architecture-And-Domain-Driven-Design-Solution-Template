@@ -13,7 +13,7 @@ namespace CA.And.DDD.Template.Application.Order.BrowseOrders
         }
         public async Task Consume(ConsumeContext<BrowseOrdersQuery> query)
         {
-            var orders = await _ordersReadService.BrowseOrders(query.Message.CustomerId, default);
+            var orders = await _ordersReadService.BrowseOrders(query.Message.CustomerId, query.CancellationToken);
 
             await query.RespondAsync(orders);
         }

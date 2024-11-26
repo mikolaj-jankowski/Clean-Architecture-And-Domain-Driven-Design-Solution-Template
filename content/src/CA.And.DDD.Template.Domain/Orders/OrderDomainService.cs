@@ -11,7 +11,7 @@ namespace CA.And.DDD.Template.Domain.Orders
             _orderRepository = orderRepository;
         }
 
-        public async Task CalculateDiscountBaseOnLast31DaysSpendingAsync(Order order)
+        public async Task CalculateDiscountBaseOnLast31DaysSpendingAsync(Order order, CancellationToken cancellationToken)
         {
             var anyOtherDiscountWasNotApplied = order.Discount is null;
             if (order.OrderItems.Any() && anyOtherDiscountWasNotApplied) 

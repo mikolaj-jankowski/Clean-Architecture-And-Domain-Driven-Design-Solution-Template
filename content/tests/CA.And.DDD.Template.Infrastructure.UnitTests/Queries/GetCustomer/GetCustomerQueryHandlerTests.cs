@@ -49,7 +49,7 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
             var expectedCustomer = new CustomerDto(Guid.NewGuid(), "Mikolaj Jankowski", 35, "mikolaj.jankowski@somedomain.com");
 
             _cacheServiceMock
-                .Setup(repo => repo.GetAsync<CustomerDto>(CA.And.DDD.Template.Application.Shared.CacheKeyBuilder.GetCustomerKey(expectedCustomer.Email)))
+                .Setup(repo => repo.GetAsync<CustomerDto>(CA.And.DDD.Template.Application.Shared.CacheKeyBuilder.GetCustomerKey(expectedCustomer.Email), default))
                 .ReturnsAsync(expectedCustomer);
 
             await harness.Start();
@@ -63,7 +63,7 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
 
             //Assert
             Assert.True(await harness.Sent.Any<CustomerDto>());
-            _cacheServiceMock.Verify(repo => repo.GetAsync<CustomerDto>(It.IsAny<string>()), Times.Exactly(1));
+            _cacheServiceMock.Verify(repo => repo.GetAsync<CustomerDto>(It.IsAny<string>(), default), Times.Exactly(1));
             _customerRepository.Verify(repo => repo.GetAsync(It.IsAny<string>(), default), Times.Exactly(0));
 
             Assert.Equal(response.Message, expectedCustomer);
@@ -80,7 +80,7 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
             var harness = _provider.GetRequiredService<ITestHarness>();
 
             _cacheServiceMock
-                .Setup(repo => repo.GetAsync<CustomerDto?>(CA.And.DDD.Template.Application.Shared.CacheKeyBuilder.GetCustomerKey(_customer.Email.Value)))
+                .Setup(repo => repo.GetAsync<CustomerDto?>(CA.And.DDD.Template.Application.Shared.CacheKeyBuilder.GetCustomerKey(_customer.Email.Value), default))
                 .ReturnsAsync((CustomerDto?)null);
 
             _customerRepository
@@ -96,7 +96,7 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
 
             //Assert
             Assert.True(await harness.Sent.Any<CustomerDto>());
-            _cacheServiceMock.Verify(repo => repo.GetAsync<CustomerDto>(It.IsAny<string>()), Times.Exactly(1));
+            _cacheServiceMock.Verify(repo => repo.GetAsync<CustomerDto>(It.IsAny<string>(), default), Times.Exactly(1));
             _customerRepository.Verify(repo => repo.GetAsync(It.IsAny<string>(), default), Times.Exactly(1));
             Assert.Equal(response.Message, _customer.ToDto());
 

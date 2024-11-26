@@ -1,5 +1,4 @@
-﻿using CA.And.DDD.Template.Application.Customer.Shared;
-using CA.And.DDD.Template.Application.Shared;
+﻿using CA.And.DDD.Template.Application.Shared;
 using CA.And.DDD.Template.Infrastructure.Settings;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
@@ -19,7 +18,7 @@ namespace CA.And.DDD.Template.Infrastructure.Shared
             _distributedCache = distributedCache;
             _appSettings = appSettings;
         }
-        public async Task<T?> GetAsync<T>(string key)
+        public async Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken)
         {
             var cachedValue = await _distributedCache.GetStringAsync(key);
             if(string.IsNullOrEmpty(cachedValue))
@@ -30,7 +29,7 @@ namespace CA.And.DDD.Template.Infrastructure.Shared
             return customerDto;
         }
 
-        public async Task SetAsync<T>(string key, T value, int expirationTimeSeconds = default)
+        public async Task SetAsync<T>(string key, T value, int expirationTimeSeconds = default, CancellationToken cancellationToken = default)
         {
             if(expirationTimeSeconds == default)
             {
@@ -43,13 +42,13 @@ namespace CA.And.DDD.Template.Infrastructure.Shared
             await _distributedCache.SetStringAsync(key, JsonConvert.SerializeObject(value), cacheOptions);
         }
 
-        public async Task RemoveAsync(string key)
+        public async Task RemoveAsync(string key, CancellationToken cancellationToken)
             => await _distributedCache.RemoveAsync(key);
 
-        public async Task ReplaceAsync<T>(string key, T value)
+        public async Task ReplaceAsync<T>(string key, T value, int expirationTimeSeconds, CancellationToken cancellationToken)
         {
-            await RemoveAsync(key);
-            await SetAsync(key, value);
+            await RemoveAsync(key, cancellationToken);
+            await SetAsync(key, value, expirationTimeSeconds, cancellationToken);
         }
     }
 }

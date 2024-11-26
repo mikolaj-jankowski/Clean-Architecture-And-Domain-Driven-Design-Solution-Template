@@ -29,7 +29,7 @@ namespace CA.And.DDD.Template.Application.Order.CreateOrder
 
         public async Task Consume(ConsumeContext<CreateOrderCommand> command)
         {
-            var orderTotalLast31Days = await _orderRepository.GetTotalSpentInLast31DaysAsync(command.Message.CustomerId);
+            var orderTotalLast31Days = await _orderRepository.GetTotalSpentInLast31DaysAsync(command.Message.CustomerId, command.CancellationToken);
 
             var order = Domain.Orders.Order.Create(
                 new CustomerId(command.Message.CustomerId),
@@ -41,8 +41,8 @@ namespace CA.And.DDD.Template.Application.Order.CreateOrder
                 order.AddOrderItem(product.ProductId, product.ProductName, product.Price, product.Currency, product.Quantity);
             }
 
-            await _orderDomainService.CalculateDiscountBaseOnLast31DaysSpendingAsync(order);
-            await _orderRepository.AddAsync(order);
+            await _orderDomainService.CalculateDiscountBaseOnLast31DaysSpendingAsync(order, command.CancellationToken);
+            await _orderRepository.AddAsync(order, command.CancellationToken);
 
             //await command.RespondAsync<OrderDto>(order.ToDto());
 
