@@ -1,6 +1,6 @@
 ﻿using CA.And.DDD.Template.Domain.Orders;
 
-namespace CA.And.DDD.Template.Application.Order.Shared
+namespace CA.And.DDD.Template.Application.Order.GetOrder
 {
     public sealed record OrderDto(Guid OrderId, List<OrderItemDto> OrderItems, decimal TotalAmount, string Currency);
 

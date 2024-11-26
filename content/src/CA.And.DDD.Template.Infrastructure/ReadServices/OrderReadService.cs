@@ -1,5 +1,5 @@
 ﻿using CA.And.DDD.Template.Application.Order.BrowseOrders;
-using CA.And.DDD.Template.Application.Order.Shared;
+using CA.And.DDD.Template.Application.Order.GetOrder;
 using CA.And.DDD.Template.Infrastructure.Exceptions;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using Microsoft.EntityFrameworkCore;

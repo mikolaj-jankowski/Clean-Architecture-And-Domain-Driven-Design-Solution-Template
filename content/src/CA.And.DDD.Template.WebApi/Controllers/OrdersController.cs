@@ -1,7 +1,6 @@
 using CA.And.DDD.Template.Application.Order.BrowseOrders;
 using CA.And.DDD.Template.Application.Order.CreateOrder;
 using CA.And.DDD.Template.Application.Order.GetOrder;
-using CA.And.DDD.Template.Application.Order.Shared;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

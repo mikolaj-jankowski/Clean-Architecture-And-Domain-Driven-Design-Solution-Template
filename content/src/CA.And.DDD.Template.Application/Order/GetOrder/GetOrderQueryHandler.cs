@@ -1,5 +1,4 @@
-﻿using CA.And.DDD.Template.Application.Order.Shared;
-using CA.And.DDD.Template.Application.Shared;
+﻿using CA.And.DDD.Template.Application.Shared;
 using MassTransit;
 
 namespace CA.And.DDD.Template.Application.Order.GetOrder

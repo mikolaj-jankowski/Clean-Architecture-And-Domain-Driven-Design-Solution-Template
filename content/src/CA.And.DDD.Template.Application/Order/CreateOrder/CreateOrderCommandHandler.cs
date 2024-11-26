@@ -1,5 +1,4 @@
-﻿using CA.And.DDD.Template.Application.Order.Shared;
-using CA.And.DDD.Template.Domain;
+﻿using CA.And.DDD.Template.Domain;
 using CA.And.DDD.Template.Domain.Customers;
 using CA.And.DDD.Template.Domain.Orders;
 using MassTransit;
@@ -45,7 +44,7 @@ namespace CA.And.DDD.Template.Application.Order.CreateOrder
             await _orderDomainService.CalculateDiscountBaseOnLast31DaysSpendingAsync(order);
             await _orderRepository.AddAsync(order);
 
-            await command.RespondAsync<OrderDto>(order.ToDto());
+            //await command.RespondAsync<OrderDto>(order.ToDto());
 
             _logger.LogInformation("Created an order: {OrderId} ", order.OrderId);
         }

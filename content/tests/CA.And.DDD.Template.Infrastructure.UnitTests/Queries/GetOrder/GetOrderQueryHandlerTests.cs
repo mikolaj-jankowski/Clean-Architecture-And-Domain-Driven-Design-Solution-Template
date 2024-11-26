@@ -1,5 +1,4 @@
 ﻿using CA.And.DDD.Template.Application.Order.GetOrder;
-using CA.And.DDD.Template.Application.Order.Shared;
 using CA.And.DDD.Template.Application.Shared;
 using CA.And.DDD.Template.Domain.Customers;
 using CA.And.DDD.Template.Domain.Orders;

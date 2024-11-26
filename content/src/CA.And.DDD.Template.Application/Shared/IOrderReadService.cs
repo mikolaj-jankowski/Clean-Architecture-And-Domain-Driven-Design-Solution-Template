@@ -1,5 +1,5 @@
 ﻿using CA.And.DDD.Template.Application.Order.BrowseOrders;
-using CA.And.DDD.Template.Application.Order.Shared;
+using CA.And.DDD.Template.Application.Order.GetOrder;
 
 namespace CA.And.DDD.Template.Application.Shared
 {
