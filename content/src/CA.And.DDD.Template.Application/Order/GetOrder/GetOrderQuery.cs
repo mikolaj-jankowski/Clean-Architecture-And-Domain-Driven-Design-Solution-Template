@@ -1,4 +1,4 @@
 ﻿namespace CA.And.DDD.Template.Application.Order.GetOrder
 {
-    public sealed record GetOrderQuery(Guid Id);
+    public sealed record GetOrderQuery(Guid OrderId);
 }

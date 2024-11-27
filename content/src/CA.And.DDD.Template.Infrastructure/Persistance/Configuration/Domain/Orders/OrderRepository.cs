@@ -31,7 +31,7 @@ namespace CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Or
 
             if (order is null)
             {
-                throw new NotFoundException(orderId.Value.ToString());
+                throw new NotFoundException(orderId.Value);
             }
 
             return order;

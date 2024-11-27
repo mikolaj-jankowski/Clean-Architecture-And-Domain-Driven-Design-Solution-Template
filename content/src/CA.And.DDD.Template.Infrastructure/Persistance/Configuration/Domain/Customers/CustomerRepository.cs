@@ -16,16 +16,16 @@ namespace CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Cu
         public async Task AddAsync(Customer customer, CancellationToken cancellationToken = default)
             => await _appDbContext.AddAsync(customer, cancellationToken);
 
-        public async Task<Customer?> GetAsync(string email, CancellationToken cancellationToken = default)
+        public async Task<Customer?> GetAsync(Guid customerId, CancellationToken cancellationToken = default)
         {
             var customer = await _appDbContext
-               .Customers
-               .Where(x => ((string)x.Email)
-               .Contains(email)).SingleOrDefaultAsync(cancellationToken);
+            .Customers
+            .Where(x => ((Guid)x.CustomerId) == customerId)
+            .SingleOrDefaultAsync(cancellationToken);
 
             if (customer is null)
             {
-                throw new NotFoundException(email);
+                throw new NotFoundException(customerId);
             }
 
             return customer;

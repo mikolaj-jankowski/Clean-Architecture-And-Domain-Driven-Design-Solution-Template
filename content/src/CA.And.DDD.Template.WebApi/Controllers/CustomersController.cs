@@ -3,6 +3,7 @@ using CA.And.DDD.Template.Application.Customer.CreateCustomer;
 using CA.And.DDD.Template.Application.Customer.GetCustomer;
 using CA.And.DDD.Template.Application.Customer.Shared;
 using CA.And.DDD.Template.Application.Customer.VerifyEmail;
+using CA.And.DDD.Template.Application.Order.CreateOrder;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -19,11 +20,11 @@ namespace CA.And.DDD.Template.WebApi.Controllers
         public CustomersController(IMediator mediator)
             => _mediator = mediator;
 
-        [HttpGet]
+        [HttpGet("{customerId}")]
         [SwaggerOperation(Summary = "Retrieves customer data")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetCustomer([FromQuery] GetCustomerQuery query)
+        public async Task<IActionResult> GetCustomer([FromRoute] GetCustomerQuery query)
         {
             var client = _mediator.CreateRequestClient<GetCustomerQuery>();
             var response = await client.GetResponse<CustomerDto>(query);
@@ -32,12 +33,12 @@ namespace CA.And.DDD.Template.WebApi.Controllers
 
         [HttpPost()]
         [SwaggerOperation(Summary = "Creates a new customer")]
-        [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateCustomer(CreateCustomerCommand command)
         {
             var client = _mediator.CreateRequestClient<CreateCustomerCommand>();
-            var customer = await client.GetResponse<CustomerDto>(command);
-            return CreatedAtAction(nameof(GetCustomer), new GetCustomerQuery(customer.Message.Email), customer);
+            var response = await client.GetResponse<CreateCustomerCommandResponse>(command);
+            return CreatedAtAction(nameof(GetCustomer), new { customerId = response.Message.Id }, response.Message);
         }
 
         [HttpPost("change-email")]

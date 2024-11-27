@@ -25,17 +25,17 @@ namespace CA.And.DDD.Template.Application.Customer.GetCustomer
         /// <exception cref="CustomerNotFoundApplicationException"></exception>
         public async Task Consume(ConsumeContext<GetCustomerQuery> query)
         {
-            var cachedCustomerDto = await _cacheService.GetAsync<CustomerDto>(CacheKeyBuilder.GetCustomerKey(query.Message.Email), query.CancellationToken);
+            var cachedCustomerDto = await _cacheService.GetAsync<CustomerDto>(CacheKeyBuilder.GetCustomerKey(query.Message.CustomerId), query.CancellationToken);
             if (cachedCustomerDto is { })
             {
                 await query.RespondAsync(cachedCustomerDto);
                 return;
             }
 
-            var email = query.Message.Email;
-            var customerDto = await _customerReadService.GetCustomerByEamil(email, query.CancellationToken);
+            var customerId = query.Message.CustomerId;
+            var customerDto = await _customerReadService.GetCustomerById(customerId, query.CancellationToken);
 
-            await _cacheService.SetAsync(CacheKeyBuilder.GetCustomerKey(query.Message.Email), customerDto);
+            await _cacheService.SetAsync(CacheKeyBuilder.GetCustomerKey(customerId), customerDto);
             await query.RespondAsync(customerDto);
         }
     }

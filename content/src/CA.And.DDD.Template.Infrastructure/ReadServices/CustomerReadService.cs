@@ -1,4 +1,5 @@
 ﻿using CA.And.DDD.Template.Application.Customer.Shared;
+using CA.And.DDD.Template.Domain.Customers;
 using CA.And.DDD.Template.Infrastructure.Exceptions;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using Microsoft.EntityFrameworkCore;
@@ -22,17 +23,17 @@ namespace CA.And.DDD.Template.Infrastructure
                 .AsNoTracking();
         }
 
-        public async Task<CustomerDto> GetCustomerByEamil(string email, CancellationToken cancellationToken)
+        public async Task<CustomerDto> GetCustomerById(Guid customerId, CancellationToken cancellationToken)
         {
             var customer = await _dbContext.Customers
-                .TagWith(nameof(GetCustomerByEamil))
+                .TagWithCallSite()
                 .AsSplitQuery()
-                .Where(x => ((string)x.Email) == email)
+                .Where(o => (Guid)o.CustomerId == customerId)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (customer is null)
             {
-                throw new NotFoundException(email);
+                throw new NotFoundException(customerId);
             }
 
             return customer.ToDto();

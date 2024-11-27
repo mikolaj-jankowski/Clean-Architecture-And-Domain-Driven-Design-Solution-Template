@@ -20,11 +20,11 @@ public sealed class ChangeEmailCommandHandler : IConsumer<ChangeEmailCommand>
     public async Task Consume(ConsumeContext<ChangeEmailCommand> command)
     {
         var (oldEmail, newEmail) = command.Message;
-        var customer = await _customerRespository.GetAsync(oldEmail, command.CancellationToken);
+        var customer = await _customerRespository.GetAsync(command.Message.CustomerId, command.CancellationToken);
 
         if (customer == null)
         {
-            throw new CustomerNotFoundApplicationException(oldEmail);
+            throw new CustomerNotFoundApplicationException(command.Message.CustomerId);
         }
 
         customer.ChangeEmail(new Email(newEmail));

@@ -17,11 +17,12 @@ namespace CA.And.DDD.Template.WebApi.Controllers
         public OrdersController(IMediator mediator)
             => _mediator = mediator;
 
-        [HttpGet]
+
+        [HttpGet("{orderId}")]
         [SwaggerOperation(Summary = "Retrieves an order")]
         [ProducesResponseType(typeof(OrderDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetOrder([FromQuery] GetOrderQuery query)
+        public async Task<IActionResult> GetOrder([FromRoute] GetOrderQuery query)
         {
             var client = _mediator.CreateRequestClient<GetOrderQuery>();
             var response = await client.GetResponse<OrderDto>(query);
@@ -40,12 +41,12 @@ namespace CA.And.DDD.Template.WebApi.Controllers
 
         [HttpPost()]
         [SwaggerOperation(Summary = "Creates a new order")]
-        [ProducesResponseType(typeof(OrderDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CreateOrderCommandResponse), StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateOrder(CreateOrderCommand command)
         {
             var client = _mediator.CreateRequestClient<CreateOrderCommand>();
-            var order = await client.GetResponse<OrderDto>(command);
-            return CreatedAtAction(nameof(GetOrder), new GetOrderQuery(order.Message.OrderId), order);
+            var response = await client.GetResponse<CreateOrderCommandResponse>(command);
+            return CreatedAtAction(nameof(GetOrder), new { orderId = response.Message.OrderId }, response.Message);
         }
     }
 }

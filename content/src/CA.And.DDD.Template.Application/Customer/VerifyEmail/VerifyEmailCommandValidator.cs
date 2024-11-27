@@ -6,7 +6,7 @@ namespace CA.And.DDD.Template.Application.Customer.VerifyEmail
     {
         public VerifyEmailCommandValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().MaximumLength(400);
+            RuleFor(x => x.CustomerId).NotEmpty();
         }
     }
 }

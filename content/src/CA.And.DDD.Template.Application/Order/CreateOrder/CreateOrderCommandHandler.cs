@@ -44,7 +44,7 @@ namespace CA.And.DDD.Template.Application.Order.CreateOrder
             await _orderDomainService.CalculateDiscountBaseOnLast31DaysSpendingAsync(order, command.CancellationToken);
             await _orderRepository.AddAsync(order, command.CancellationToken);
 
-            //await command.RespondAsync<OrderDto>(order.ToDto());
+            await command.RespondAsync<CreateOrderCommandResponse>(new CreateOrderCommandResponse(order.OrderId.Value));
 
             _logger.LogInformation("Created an order: {OrderId} ", order.OrderId);
         }

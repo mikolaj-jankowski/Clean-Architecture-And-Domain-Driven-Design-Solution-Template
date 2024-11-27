@@ -38,12 +38,12 @@ namespace CA.And.DDD.Template.Application.UnitTests.Customer.CreateCustomerTests
 
 
             var client = harness.GetRequestClient<CreateCustomerCommand>();
-            var response = client.GetResponse<CustomerDto>(command);
+            var response = client.GetResponse<CreateCustomerCommandResponse>(command);
 
-            Assert.Equal(email, response.Result.Message.Email);
-            Assert.True(await harness.Sent.Any<CustomerDto>());
+            Assert.NotEqual(Guid.Empty, response.Result.Message.Id);
+            Assert.True(await harness.Sent.Any<CreateCustomerCommandResponse>());
             Assert.True(await harness.Consumed.Any<CreateCustomerCommand>());
-            mockCustomerRepository.Verify(repo => repo.AddAsync(It.IsAny<Domain.Customers.Customer>(), default), Times.Exactly(1));
+            mockCustomerRepository.Verify(repo => repo.AddAsync(It.IsAny<Domain.Customers.Customer>(), It.IsAny<CancellationToken>()), Times.Exactly(1));
 
         }
     }

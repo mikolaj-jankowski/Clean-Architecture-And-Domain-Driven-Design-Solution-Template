@@ -19,22 +19,22 @@ public sealed class VerifyEmailCommandHandler : IConsumer<VerifyEmailCommand>
 
     public async Task Consume(ConsumeContext<VerifyEmailCommand> command)
     {
-        var email = command.Message.Email;
-        var customer = await _customerRespository.GetAsync(email, command.CancellationToken);
+        var customerId = command.Message.CustomerId;
+        var customer = await _customerRespository.GetAsync(customerId, command.CancellationToken);
 
         if (customer == null)
         {
-            throw new CustomerNotFoundApplicationException(email);
+            throw new CustomerNotFoundApplicationException(customerId);
         }
 
         if (customer.IsEmailVerified)
         {
-            throw new EmailAlreadyVerifiedApplicationException(email);
+            throw new EmailAlreadyVerifiedApplicationException(customer.Email.Value);
         }
 
         customer.VerifyEmailAddress();
 
-        _logger.LogInformation("Email address for customer '{email}' has been verified", email);
+        _logger.LogInformation("Email address for customer '{email}' has been verified", customerId);
 
     }
 

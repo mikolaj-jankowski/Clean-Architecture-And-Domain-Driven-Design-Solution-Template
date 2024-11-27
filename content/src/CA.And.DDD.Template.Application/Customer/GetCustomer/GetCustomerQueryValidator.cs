@@ -1,5 +1,4 @@
-﻿using CA.And.DDD.Template.Domain.Orders;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace CA.And.DDD.Template.Application.Customer.GetCustomer
 {
@@ -7,7 +6,7 @@ namespace CA.And.DDD.Template.Application.Customer.GetCustomer
     {
         public GetCustomerQueryValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().MaximumLength(CustomerConstants.Customer.EmailMaxLength);
+            RuleFor(x => x.CustomerId).NotEmpty();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
         {
             //Arrange
             var cacheServiceMock = new Mock<ICacheService>();
-            var orderReporistoryMock = new Mock<IOrderRepository>();
+            var orderReadService = new Mock<IOrderReadService>();
 
             await using var provider = new ServiceCollection()
             .AddMassTransitTestHarness(x =>
@@ -25,7 +25,7 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
                 x.AddConsumer<GetOrderQueryHandler>();
 
             })
-            .AddScoped<IOrderRepository>(_ => orderReporistoryMock.Object) 
+            .AddScoped<IOrderReadService>(_ => orderReadService.Object) 
             .AddScoped<OrderDomainService>() 
             .AddSingleton<ICacheService>(cacheServiceMock.Object)
             .AddDbContext<IAppDbContext, AppDbContext>()
@@ -42,7 +42,7 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
 
 
             cacheServiceMock
-                .Setup(repo => repo.GetAsync<OrderDto>(CA.And.DDD.Template.Application.Shared.CacheKeyBuilder.GetOrderKey(order.OrderId), default))
+                .Setup(repo => repo.GetAsync<OrderDto>(CA.And.DDD.Template.Application.Shared.CacheKeyBuilder.GetOrderKey(order.OrderId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(order);
 
 
@@ -59,8 +59,8 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
             Assert.True(await harness.Sent.Any<OrderDto>());
             Assert.Equal(response.Message.OrderId, order.OrderId);
             Assert.Equal(response.Message.OrderItems, order.OrderItems);
-            cacheServiceMock.Verify(repo => repo.GetAsync<OrderDto>(It.IsAny<string>(), default), Times.Exactly(1));
-            orderReporistoryMock.Verify(repo => repo.GetOrderById(new OrderId(order.OrderId), default), Times.Exactly(0));
+            cacheServiceMock.Verify(repo => repo.GetAsync<OrderDto>(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Exactly(1));
+            orderReadService.Verify(repo => repo.GetOrderById(order.OrderId, It.IsAny<CancellationToken>()), Times.Exactly(0));
 
         }
     }

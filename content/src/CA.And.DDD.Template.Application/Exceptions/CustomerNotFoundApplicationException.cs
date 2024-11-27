@@ -2,8 +2,8 @@
 {
     public class CustomerNotFoundApplicationException : ApplicationException
     {
-        public CustomerNotFoundApplicationException(string email) 
-            : base($"Customer with email '{email}' has not been found")
+        public CustomerNotFoundApplicationException(Guid id) 
+            : base($"Customer of id: '{id}' has not been found")
         {
         }
     }

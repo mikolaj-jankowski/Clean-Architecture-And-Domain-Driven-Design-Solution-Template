@@ -6,7 +6,7 @@ namespace CA.And.DDD.Template.Application.Order.GetOrder
     {
         public GetOrderQueryValidator()
         {
-            RuleFor(x => x.Id).NotEmpty();
+            RuleFor(x => x.OrderId).NotEmpty();
         }
     }
 }

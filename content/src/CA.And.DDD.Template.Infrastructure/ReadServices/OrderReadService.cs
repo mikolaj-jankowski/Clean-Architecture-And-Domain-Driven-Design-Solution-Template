@@ -33,7 +33,7 @@ namespace CA.And.DDD.Template.Infrastructure.ReadServices
 
             if (order is null)
             {
-                throw new NotFoundException(orderId.ToString());
+                throw new NotFoundException(orderId);
             }
 
             return order.ToDto();

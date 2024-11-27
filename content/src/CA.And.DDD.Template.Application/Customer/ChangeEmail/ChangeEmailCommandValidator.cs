@@ -7,7 +7,7 @@ namespace CA.And.DDD.Template.Application.Customer.ChangeEmail
     {
         public ChangeEmailCommandValidator()
         {
-            RuleFor(x => x.OldEmail).NotEmpty().MaximumLength(CustomerConstants.Customer.EmailMaxLength);
+            RuleFor(x => x.CustomerId).NotEmpty();
             RuleFor(x => x.NewEmail).NotEmpty().MaximumLength(CustomerConstants.Customer.EmailMaxLength);
         }
     }
