@@ -1,7 +1,7 @@
 @apiUrl = http://localhost:5008/api
-@customerId = C69903F5-E6FF-4B85-9CA2-7C95C17A82B8
-@orderId = C69903F5-E6FF-4B85-9CA2-7C95C17A82B8
-@customerEmail = my@email.com
+@customerId = fc536a05-01e8-4897-a24b-833ea7d359f3
+@orderId = d1c7af59-4be3-4a75-b9af-a808ef0fb637
+@customerEmail = 211x21ss12@email.com
 
 ### Create a customer
 POST {{apiUrl}}/customers
@@ -31,19 +31,23 @@ Content-Type: application/json
     {
       "productId": 1,
       "productName": "Bike",
-      "price": 100,
+      "price": 1450,
       "currency": "USD",
-      "quantity": 2
+      "quantity": 3
     }
   ]
 }
 
 ### Get customer
-GET {{apiUrl}}/customers?Email={{customerEmail}}
+GET {{apiUrl}}/customers/{{customerEmail}}
 Content-Type: application/json; charset=utf-8
 
 ### Get order
-GET {{apiUrl}}/orders?Id={{orderId}}
+GET {{apiUrl}}/orders/{{orderId}}
+Content-Type: application/json; charset=utf-8
+
+### Browse orders
+GET {{apiUrl}}/orders/by-customer/{{customerId}}
 Content-Type: application/json; charset=utf-8
 
 ### Change e-mail
