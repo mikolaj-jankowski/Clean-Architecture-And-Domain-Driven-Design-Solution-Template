@@ -1,7 +1,6 @@
 ﻿using CA.And.DDD.Template.Application.Customer.GetCustomer;
 using CA.And.DDD.Template.Application.Customer.Shared;
 using CA.And.DDD.Template.Application.Shared;
-using CA.And.DDD.Template.Domain.Customers;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using MassTransit;
 using MassTransit.Testing;

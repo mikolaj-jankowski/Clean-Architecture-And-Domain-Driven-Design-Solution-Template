@@ -35,7 +35,7 @@ namespace CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Or
             }
 
             return order;
-         }
+        }
 
         public async Task<decimal> GetTotalSpentInLast31DaysAsync(Guid customerId, CancellationToken cancellationToken = default)
         {

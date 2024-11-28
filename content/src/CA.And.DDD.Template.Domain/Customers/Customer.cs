@@ -8,10 +8,10 @@ namespace CA.And.DDD.Template.Domain.Customers
         public FullName FullName { get; private set; }
         public Age Age { get; private set; }
         public Email Email { get; private set; }
-        public bool IsEmailVerified {  get; private set; }
-        public Address Address {  get; private set; }
+        public bool IsEmailVerified { get; private set; }
+        public Address Address { get; private set; }
 
-        private Customer() {}
+        private Customer() { }
 
         private Customer(CustomerId customerId, FullName fullName, Age age, Email email, Address address)
         {
@@ -29,9 +29,9 @@ namespace CA.And.DDD.Template.Domain.Customers
             return new Customer(customerId, fullName, age, email, address);
         }
 
-        public void ChangeEmail(Email email) 
+        public void ChangeEmail(Email email)
         {
-            if(Email != email)
+            if (Email != email)
             {
                 Email = email;
                 AddDomainEvent(new CustomerEmailChangedDomainEvent(this.CustomerId, email.Value, Email.Value));
@@ -40,7 +40,7 @@ namespace CA.And.DDD.Template.Domain.Customers
 
         public void VerifyEmailAddress()
         {
-            if(IsEmailVerified == false)
+            if (IsEmailVerified == false)
             {
                 IsEmailVerified = true;
             }

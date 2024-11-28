@@ -7,7 +7,7 @@ namespace CA.And.DDD.Template.Domain.Orders
         public string Street { get; private set; }
         public string PostalCode { get; private set; }
 
-        public ShippingAddress(string street, string postalCode) 
+        public ShippingAddress(string street, string postalCode)
         {
             if (string.IsNullOrWhiteSpace(street) || street.Length > OrderConstants.Order.StreetMaxLength)
                 throw new InvalidAddressDomainException(nameof(street));

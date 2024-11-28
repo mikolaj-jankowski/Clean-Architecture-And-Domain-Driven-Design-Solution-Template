@@ -22,7 +22,7 @@ namespace CA.And.DDD.Template.Application.Customer.ChangeEmail.DomainEventHandle
             // of the eventual consistency pattern.
 
             var customerDto = await _cacheService.GetAsync<CustomerDto>(CacheKeyBuilder.GetCustomerKey(context.Message.CustomerId), context.CancellationToken);
-            if(customerDto is { })
+            if (customerDto is { })
             {
                 await _cacheService.RemoveAsync(CacheKeyBuilder.GetCustomerKey(context.Message.CustomerId), context.CancellationToken);
             }

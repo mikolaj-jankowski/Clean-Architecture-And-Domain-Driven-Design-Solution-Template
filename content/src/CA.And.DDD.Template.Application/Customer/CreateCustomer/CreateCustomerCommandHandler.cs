@@ -1,5 +1,4 @@
-﻿using CA.And.DDD.Template.Application.Order.CreateOrder;
-using CA.And.DDD.Template.Domain.Customers;
+﻿using CA.And.DDD.Template.Domain.Customers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 

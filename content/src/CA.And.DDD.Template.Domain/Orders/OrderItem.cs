@@ -1,11 +1,9 @@
-﻿using System.Data.SqlTypes;
-
-namespace CA.And.DDD.Template.Domain.Orders
+﻿namespace CA.And.DDD.Template.Domain.Orders
 {
     public class OrderItem
     {
-        public OrderItemId OrderItemId { get; private set; } 
-        public OrderId OrderId { get; private set; } 
+        public OrderItemId OrderItemId { get; private set; }
+        public OrderId OrderId { get; private set; }
         public long ProductId { get; private set; }
         public string ProductName { get; private set; }
         public decimal Discount { get; private set; }

@@ -5,7 +5,7 @@
         public MaximumQuantityExceededDomainException()
             : base("Maximum allowed quantity has been exceeded")
         {
-            
+
         }
     }
 }

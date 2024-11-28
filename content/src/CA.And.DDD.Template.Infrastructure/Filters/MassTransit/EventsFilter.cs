@@ -1,12 +1,10 @@
-﻿using CA.And.DDD.Template.Application.Customer.CreateCustomer;
-using CA.And.DDD.Template.Application.Shared;
+﻿using CA.And.DDD.Template.Application.Shared;
 using CA.And.DDD.Template.Domain;
 using CA.And.DDD.Template.Infrastructure.Events;
 using CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using MassTransit;
 using Newtonsoft.Json;
-using System.Runtime.Intrinsics.Arm;
 
 namespace CA.And.DDD.Template.Infrastructure.Filters.MassTransit
 {
@@ -31,7 +29,7 @@ namespace CA.And.DDD.Template.Infrastructure.Filters.MassTransit
 
             var entities = _appDbContext.ChangeTracker.Entries<Entity>().Where(e => e.Entity.DomainEvents is not null && e.Entity.DomainEvents.Any());
 
-            var events = entities.SelectMany(x=>x.Entity.DomainEvents).ToList();
+            var events = entities.SelectMany(x => x.Entity.DomainEvents).ToList();
             entities.ToList().ForEach(x => x.Entity.ClearDomainEvents());
 
             foreach (var domainEvent in events)
@@ -64,15 +62,15 @@ namespace CA.And.DDD.Template.Infrastructure.Filters.MassTransit
                 var intergrationEvent = _mapperFactory
                     .GetMapper(domainEvent)
                     ?.Map(domainEvent);
-                if(intergrationEvent != null)
+                if (intergrationEvent != null)
                 {
                     integrationEvents.Add(intergrationEvent);
                 }
-                
+
             }
             return integrationEvents;
         }
     }
 
-    
+
 }

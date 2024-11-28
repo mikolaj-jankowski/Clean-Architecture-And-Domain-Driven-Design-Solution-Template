@@ -21,7 +21,7 @@ namespace CA.And.DDD.Template.Infrastructure.Shared
         public async Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken)
         {
             var cachedValue = await _distributedCache.GetStringAsync(key);
-            if(string.IsNullOrEmpty(cachedValue))
+            if (string.IsNullOrEmpty(cachedValue))
             {
                 return default(T?);
             }
@@ -31,7 +31,7 @@ namespace CA.And.DDD.Template.Infrastructure.Shared
 
         public async Task SetAsync<T>(string key, T value, int expirationTimeSeconds = default, CancellationToken cancellationToken = default)
         {
-            if(expirationTimeSeconds == default)
+            if (expirationTimeSeconds == default)
             {
                 expirationTimeSeconds = _appSettings.Value.Cache.ExpirationTimeSeconds;
             }

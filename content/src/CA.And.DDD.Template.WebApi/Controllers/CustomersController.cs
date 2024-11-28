@@ -3,7 +3,6 @@ using CA.And.DDD.Template.Application.Customer.CreateCustomer;
 using CA.And.DDD.Template.Application.Customer.GetCustomer;
 using CA.And.DDD.Template.Application.Customer.Shared;
 using CA.And.DDD.Template.Application.Customer.VerifyEmail;
-using CA.And.DDD.Template.Application.Order.CreateOrder;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

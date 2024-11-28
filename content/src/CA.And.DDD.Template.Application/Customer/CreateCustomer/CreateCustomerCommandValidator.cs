@@ -1,5 +1,4 @@
-﻿using CA.And.DDD.Template.Domain.Customers;
-using CA.And.DDD.Template.Domain.Orders;
+﻿using CA.And.DDD.Template.Domain.Orders;
 using FluentValidation;
 
 namespace CA.And.DDD.Template.Application.Customer.CreateCustomer

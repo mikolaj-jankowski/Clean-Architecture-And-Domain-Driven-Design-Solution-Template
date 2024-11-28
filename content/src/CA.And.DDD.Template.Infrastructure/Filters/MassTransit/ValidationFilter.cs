@@ -37,5 +37,5 @@ namespace CA.And.DDD.Template.Infrastructure.Filters.MassTransit
 
     }
 
-    
+
 }

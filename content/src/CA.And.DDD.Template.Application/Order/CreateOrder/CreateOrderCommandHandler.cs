@@ -17,7 +17,7 @@ namespace CA.And.DDD.Template.Application.Order.CreateOrder
         public CreateOrderCommandHandler(
             IOrderRepository orderRepository,
             ILogger<CreateOrderCommandHandler> logger,
-            IDateTimeProvider dateTimeProvider, 
+            IDateTimeProvider dateTimeProvider,
             OrderDomainService orderDomainService)
         {
             _orderRepository = orderRepository;
@@ -36,7 +36,7 @@ namespace CA.And.DDD.Template.Application.Order.CreateOrder
                 new ShippingAddress(command.Message.Street, command.Message.PostalCode),
                 _dateTimeProvider.UtcNow);
 
-            foreach(var product in command.Message.Products) 
+            foreach (var product in command.Message.Products)
             {
                 order.AddOrderItem(product.ProductId, product.ProductName, product.Price, product.Currency, product.Quantity);
             }

@@ -13,7 +13,7 @@ namespace CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Cu
             builder.Property(x => x.CustomerId).HasConversion(x => x.Value, v => new CustomerId(v));
             builder.Property(x => x.FullName).HasMaxLength(CustomerConstants.Customer.FullNameMaxLength);
             builder.Property(x => x.FullName).HasConversion(x => x.Value, v => new FullName(v));
-            builder.Property(x => x.Age).HasConversion(x => x.BirthDate, v => new Age(v));            
+            builder.Property(x => x.Age).HasConversion(x => x.BirthDate, v => new Age(v));
             builder.Property(x => x.Email).HasMaxLength(CustomerConstants.Customer.EmailMaxLength).HasConversion(x => x.Value, v => new Email(v));
             builder.HasIndex(x => x.Email).IsUnique();
             builder.Property(x => x.IsEmailVerified);

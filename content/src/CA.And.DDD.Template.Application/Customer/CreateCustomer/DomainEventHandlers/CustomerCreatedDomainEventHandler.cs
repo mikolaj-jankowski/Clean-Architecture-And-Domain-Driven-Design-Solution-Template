@@ -18,7 +18,7 @@ namespace CA.And.DDD.Template.Application.Customer.CreateCustomer.DomainEventHan
         {
             //We use Mailhog to send email's, to see them please go to: http://localhost:8025
 
-            await SendWelcomeEmail(context.Message); 
+            await SendWelcomeEmail(context.Message);
 
             // You could also include other logic here that should be part 
             // of the eventual consistency pattern.

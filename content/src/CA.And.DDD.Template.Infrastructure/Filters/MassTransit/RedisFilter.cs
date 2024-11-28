@@ -18,7 +18,7 @@ namespace CA.And.DDD.Template.Infrastructure.Filters.MassTransit
         }
         public async Task Send(ConsumeContext<T> context, IPipe<ConsumeContext<T>> next)
         {
-            await next.Send(context); 
+            await next.Send(context);
 
             var db = _multiplexer.GetDatabase();
             var ordersCounter = await db.StringGetAsync(_ordersCounterKey);

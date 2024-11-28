@@ -25,8 +25,8 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
                 x.AddConsumer<GetOrderQueryHandler>();
 
             })
-            .AddScoped<IOrderReadService>(_ => orderReadService.Object) 
-            .AddScoped<OrderDomainService>() 
+            .AddScoped<IOrderReadService>(_ => orderReadService.Object)
+            .AddScoped<OrderDomainService>()
             .AddSingleton<ICacheService>(cacheServiceMock.Object)
             .AddDbContext<IAppDbContext, AppDbContext>()
             .BuildServiceProvider(true);

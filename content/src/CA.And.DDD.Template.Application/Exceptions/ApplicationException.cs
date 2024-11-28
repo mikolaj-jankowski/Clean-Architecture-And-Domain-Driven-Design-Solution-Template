@@ -4,7 +4,7 @@
     {
         public ApplicationException(string message) : base(message)
         {
-            
+
         }
     }
 }

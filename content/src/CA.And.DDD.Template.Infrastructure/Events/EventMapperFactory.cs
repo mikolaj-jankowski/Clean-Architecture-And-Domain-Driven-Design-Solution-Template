@@ -1,5 +1,4 @@
-﻿using CA.And.DDD.Template.Application.Customer.CreateCustomer;
-using CA.And.DDD.Template.Domain;
+﻿using CA.And.DDD.Template.Domain;
 
 namespace CA.And.DDD.Template.Infrastructure.Events
 {

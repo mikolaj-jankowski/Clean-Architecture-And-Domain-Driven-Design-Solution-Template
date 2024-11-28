@@ -7,7 +7,7 @@ namespace CA.And.DDD.Template.Domain.Orders
 {
     public class Order : Entity
     {
-        public OrderId OrderId { get; private set; } 
+        public OrderId OrderId { get; private set; }
         public ShippingAddress ShippingAddress { get; private set; }
         public CustomerId CustomerId { get; private set; }
 

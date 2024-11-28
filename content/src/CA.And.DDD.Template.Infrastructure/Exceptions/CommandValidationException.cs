@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace CA.And.DDD.Template.Infrastructure.Exceptions
+﻿namespace CA.And.DDD.Template.Infrastructure.Exceptions
 {
     public class CommandValidationException : Exception
     {

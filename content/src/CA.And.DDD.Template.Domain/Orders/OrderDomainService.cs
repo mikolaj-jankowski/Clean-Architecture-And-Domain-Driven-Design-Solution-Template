@@ -14,11 +14,11 @@ namespace CA.And.DDD.Template.Domain.Orders
         public async Task CalculateDiscountBaseOnLast31DaysSpendingAsync(Order order, CancellationToken cancellationToken)
         {
             var anyOtherDiscountWasNotApplied = order.Discount is null;
-            if (order.OrderItems.Any() && anyOtherDiscountWasNotApplied) 
+            if (order.OrderItems.Any() && anyOtherDiscountWasNotApplied)
             {
                 var totalSpentMoneyInLast31Days = await _orderRepository.GetTotalSpentInLast31DaysAsync(order.CustomerId);
 
-                if(totalSpentMoneyInLast31Days > 1000)
+                if (totalSpentMoneyInLast31Days > 1000)
                 {
                     var discount = new TotalSpentMoneyInLast31DaysDiscountPolicy().CalculateDiscount(new Money(totalSpentMoneyInLast31Days));
                     if (discount > 0)

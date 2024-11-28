@@ -1,5 +1,4 @@
 ﻿using CA.And.DDD.Template.Application.Customer.CreateCustomer;
-using CA.And.DDD.Template.Application.Customer.Shared;
 using CA.And.DDD.Template.Domain.Customers;
 using CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Customers;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;

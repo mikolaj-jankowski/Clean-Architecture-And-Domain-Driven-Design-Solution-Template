@@ -1,9 +1,6 @@
-﻿using AngleSharp.Dom.Events;
-using CA.And.DDD.Template.Application.Shared;
-using CA.And.DDD.Template.Domain;
+﻿using CA.And.DDD.Template.Domain;
 using CA.And.DDD.Template.Infrastructure.Events;
 using CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Infrastructure;
-using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using CA.And.DDD.Template.Infrastructure.Settings;
 using MassTransit;
 using Microsoft.Data.SqlClient;

@@ -1,5 +1,4 @@
-﻿using CA.And.DDD.Template.Domain.Customers;
-using CA.And.DDD.Template.Domain.Customers.Exceptions;
+﻿using CA.And.DDD.Template.Domain.Customers.Exceptions;
 using System.Text.RegularExpressions;
 
 namespace CA.And.DDD.Template.Domain.Customers

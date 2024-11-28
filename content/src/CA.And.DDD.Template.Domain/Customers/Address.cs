@@ -13,9 +13,9 @@ namespace CA.And.DDD.Template.Domain.Customers
 
         public Address(string street, string houseNumber, string flatNumber, string country, string postalCode)
         {
-            if (string.IsNullOrWhiteSpace(street) ||  street.Length > CustomerConstants.Customer.StreetMaxLength)
+            if (string.IsNullOrWhiteSpace(street) || street.Length > CustomerConstants.Customer.StreetMaxLength)
                 throw new InvalidAddressDomainException(nameof(street));
-            if(string.IsNullOrWhiteSpace(postalCode) ||  postalCode.Length > CustomerConstants.Customer.PostalCodeMaxLength)
+            if (string.IsNullOrWhiteSpace(postalCode) || postalCode.Length > CustomerConstants.Customer.PostalCodeMaxLength)
                 throw new InvalidAddressDomainException(nameof(postalCode));
 
             Street = street;
