@@ -1,4 +1,4 @@
 ﻿namespace CA.And.DDD.Template.Application.Order.BrowseOrders
 {
-    public sealed record BrowseOrdersQuery(Guid CustomerId);
+    public sealed record BrowseOrdersQuery(Guid CustomerId, int PageSize, int Page);
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -93,8 +94,8 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                 name: "OrderItem",
                 columns: table => new
                 {
+                    OrderItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OrderItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ProductId = table.Column<long>(type: "bigint", nullable: false),
                     ProductName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
@@ -104,7 +105,7 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderItem", x => x.OrderId);
+                    table.PrimaryKey("PK_OrderItem", x => x.OrderItemId);
                     table.ForeignKey(
                         name: "FK_OrderItem_Orders_OrderId",
                         column: x => x.OrderId,
@@ -118,6 +119,11 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                 table: "Customers",
                 column: "Email",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItem_OrderId",
+                table: "OrderItem",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerId",

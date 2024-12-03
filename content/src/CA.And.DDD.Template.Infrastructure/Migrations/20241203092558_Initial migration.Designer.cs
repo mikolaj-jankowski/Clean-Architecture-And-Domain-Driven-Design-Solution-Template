@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CA.And.DDD.Template.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241120174301_Initial migration")]
+    [Migration("20241203092558_Initial migration")]
     partial class Initialmigration
     {
         /// <inheritdoc />
@@ -117,14 +117,14 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
 
             modelBuilder.Entity("CA.And.DDD.Template.Domain.Orders.OrderItem", b =>
                 {
-                    b.Property<Guid>("OrderId")
+                    b.Property<Guid>("OrderItemId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Discount")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid?>("OrderItemId")
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<long>("ProductId")
@@ -138,7 +138,9 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                     b.Property<long>("Quantity")
                         .HasColumnType("bigint");
 
-                    b.HasKey("OrderId");
+                    b.HasKey("OrderItemId");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("OrderItem");
                 });
@@ -315,7 +317,7 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
 
                     b.OwnsOne("CA.And.DDD.Template.Domain.Orders.Money", "Price", b1 =>
                         {
-                            b1.Property<Guid>("OrderItemOrderId")
+                            b1.Property<Guid>("OrderItemId")
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Amount")
@@ -327,12 +329,12 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
                                 .HasMaxLength(3)
                                 .HasColumnType("nvarchar(3)");
 
-                            b1.HasKey("OrderItemOrderId");
+                            b1.HasKey("OrderItemId");
 
                             b1.ToTable("OrderItem");
 
                             b1.WithOwner()
-                                .HasForeignKey("OrderItemOrderId");
+                                .HasForeignKey("OrderItemId");
                         });
 
                     b.Navigation("Price")

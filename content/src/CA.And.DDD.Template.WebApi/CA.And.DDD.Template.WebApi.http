@@ -1,7 +1,7 @@
 @apiUrl = http://localhost:5008/api
-@customerId = fc536a05-01e8-4897-a24b-833ea7d359f3
-@orderId = d1c7af59-4be3-4a75-b9af-a808ef0fb637
-@customerEmail = 211x21ss12@email.com
+@customerId = 0a9a771e-e681-4301-92c9-c6af9dcabf8b
+@orderId = cb6e2ffc-cd6a-4b83-9842-2f6b62932a18
+@customerEmail = mikjan9@email.com
 
 ### Create a customer
 POST {{apiUrl}}/customers
@@ -33,13 +33,20 @@ Content-Type: application/json
       "productName": "Bike",
       "price": 1450,
       "currency": "USD",
-      "quantity": 3
+      "quantity": 1
+    },
+    {
+      "productId": 2,
+      "productName": "Skateboard",
+      "price": 700,
+      "currency": "USD",
+      "quantity": 1
     }
   ]
 }
 
 ### Get customer
-GET {{apiUrl}}/customers/{{customerEmail}}
+GET {{apiUrl}}/customers/{{customerId}}
 Content-Type: application/json; charset=utf-8
 
 ### Get order
@@ -47,7 +54,7 @@ GET {{apiUrl}}/orders/{{orderId}}
 Content-Type: application/json; charset=utf-8
 
 ### Browse orders
-GET {{apiUrl}}/orders/by-customer/{{customerId}}
+GET {{apiUrl}}/orders/browse-orders?customerId={{customerId}}&pageSize=20&page=1
 Content-Type: application/json; charset=utf-8
 
 ### Change e-mail

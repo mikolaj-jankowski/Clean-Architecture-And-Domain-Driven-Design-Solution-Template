@@ -57,7 +57,7 @@ namespace CA.And.DDD.Template.Domain.Orders
                 throw new MaximumQuantityExceededDomainException();
             }
 
-            var orderItem = OrderItem.Create(productId, productName, price, currency, quantity);
+            var orderItem = OrderItem.Create(this.OrderId, productId, productName, price, currency, quantity);
             _orderItems.Add(orderItem);
             CalculateTotalAmount();
         }

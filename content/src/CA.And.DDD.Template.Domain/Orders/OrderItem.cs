@@ -16,14 +16,14 @@
 
         }
 
-        internal static OrderItem Create(long productId, string productName, decimal price, string currency, uint quantity)
+        internal static OrderItem Create(OrderId orderId, long productId, string productName, decimal price, string currency, uint quantity)
         {
-            return new OrderItem(productId, productName, price, currency, quantity);
+            return new OrderItem(orderId, productId, productName, price, currency, quantity);
         }
 
-        private OrderItem(long productId, string productName, decimal price, string currency, uint quantity)
+        private OrderItem(OrderId orderId, long productId, string productName, decimal price, string currency, uint quantity)
         {
-            OrderId = new OrderId(Guid.NewGuid());
+            OrderId = orderId;
             OrderItemId = new OrderItemId(Guid.NewGuid());
             ProductId = productId;
             ProductName = productName;

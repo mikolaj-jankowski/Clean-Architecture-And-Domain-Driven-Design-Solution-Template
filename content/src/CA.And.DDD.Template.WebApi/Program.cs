@@ -1,5 +1,6 @@
 using CA.And.DDD.Template.Infrastructure.Installers;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
+using Scalar.AspNetCore;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(redisConnection);
 builder.InstallTelemetry(builder.Configuration, redisConnection);
 builder.InstallMassTransit();
 builder.InstallDependencyInjectionRegistrations();
+builder.Services.AddOpenApi();
 var app = builder.Build();
 
 
@@ -29,11 +31,12 @@ using (var scope = app.Services.CreateScope())
     EntityFrameworkInstaller.SeedDatabase(appDbContext);
 };
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 

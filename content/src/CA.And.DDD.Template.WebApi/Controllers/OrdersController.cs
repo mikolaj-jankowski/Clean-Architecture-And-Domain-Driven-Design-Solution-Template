@@ -26,17 +26,17 @@ namespace CA.And.DDD.Template.WebApi.Controllers
         {
             var client = _mediator.CreateRequestClient<GetOrderQuery>();
             var response = await client.GetResponse<OrderDto>(query);
-            return Ok(response);
+            return Ok(response.Message);
         }
 
-        [HttpGet("by-customer/{customerId:guid}")]
+        [HttpGet("browse-orders")]
         [SwaggerOperation(Summary = "Browse orders")]
         [ProducesResponseType(typeof(BrowseOrdersDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> BrowseOrders([FromRoute] BrowseOrdersQuery query)
+        public async Task<IActionResult> BrowseOrders([FromQuery] BrowseOrdersQuery query)
         {
             var client = _mediator.CreateRequestClient<BrowseOrdersQuery>();
             var response = await client.GetResponse<BrowseOrdersDto>(query);
-            return Ok(response);
+            return Ok(response.Message);
         }
 
         [HttpPost()]

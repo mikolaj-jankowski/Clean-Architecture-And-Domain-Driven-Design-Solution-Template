@@ -10,7 +10,10 @@ namespace CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Or
         {
             builder.HasKey(x => x.OrderItemId);
             builder.Property(x => x.OrderItemId).HasConversion(x => x.Value, v => new OrderItemId(v));
-            builder.HasKey(x => x.OrderId);
+            builder.HasOne<Order>()
+                .WithMany(o => o.OrderItems)
+                .HasForeignKey(o => o.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
             builder.Property(x => x.ProductId);
             builder.Property(x => x.ProductName).HasMaxLength(255);
             builder.Property(x => x.Quantity);

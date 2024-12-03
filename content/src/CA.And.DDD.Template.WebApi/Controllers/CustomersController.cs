@@ -27,7 +27,7 @@ namespace CA.And.DDD.Template.WebApi.Controllers
         {
             var client = _mediator.CreateRequestClient<GetCustomerQuery>();
             var response = await client.GetResponse<CustomerDto>(query);
-            return Ok(response);
+            return Ok(response.Message);
         }
 
         [HttpPost()]
