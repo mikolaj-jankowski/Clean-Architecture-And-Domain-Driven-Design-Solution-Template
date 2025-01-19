@@ -13,7 +13,7 @@ namespace CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Or
             builder.Property(x => x.OrderId).HasConversion(x => x.Value, v => new OrderId(v));
             builder.OwnsOne(x => x.TotalAmount, price =>
             {
-                price.Property(x => x.Amount).HasPrecision(18, 2);
+                price.Property(x => x.Amount).HasPrecision(18, 2).HasColumnName("TotalAmount_Amount");
                 price.Property(x => x.Currency).HasMaxLength(OrderConstants.Order.CurrencyMaxLength);
             });
             builder.OwnsOne(x => x.Discount, price =>

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CA.And.DDD.Template.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241203092558_Initial migration")]
+    [Migration("20241203123147_Initial migration")]
     partial class Initialmigration
     {
         /// <inheritdoc />
@@ -259,7 +259,8 @@ namespace CA.And.DDD.Template.Infrastructure.Migrations
 
                             b1.Property<decimal>("Amount")
                                 .HasPrecision(18, 2)
-                                .HasColumnType("decimal(18,2)");
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("TotalAmount_Amount");
 
                             b1.Property<string>("Currency")
                                 .IsRequired()

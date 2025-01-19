@@ -24,6 +24,7 @@
     <PackageReference Include="StackExchange.Redis" Version="2.8.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.8.1" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.4.9" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CA.And.DDD.Template.Application\CA.And.DDD.Template.Application.csproj" />

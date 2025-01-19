@@ -1,4 +1,6 @@
-﻿namespace CA.And.DDD.Template.Application.Order.BrowseOrders
+﻿using CA.And.DDD.Template.Application.Shared;
+
+namespace CA.And.DDD.Template.Application.Order.BrowseOrders
 {
-    public sealed record BrowseOrdersQuery(Guid CustomerId, int PageSize, int Page);
+    public sealed record BrowseOrdersQuery(Guid CustomerId, PaginationParameters PaginationParameters);
 }

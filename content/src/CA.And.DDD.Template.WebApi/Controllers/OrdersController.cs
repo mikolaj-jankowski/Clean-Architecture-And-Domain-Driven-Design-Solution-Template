@@ -29,10 +29,10 @@ namespace CA.And.DDD.Template.WebApi.Controllers
             return Ok(response.Message);
         }
 
-        [HttpGet("browse-orders")]
+        [HttpPost("browse-orders")]
         [SwaggerOperation(Summary = "Browse orders")]
         [ProducesResponseType(typeof(BrowseOrdersDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> BrowseOrders([FromQuery] BrowseOrdersQuery query)
+        public async Task<IActionResult> BrowseOrders([FromBody] BrowseOrdersQuery query)
         {
             var client = _mediator.CreateRequestClient<BrowseOrdersQuery>();
             var response = await client.GetResponse<BrowseOrdersDto>(query);

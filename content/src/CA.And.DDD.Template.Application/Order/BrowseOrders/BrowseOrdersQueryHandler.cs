@@ -15,8 +15,7 @@ namespace CA.And.DDD.Template.Application.Order.BrowseOrders
         {
             var orders = await _ordersReadService.BrowseOrders(
                 query.Message.CustomerId,
-                query.Message.Page,
-                query.Message.PageSize,
+                query.Message.PaginationParameters,
                 query.CancellationToken);
 
             await query.RespondAsync(orders);

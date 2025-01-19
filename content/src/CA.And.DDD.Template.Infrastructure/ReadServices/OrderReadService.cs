@@ -1,9 +1,11 @@
 ﻿using CA.And.DDD.Template.Application.Order.BrowseOrders;
 using CA.And.DDD.Template.Application.Order.GetOrder;
+using CA.And.DDD.Template.Application.Shared;
 using CA.And.DDD.Template.Infrastructure.Exceptions;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 
 namespace CA.And.DDD.Template.Infrastructure.ReadServices
 {
@@ -40,30 +42,39 @@ namespace CA.And.DDD.Template.Infrastructure.ReadServices
             return order.ToDto();
         }
 
-        public async Task<BrowseOrdersDto> BrowseOrders(Guid customerId, int page, int pageSize, CancellationToken cancellationToken)
+        public async Task<BrowseOrdersDto> BrowseOrders(Guid customerId, PaginationParameters paginationParameters, CancellationToken cancellationToken)
         {
+
             var query = _dbContext.Orders.AsQueryable();
 
+            if (string.IsNullOrWhiteSpace(paginationParameters.OrderColumn))
+                query.OrderBy(x => x.OrderId);
+            else if (paginationParameters.GetOrdering.Contains("totalAmount"))
+                query = query.OrderBy(x => x.TotalAmount.Amount);
+
+
+            //TODO: Rewrite this query
             var orderDtos = await query
                 .AsNoTracking()
                 .TagWithCallSite()
                 .Where(o => (Guid)o.CustomerId == customerId)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
+                .Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize)
+                .Take(paginationParameters.PageSize)
                 .GroupBy(_ => 1)
                 .Select(g => new BrowseOrdersDto(
-                    g.OrderBy(o => o.OrderId) 
-                     .Skip((page - 1) * pageSize)
-                     .Take(pageSize)
+                     g.OrderBy(x=> x.OrderId) 
+                     .Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize)
+                     .Take(paginationParameters.PageSize)
                      .Select(order => new BrowseOrderDto(
                          order.OrderId.Value,
                          order.OrderItems.Select(oi => new BrowseProductDto(oi.ProductName, oi.Quantity)).ToList(),
                          order.TotalAmount.Amount
                      ))
                      .ToList(),
-                    g.Count() 
+                    g.Count()
                 ))
                 .FirstOrDefaultAsync(cancellationToken);
+
 
             return orderDtos;
         }
