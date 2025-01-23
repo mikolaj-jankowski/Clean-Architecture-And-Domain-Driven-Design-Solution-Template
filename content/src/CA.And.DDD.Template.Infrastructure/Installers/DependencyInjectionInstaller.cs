@@ -3,6 +3,7 @@ using CA.And.DDD.Template.Domain;
 using CA.And.DDD.Template.Domain.Customers;
 using CA.And.DDD.Template.Domain.Customers.DomainEvents;
 using CA.And.DDD.Template.Domain.Orders;
+using CA.And.DDD.Template.Infrastructure.Authentication;
 using CA.And.DDD.Template.Infrastructure.BackgroundTasks;
 using CA.And.DDD.Template.Infrastructure.Events;
 using CA.And.DDD.Template.Infrastructure.Exceptions;
@@ -47,6 +48,7 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
             builder.Services.AddScoped<OrderDomainService>();
             builder.Services.AddScoped<IOrderReadService, OrderReadService>();
             builder.Services.AddScoped<ICustomerReadService, CustomerReadService>();
+            builder.Services.AddHttpClient<IAuthenticationService, KeycloakAuthenticationService>();
 
         }
 

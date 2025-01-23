@@ -1,12 +1,14 @@
 ﻿namespace CA.And.DDD.Template.Infrastructure.Settings
 {
-    public class AppSettings
+    public record AppSettings
     {
-        public Redis Redis { get; set; }
-        public Telemetry Telemetry { get; set; }
-        public RabbitMq RabbitMq { get; set; }
-        public MsSql MsSql { get; set; }
-        public Cache Cache { get; set; }
-        public Smtp Smtp { get; set; }
+        public required Redis Redis { get; init; }
+        public required Telemetry Telemetry { get; init; }
+        public required RabbitMq RabbitMq { get; init; }
+        public required MsSql MsSql { get; init; }
+        public required Cache Cache { get; init; }
+        public required Smtp Smtp { get; init; }
+        public required Authentication Authentication { get; init; }
+        public required Cors Cors { get; init; }
     }
 }

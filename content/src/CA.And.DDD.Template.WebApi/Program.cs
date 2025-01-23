@@ -4,7 +4,7 @@ using Scalar.AspNetCore;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.InstallAuthentication();
 // Add services to the container.
 builder.InstallEntityFramework();
 builder.Services.AddControllers();
@@ -22,6 +22,8 @@ builder.InstallTelemetry(builder.Configuration, redisConnection);
 builder.InstallMassTransit();
 builder.InstallDependencyInjectionRegistrations();
 builder.Services.AddOpenApi();
+builder.InstallCors();
+
 var app = builder.Build();
 
 
@@ -39,10 +41,11 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
-
+app.UseCors(CorsInstaller.DefaultCorsPolicyName);
 app.UseHttpsRedirection();
 
-//app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
