@@ -15,7 +15,7 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
             if (appSettings != null)
             {
                 var msSqlSettings = appSettings.MsSql;
-                builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(msSqlSettings.ConnectionString));
+                builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(msSqlSettings.ConnectionString));
                 builder.Services.AddScoped<IAppDbContext>(provider => provider.GetService<AppDbContext>());
             }
         }

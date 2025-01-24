@@ -9,8 +9,8 @@ namespace CA.And.DDD.Template.Domain.Customers
         public DateTime BirthDate { get; }
         public Age(DateTime dateOfBirth)
         {
-            BirthDate = dateOfBirth;
-            Value = CalculateAge(dateOfBirth, DateTime.Now);
+            BirthDate = DateTime.SpecifyKind(dateOfBirth, DateTimeKind.Utc);
+            Value = CalculateAge(dateOfBirth, DateTime.UtcNow);
         }
 
         private static int CalculateAge(DateTime birthDate, DateTime currentDate)

@@ -22,18 +22,18 @@ services:
     networks:
       - my-network
       
-  mssql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: mssql
-    environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=Th3_P@ssw0rd-421
-    ports:
-      - "1433:1433"
-    networks:
-      - my-network
-    volumes:
-      - mssql_data:/var/opt/mssql
+  # mssql:
+    # image: mcr.microsoft.com/mssql/server:2022-latest
+    # container_name: mssql
+    # environment:
+      # - ACCEPT_EULA=Y
+      # - MSSQL_SA_PASSWORD=Th3_P@ssw0rd-421
+    # ports:
+      # - "1433:1433"
+    # networks:
+      # - my-network
+    # volumes:
+      # - mssql_data:/var/opt/mssql
       
   redis:
     image: redis:latest
@@ -105,11 +105,13 @@ services:
       POSTGRES_DB: keycloak #TODO: move it
       POSTGRES_USER: sa_user
       POSTGRES_PASSWORD: Th3_P@ssw0rd-421 
+    ports:
+      - "5432:5432"
       
 volumes:
   rabbitmq_data:
   redis_data:
-  mssql_data:
+  # mssql_data:
   postgres_data:
   
 networks:

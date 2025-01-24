@@ -32,7 +32,7 @@ namespace CA.And.DDD.Template.Infrastructure.UnitTests.Queries.GetCustomer
                 .AddMassTransitTestHarness(x => x.AddConsumer<GetCustomerQueryHandler>())
                 .AddSingleton(_cacheServiceMock.Object)
                 .AddScoped<ICustomerReadService>(_ => _customerReadService.Object)
-                .AddDbContext<IAppDbContext, AppDbContext>(options => options.UseInMemoryDatabase("TestDatabase"))
+                //.AddDbContext<IAppDbContext, AppDbContext>(options => options.UseInMemoryDatabase("TestDatabase"))
                 .BuildServiceProvider(true);
 
             _harness = _provider.GetRequiredService<ITestHarness>();

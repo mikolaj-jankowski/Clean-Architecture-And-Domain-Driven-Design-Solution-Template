@@ -26,7 +26,7 @@ namespace CA.And.DDD.Template.Application.UnitTests.Customer.CreateCustomerTests
             })
             .AddScoped<ICustomerRepository, CustomerRepository>()
             .AddScoped(_ => mockCustomerRepository.Object)
-            .AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("TestDatabase"))
+            //.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("TestDatabase"))
             .BuildServiceProvider(true);
 
             var harness = provider.GetRequiredService<ITestHarness>();

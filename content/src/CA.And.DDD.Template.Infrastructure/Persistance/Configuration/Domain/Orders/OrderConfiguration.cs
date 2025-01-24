@@ -28,7 +28,7 @@ namespace CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Or
                 shippingAddresBuilder.Property(x => x.PostalCode).HasMaxLength(OrderConstants.Order.PostalCodeMaxLength);
                 shippingAddresBuilder.Property(x => x.Street).HasMaxLength(OrderConstants.Order.StreetMaxLength);
             });
-            builder.Property(x => x.OrderDate);
+            builder.Property(x => x.OrderDate).HasColumnType("timestamp with time zone");
             builder.Property<byte[]>("Version").IsRowVersion();
         }
     }

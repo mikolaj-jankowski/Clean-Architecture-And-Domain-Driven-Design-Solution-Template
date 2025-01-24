@@ -1,11 +1,11 @@
 ﻿using CA.And.DDD.Template.Application.Shared;
 using CA.And.DDD.Template.Infrastructure.Settings;
 using MassTransit;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Npgsql;
 using System.Text.Json;
 
 namespace CA.And.DDD.Template.Infrastructure.BackgroundTasks
@@ -57,10 +57,10 @@ namespace CA.And.DDD.Template.Infrastructure.BackgroundTasks
             while (!stoppingToken.IsCancellationRequested)
             {
                 List<IntegrationEvent> integrationEvents = new List<IntegrationEvent>();
-                using (var connection = new SqlConnection(conntectionString))
+                using (var connection = new NpgsqlConnection(conntectionString))
                 {
                     await connection.OpenAsync(stoppingToken);
-                    using (var command = new SqlCommand("SELECT IntergrationEventId, OccuredAt, Type, Payload, AssemblyName FROM IntegrationEvent WHERE PublishedAt IS NULL", connection))
+                    using (var command = new NpgsqlCommand(@"SELECT ""IntergrationEventId"", ""OccuredAt"", ""Type"", ""Payload"", ""AssemblyName"" FROM public.""IntegrationEvent"" WHERE ""PublishedAt"" IS NULL", connection))
                     {
                         var reader = await command.ExecuteReaderAsync(stoppingToken);
 
@@ -82,7 +82,7 @@ namespace CA.And.DDD.Template.Infrastructure.BackgroundTasks
                         {
                             await Publish(integrationEvent);
 
-                            using (var updateCommand = new SqlCommand("UPDATE IntegrationEvent SET PublishedAt = @PublishedAt WHERE IntergrationEventId = @Id", connection))
+                            using (var updateCommand = new NpgsqlCommand(@"UPDATE public.""IntegrationEvent"" SET ""PublishedAt"" = @PublishedAt WHERE ""IntergrationEventId"" = @Id", connection))
                             {
                                 updateCommand.Parameters.AddWithValue("@PublishedAt", DateTime.UtcNow);
                                 updateCommand.Parameters.AddWithValue("@Id", integrationEvent.IntergrationEventId);
