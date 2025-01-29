@@ -2,12 +2,14 @@ using CA.And.DDD.Template.Application.Order.BrowseOrders;
 using CA.And.DDD.Template.Application.Order.CreateOrder;
 using CA.And.DDD.Template.Application.Order.GetOrder;
 using MassTransit.Mediator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CA.And.DDD.Template.WebApi.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     [SwaggerTag("Handles all operations related to orders, including creation, retrieval, updating, and deletion.")]
     public class OrdersController : ControllerBase

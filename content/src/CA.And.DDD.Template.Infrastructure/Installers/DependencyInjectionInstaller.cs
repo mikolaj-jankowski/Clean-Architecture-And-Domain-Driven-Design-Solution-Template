@@ -48,6 +48,7 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
             builder.Services.AddScoped<OrderDomainService>();
             builder.Services.AddScoped<IOrderReadService, OrderReadService>();
             builder.Services.AddScoped<ICustomerReadService, CustomerReadService>();
+            builder.Services.AddScoped<IAdminReadService, AdminReadService>();
             builder.Services.AddHttpClient<IAuthenticationService, KeycloakAuthenticationService>();
 
         }

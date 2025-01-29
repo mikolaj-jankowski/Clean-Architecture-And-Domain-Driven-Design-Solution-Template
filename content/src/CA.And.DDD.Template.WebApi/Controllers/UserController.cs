@@ -2,6 +2,7 @@ using CA.And.DDD.Template.Application.Authentication.LoginUser;
 using CA.And.DDD.Template.Application.Authentication.RefreshUserToken;
 using CA.And.DDD.Template.Application.Authentication.ReLoginCustomer;
 using MassTransit.Mediator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -10,6 +11,7 @@ namespace CA.And.DDD.Template.WebApi.Controllers
     /// <summary>
     /// API for managing user authentication and token refresh.
     /// </summary>
+    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     [SwaggerTag("User authentication and token management")]

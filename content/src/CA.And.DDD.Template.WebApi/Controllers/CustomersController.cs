@@ -4,11 +4,13 @@ using CA.And.DDD.Template.Application.Customer.GetCustomer;
 using CA.And.DDD.Template.Application.Customer.Shared;
 using CA.And.DDD.Template.Application.Customer.VerifyEmail;
 using MassTransit.Mediator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CA.And.DDD.Template.WebApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [SwaggerTag("Handles all operations related to customers, including retrieval, creation, email change, and email verification.")]
