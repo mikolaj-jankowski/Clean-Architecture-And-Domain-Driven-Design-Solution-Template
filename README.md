@@ -70,13 +70,13 @@ dotnet new ca-and-ddd -o MyDreamProject
 
 ### 1.2 Database
 
-The template uses MSSQL as a database provider. Migrations will be applied automatically during project startup, so you don't have to do anything.
+The template uses PostgreSQL as a database provider. Migrations will be applied automatically during project startup, so you don't have to do anything.
 
 ### 1.3 Docker
 
 As a result of running command from step 1.1 all files and folders will be created. Among them you will find docker-compose.yaml.
 Simply run the command 'docker-compose up' to create required containers.
-docker-compose.yaml provides instances of: MSSQL, Redis, RabbitMQ, and Aspire Dashboard. 
+docker-compose.yaml provides instances of: PostgreSQL, Redis, RabbitMQ, and Aspire Dashboard. 
 
 ### 1.4 Database migrations
 
@@ -518,7 +518,7 @@ docker cp keycloak-web:/tmp/export ./keycloak-export
 
 ## 6. Observability
 ### 6.1 Open Telemetry
-The observability of the system has been ensured through the use of OpenTelemetry. Telemetry data is sent to the Aspire Dashboard collector and visualized there. With this approach, we can check how long an HTTP request took, how much time was spent communicating with the MSSQL database, and how much with Redis. Event logs are linked to requests, making it easy to navigate between them.
+The observability of the system has been ensured through the use of OpenTelemetry. Telemetry data is sent to the Aspire Dashboard collector and visualized there. With this approach, we can check how long an HTTP request took, how much time was spent communicating with the PostgreSQL database, and how much with Redis. Event logs are linked to requests, making it easy to navigate between them.
 
 Aspire Dashboard is avaiable at: http://localhost:18888 once docker-compose has been launched.
 
@@ -781,4 +781,5 @@ Testing the application layer essentially comes down to testing handlers. Below 
 * [Open Telemetry](https://github.com/open-telemetry)
 * [FluentValidation](https://github.com/FluentValidation/FluentValidation)
 * [MailHog](https://github.com/mailhog/MailHog)
+* [KeyCloak](https://github.com/keycloak/keycloak)
 
