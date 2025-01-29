@@ -506,6 +506,28 @@ Username: user, Password: user
 
 In simple terms, all you have to do is authenticate against UserController/Login, grab the JWT token, and pass it to other HTTP requests using the Authorization header.
 
+However, if you prefer to authenticate against Keycloak instead, you can send the following request:
+
+```sh
+curl --location 'http://localhost:8080/realms/e-commerce-realm/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'client_id=e-commerce-api-resource-owner-client' \
+--data-urlencode 'username=admin' \
+--data-urlencode 'password=admin' \
+--data-urlencode 'scope=profile email offline_access e-commerce-scope'
+```
+
+and to refresh the token send:
+
+```sh
+curl --location 'http://localhost:8080/realms/e-commerce-realm/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=refresh_token' \
+--data-urlencode 'client_id=e-commerce-api-resource-owner-client' \
+--data-urlencode 'refresh_token=	PLACE 	HERE	 YOUR 	REFRESH 	TOKEN 	HERE'
+```
+
 ### 5.3 Exporting KeyCloak realm
 If you wish to persist realm-related changes in source control, as configured in this repository, you have to export these settings using the commands below:
 
