@@ -39,16 +39,20 @@ Stay updated and click Watch button, click ⭐ if you find it useful.
 - [4.5 Caching](#45-caching)
   - [4.5.1 Cache Aside pattern](#451-cache-aside-pattern)
   - [4.5.2 Cache invalidation](#452-cache-invalidation)
-- [5. Observability](#5-observability)
-  - [5.1 Open Telemetry](#51-open-telemetry)
-- [6 Design patterns implemented in this project](#6-design-patterns-implemented-in-this-project)
-  - [6.1 Mediator](#61-mediator)
-  - [6.2 Factory method](#62-factory-method)
-  - [6.3 Strategy](#63-strategy)
-- [7. Tests](#7-tests)
-  - [7.1 Domain tests](#71-domain-tests)
-  - [7.2 Application tests](#72-application-tests)
-- [8. Build with](#8-build-with)
+- [5. Authentication](#5-authentication)
+  - [5.1 Keycloak](#51-keycloak)
+  - [5.2 Communication with API](#52-communication-with-api)
+  - [5.3 Exporting KeyCloak realm](#53-exporting-keycloak-realm)
+- [6. Observability](#6-observability)
+  - [6.1 Open Telemetry](#61-open-telemetry)
+- [7 Design patterns implemented in this project](#7-design-patterns-implemented-in-this-project)
+  - [7.1 Mediator](#71-mediator)
+  - [7.2 Factory method](#72-factory-method)
+  - [7.3 Strategy](#73-strategy)
+- [8. Tests](#8-tests)
+  - [8.1 Domain tests](#81-domain-tests)
+  - [8.2 Application tests](#82-application-tests)
+- [9. Build with](#9-build-with)
 
 
 ## 1. Installation
@@ -66,13 +70,13 @@ dotnet new ca-and-ddd -o MyDreamProject
 
 ### 1.2 Database
 
-The template uses MSSQL as a database provider. Migrations will be applied automatically during project startup, so you don't have to do anything.
+The template uses PostgreSQL as a database provider. Migrations will be applied automatically during project startup, so you don't have to do anything.
 
 ### 1.3 Docker
 
 As a result of running command from step 1.1 all files and folders will be created. Among them you will find docker-compose.yaml.
 Simply run the command 'docker-compose up' to create required containers.
-docker-compose.yaml provides instances of: MSSQL, Redis, RabbitMQ, and Aspire Dashboard. 
+docker-compose.yaml provides instances of: PostgreSQL, Redis, RabbitMQ, and Aspire Dashboard. 
 
 ### 1.4 Database migrations
 
@@ -481,10 +485,40 @@ When a customer changes their email, an event called  **CustomerEmailChangedDoma
   </p>
 </details>
 
+## 5. Authentication
+### 5.1 Keycloak
+Authentication and authorization have been implemented using the Resource Owner Password Flow in Keycloak. All necessary components, such as users, roles, groups, clients, and scopes, will be automatically imported
+through a volume in docker-compose, so you do not have to do anything extra.
 
-## 5. Observability
-### 5.1 Open Telemetry
-The observability of the system has been ensured through the use of OpenTelemetry. Telemetry data is sent to the Aspire Dashboard collector and visualized there. With this approach, we can check how long an HTTP request took, how much time was spent communicating with the MSSQL database, and how much with Redis. Event logs are linked to requests, making it easy to navigate between them.
+If you are interested in how it is configured, please visit:
+
+Keycloak: http://localhost:8080/
+Username: admin
+Password: admin
+
+### 5.2 Communication with API
+In order to interact with the API, the user must authenticate themselves against the UserController/Login endpoint. This endpoint forwards user credentials to Keycloak and returns an Access Token and a Refresh Token to the user.
+
+There are two accounts created in Keycloak:
+
+Username: admin, Password: admin
+Username: user, Password: user
+
+In simple terms, all you have to do is authenticate against UserController/Login, grab the JWT token, and pass it to other HTTP requests using the Authorization header.
+
+### 5.3 Exporting KeyCloak realm
+If you wish to persist realm-related changes in source control, as configured in this repository, you have to export these settings using the commands below:
+
+```sh
+docker exec -it keycloak-web bash
+cd /opt/keycloak/bin/
+./kc.sh export --dir /tmp/export --users different_files
+docker cp keycloak-web:/tmp/export ./keycloak-export
+```
+
+## 6. Observability
+### 6.1 Open Telemetry
+The observability of the system has been ensured through the use of OpenTelemetry. Telemetry data is sent to the Aspire Dashboard collector and visualized there. With this approach, we can check how long an HTTP request took, how much time was spent communicating with the PostgreSQL database, and how much with Redis. Event logs are linked to requests, making it easy to navigate between them.
 
 Aspire Dashboard is avaiable at: http://localhost:18888 once docker-compose has been launched.
 
@@ -560,8 +594,8 @@ public static void InstallTelemetry(this WebApplicationBuilder builder, IConfigu
 </details>
 
 
-## 6 Design patterns implemented in this project
-### 6.1 Mediator
+## 7 Design patterns implemented in this project
+### 7.1 Mediator
 The Mediator from the MassTransit library was chosen because it doesn't require the implementation of any interfaces, unlike the MediatR library. 
 If we were to use the Mediator from MediatR instead of MassTransit, our domain event would look like this:
 ```csharp
@@ -579,7 +613,7 @@ This is particularly important because domain events located in the domain layer
 
 https://masstransit.io/documentation/concepts/mediator
 
-### 6.2 Factory method
+### 7.2 Factory method
 
 Domain Events are mapped to Integration Events thanks to ***EventMapperFactory*** class. 
 
@@ -620,11 +654,11 @@ To add another mapper, simply register it here. This approach supports the Open/
             });
 ```
 
-### 6.3 Strategy
+### 7.3 Strategy
 
 The [Strategy pattern](https://en.wikipedia.org/wiki/Strategy_pattern) is used to obtain the appropriate mapper for mapping Domain Events to Integration Events. Each mapper must implement the IEventMapper interface, which allows you to dynamically apply the correct mapper at runtime. 
 
-## 7. Tests
+## 8. Tests
 In the project, tests were implemented for the domain and application layers.
 
 ![](docs/images/Tests-Overview.png)
@@ -633,7 +667,7 @@ Test Explorer
 
 ![](docs/images/Test-Explorer.png)
 
-### 7.1 Domain tests
+### 8.1 Domain tests
 Thanks to separating domain logic from other layers, we are able to easily test our code. Below is a unit test responsible for creating a customer.
 ```csharp
 
@@ -681,7 +715,7 @@ Thanks to separating domain logic from other layers, we are able to easily test 
     }
 
 ```
-### 7.2 Application tests
+### 8.2 Application tests
 
 Testing the application layer essentially comes down to testing handlers. Below are selected implemented test cases.
 
@@ -734,7 +768,7 @@ Testing the application layer essentially comes down to testing handlers. Below 
 
     }
 ```
-## 8. Build with
+## 9. Build with
 * [.NET Core 8](https://github.com/dotnet/core)
 * [ASP.NET Core 8](https://github.com/dotnet/aspnetcore)
 * [RabbitMQ](https://github.com/rabbitmq)
@@ -747,4 +781,5 @@ Testing the application layer essentially comes down to testing handlers. Below 
 * [Open Telemetry](https://github.com/open-telemetry)
 * [FluentValidation](https://github.com/FluentValidation/FluentValidation)
 * [MailHog](https://github.com/mailhog/MailHog)
+* [KeyCloak](https://github.com/keycloak/keycloak)
 
