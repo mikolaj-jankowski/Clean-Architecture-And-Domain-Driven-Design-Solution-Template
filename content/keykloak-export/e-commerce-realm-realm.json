@@ -84,22 +84,6 @@
         "clientRole" : true,
         "containerId" : "9247a059-dcf5-40d6-b20e-30c571d7e091",
         "attributes" : { }
-      }, {
-        "id" : "1e815fcb-22cd-477a-947c-f30347cd7692",
-        "name" : "parent-role",
-        "description" : "",
-        "composite" : false,
-        "clientRole" : true,
-        "containerId" : "9247a059-dcf5-40d6-b20e-30c571d7e091",
-        "attributes" : { }
-      }, {
-        "id" : "2bbefcd3-6f03-4dfa-a4b9-34b2307ecdef",
-        "name" : "teacher-role",
-        "description" : "",
-        "composite" : false,
-        "clientRole" : true,
-        "containerId" : "9247a059-dcf5-40d6-b20e-30c571d7e091",
-        "attributes" : { }
       } ],
       "realm-management" : [ {
         "id" : "85e21ad3-e94e-49f4-9aff-74659c8b0218",
@@ -369,25 +353,13 @@
       "e-commerce-api-resource-owner-client" : [ "admin-role" ]
     }
   }, {
-    "id" : "d96a77da-9233-4858-b9e8-b5770f4a3b85",
-    "name" : "parents-group",
-    "path" : "/parents-group",
+    "id" : "a59f2060-fdeb-4ac3-8688-56cb5f9d6e0a",
+    "name" : "users-group",
+    "path" : "/users-group",
     "subGroups" : [ ],
     "attributes" : { },
     "realmRoles" : [ ],
-    "clientRoles" : {
-      "e-commerce-api-resource-owner-client" : [ "parent-role" ]
-    }
-  }, {
-    "id" : "cb8c0c4b-d567-45c9-af3e-5ab311df48e0",
-    "name" : "teachers-group",
-    "path" : "/teachers-group",
-    "subGroups" : [ ],
-    "attributes" : { },
-    "realmRoles" : [ ],
-    "clientRoles" : {
-      "e-commerce-api-resource-owner-client" : [ "teacher-role" ]
-    }
+    "clientRoles" : { }
   } ],
   "defaultRole" : {
     "id" : "98630e5a-ae4f-4393-8efe-67fb1476d805",
