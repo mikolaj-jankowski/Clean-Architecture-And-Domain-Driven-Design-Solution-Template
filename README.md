@@ -493,7 +493,9 @@ through a volume in docker-compose, so you do not have to do anything extra.
 If you are interested in how it is configured, please visit:
 
 Keycloak: http://localhost:8080/
+
 Username: admin
+
 Password: admin
 
 ### 5.2 Communication with API
@@ -502,6 +504,7 @@ In order to interact with the API, the user must authenticate themselves against
 There are two accounts created in Keycloak:
 
 Username: admin, Password: admin
+
 Username: user, Password: user
 
 In simple terms, all you have to do is authenticate against UserController/Login, grab the JWT token, and pass it to other HTTP requests using the Authorization header.
