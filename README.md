@@ -503,9 +503,9 @@ In order to interact with the API, the user must authenticate themselves against
 
 There are two accounts created in Keycloak:
 
-Username: admin, Password: admin
+1. Username: admin, Password: admin
 
-Username: user, Password: user
+2. Username: user, Password: user
 
 In simple terms, all you have to do is authenticate against UserController/Login, grab the JWT token, and pass it to other HTTP requests using the Authorization header.
 
@@ -535,7 +535,7 @@ curl --location 'http://localhost:8080/realms/e-commerce-realm/protocol/openid-c
 If you wish to persist realm-related changes in source control, as configured in this repository, you have to export these settings using the commands below:
 
 ```sh
-docker exec -it keycloak-web bash
+docker exec -it keycloak_web bash
 cd /opt/keycloak/bin/
 ./kc.sh export --dir /tmp/export --users different_files
 docker cp keycloak-web:/tmp/export ./keycloak-export
