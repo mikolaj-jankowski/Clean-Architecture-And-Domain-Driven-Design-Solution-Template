@@ -91,7 +91,9 @@ services:
       KC_HEALTH_ENABLED: true
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-    command: start-dev
+    command: ["start-dev", "--import-realm"]
+    volumes:
+      - ./keykloak-export:/opt/keycloak/data/import
     depends_on:
       - posgresdb
     ports:
