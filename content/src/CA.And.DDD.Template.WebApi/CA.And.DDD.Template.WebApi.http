@@ -1,11 +1,14 @@
-@apiUrl = http://localhost:5008/api
-@customerId = db10d2e1-7149-4f95-8bdf-71b8646b154d
-@orderId = 67fa9244-9ba9-4841-93f2-d74f3d8a4484
+@apiUrl = https://localhost:7118/api
+@customerId = ''
+@orderId = ''
 @customerEmail = mikjan9@email.com
+@token = ''
 
 ### Create a customer
+# @name createCustomerEndpoint
 POST {{apiUrl}}/customers
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "fullName": "Mikolaj Jankowski",
@@ -17,11 +20,14 @@ Content-Type: application/json
   "country": "PL",
   "postalCode": "69-100"
 }
-
+###
+@customerId = {{createUserEndpoint.response.body.id}}
 
 ### Create an order
+# @name createOrderEndpoint
 POST {{apiUrl}}/orders
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "street": "Fifth Avenue",
@@ -44,18 +50,24 @@ Content-Type: application/json
     }
   ]
 }
+###
+@orderId = {{createOrderEndpoint.response.body.orderId}}
 
 ### Get customer
 GET {{apiUrl}}/customers/{{customerId}}
 Content-Type: application/json; charset=utf-8
+Authorization: Bearer {{token}}
+
 
 ### Get order
 GET {{apiUrl}}/orders/{{orderId}}
 Content-Type: application/json; charset=utf-8
+Authorization: Bearer {{token}}
 
 ### Browse orders
 POST {{apiUrl}}/orders/browse-orders
 Content-Type: application/json; charset=utf-8
+Authorization: Bearer {{token}}
 
 {
   "customerId": "{{customerId}}",
@@ -69,6 +81,7 @@ Content-Type: application/json; charset=utf-8
 ### Change e-mail
 POST {{apiUrl}}/customers/change-email
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "oldEmail": "{{customerEmail}}",
@@ -83,3 +96,14 @@ Content-Type: application/json
   "email": "{{customerEmail}}"
 }
 
+### Login
+# @name authenticationEndpoint
+POST {{apiUrl}}/user/login
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "admin"
+}
+###
+@token = {{authenticationEndpoint.response.body.accessToken}}
