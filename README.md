@@ -794,8 +794,8 @@ Testing the application layer essentially comes down to testing handlers. Below 
     }
 ```
 ## 9. Build with
-* [.NET Core 8](https://github.com/dotnet/core)
-* [ASP.NET Core 8](https://github.com/dotnet/aspnetcore)
+* [.NET Core 10](https://github.com/dotnet/core)
+* [ASP.NET Core 10](https://github.com/dotnet/aspnetcore)
 * [RabbitMQ](https://github.com/rabbitmq)
 * [Redis](https://github.com/redis/redis)
 * [MassTransit](https://github.com/MassTransit)
