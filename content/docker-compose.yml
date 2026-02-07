@@ -22,19 +22,6 @@ services:
     networks:
       - my-network
       
-  # mssql:
-    # image: mcr.microsoft.com/mssql/server:2022-latest
-    # container_name: mssql
-    # environment:
-      # - ACCEPT_EULA=Y
-      # - MSSQL_SA_PASSWORD=Th3_P@ssw0rd-421
-    # ports:
-      # - "1433:1433"
-    # networks:
-      # - my-network
-    # volumes:
-      # - mssql_data:/var/opt/mssql
-      
   redis:
     image: redis:latest
     command: /bin/sh -c "redis-server --requirepass Th3_P@ssw0rd-421"
@@ -77,7 +64,7 @@ services:
     container_name: keycloak_web
     environment:
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://posgresdb:5432/keycloak
+      KC_DB_URL: jdbc:postgresql://postgresdb:5432/keycloak
       KC_DB_USERNAME: sa_user
       KC_DB_PASSWORD: Th3_P@ssw0rd-421
 
@@ -95,11 +82,11 @@ services:
     volumes:
       - ./keykloak-export:/opt/keycloak/data/import
     depends_on:
-      - posgresdb
+      - postgresdb
     ports:
       - 8080:8080
 
-  posgresdb:
+  postgresdb:
     image: postgres:15
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -108,12 +95,11 @@ services:
       POSTGRES_USER: sa_user
       POSTGRES_PASSWORD: Th3_P@ssw0rd-421 
     ports:
-      - "5432:5432"
+      - "5433:5432"
       
 volumes:
   rabbitmq_data:
   redis_data:
-  # mssql_data:
   postgres_data:
   
 networks:

@@ -8,13 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>  
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />  
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0-preview.5.24306.3">
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />  
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>  
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.3" />  
-    <PackageReference Include="Scalar.AspNetCore" Version="1.2.45" />  
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />  
+    <PackageReference Include="Scalar.AspNetCore" Version="2.11.10" />  
   </ItemGroup>
 
   <ItemGroup>
