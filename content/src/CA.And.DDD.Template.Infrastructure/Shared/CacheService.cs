@@ -39,11 +39,11 @@ namespace CA.And.DDD.Template.Infrastructure.Shared
             {
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expirationTimeSeconds)
             };
-            await _distributedCache.SetStringAsync(key, JsonConvert.SerializeObject(value), cacheOptions);
+            await _distributedCache.SetStringAsync(key, JsonConvert.SerializeObject(value), cacheOptions, cancellationToken);
         }
 
         public async Task RemoveAsync(string key, CancellationToken cancellationToken)
-            => await _distributedCache.RemoveAsync(key);
+            => await _distributedCache.RemoveAsync(key, cancellationToken);
 
         public async Task ReplaceAsync<T>(string key, T value, int expirationTimeSeconds, CancellationToken cancellationToken)
         {
