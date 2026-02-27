@@ -12,25 +12,25 @@ using CA.And.DDD.Template.Infrastructure.Persistance.Configuration.Domain.Orders
 using CA.And.DDD.Template.Infrastructure.ReadServices;
 using CA.And.DDD.Template.Infrastructure.Shared;
 using FluentValidation;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CA.And.DDD.Template.Infrastructure.Installers
 {
     public static class DependencyInjectionInstaller
     {
-        public static void InstallDependencyInjectionRegistrations(this WebApplicationBuilder builder)
+        public static void InstallDependencyInjectionRegistrations(this IServiceCollection services, IConfiguration configuration)
         {
-            builder.Services.AddHttpContextAccessor();
-            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-            builder.Services.AddTransient<IDateTimeProvider, DateTimeProvider>();
-            builder.Services.AddTransient<IDomainEventDispatcher, DomainEventDispatcher>();
-            builder.Services.AddHostedService<DomainEventsProcessor>();
-            builder.Services.AddHostedService<IntegrationEventsProcessor>();
-
-            builder.Services.AddTransient<CustomerCreatedEventMapper>();
-            builder.Services.AddSingleton<EventMapperFactory>(provider =>
+            services.AddHttpContextAccessor();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
+            services.AddTransient<IDomainEventDispatcher, DomainEventDispatcher>();
+            services.AddHostedService<DomainEventsProcessor>();
+            services.AddHostedService<IntegrationEventsProcessor>();
+            
+            services.AddTransient<CustomerCreatedEventMapper>();
+            services.AddSingleton<EventMapperFactory>(provider =>
             {
                 var mappers = new Dictionary<Type, IEventMapper>
                 {
@@ -39,17 +39,17 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
 
                 return new EventMapperFactory(mappers);
             });
-            builder.Services.AddValidatorsFromAssemblyContaining<IApplicationValidator>(ServiceLifetime.Transient);
-            builder.Services.AddProblemDetails();
-            builder.Services.AddExceptionHandler<CommandValidationExceptionHandler>();
-            builder.Services.AddSingleton<ICacheService, CacheService>();
-            builder.Services.AddScoped<IEmailService, EmailService>();
-            builder.Services.AddScoped<IEmailTemplateFactory, EmailTemplateFactory>();
-            builder.Services.AddScoped<OrderDomainService>();
-            builder.Services.AddScoped<IOrderReadService, OrderReadService>();
-            builder.Services.AddScoped<ICustomerReadService, CustomerReadService>();
-            builder.Services.AddScoped<IAdminReadService, AdminReadService>();
-            builder.Services.AddHttpClient<IAuthenticationService, KeycloakAuthenticationService>();
+            services.AddValidatorsFromAssemblyContaining<IApplicationValidator>(ServiceLifetime.Transient);
+            services.AddProblemDetails();
+            services.AddExceptionHandler<CommandValidationExceptionHandler>();
+            services.AddSingleton<ICacheService, CacheService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IEmailTemplateFactory, EmailTemplateFactory>();
+            services.AddScoped<OrderDomainService>();
+            services.AddScoped<IOrderReadService, OrderReadService>();
+            services.AddScoped<ICustomerReadService, CustomerReadService>();
+            services.AddScoped<IAdminReadService, AdminReadService>();
+            services.AddHttpClient<IAuthenticationService, KeycloakAuthenticationService>();
 
         }
 

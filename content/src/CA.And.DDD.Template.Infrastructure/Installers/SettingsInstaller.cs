@@ -1,14 +1,14 @@
 ﻿using CA.And.DDD.Template.Infrastructure.Settings;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CA.And.DDD.Template.Infrastructure.Installers
 {
     public static class SettingsInstaller
     {
-        public static void InstallApplicationSettings(this WebApplicationBuilder builder)
+        public static void InstallApplicationSettings(this IServiceCollection services, IConfiguration configuration)
         {
-            builder.Services.Configure<AppSettings>(builder.Configuration.GetSection(nameof(AppSettings)));
+            services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
         }
     }
 

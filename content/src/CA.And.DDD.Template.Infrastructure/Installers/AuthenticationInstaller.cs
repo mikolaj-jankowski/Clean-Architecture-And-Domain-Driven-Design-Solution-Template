@@ -1,6 +1,5 @@
 ﻿using CA.And.DDD.Template.Infrastructure.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -10,10 +9,10 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
 {
     public static class AuthenticationInstaller
     {
-        public static void InstallAuthentication(this WebApplicationBuilder builder)
+        public static void InstallAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            var authentication = builder.Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>()!.Authentication;
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            var authentication = configuration.GetSection(nameof(AppSettings)).Get<AppSettings>()!.Authentication;
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
                     options.Authority = authentication.Authority;
@@ -57,7 +56,7 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
                     };
                 });
 
-            builder.Services.AddAuthorization(options =>
+            services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminPolicy", policy =>
                     policy.RequireClaim("Role", "admin-role"));

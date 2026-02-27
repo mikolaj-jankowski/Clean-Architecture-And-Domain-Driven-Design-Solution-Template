@@ -4,25 +4,27 @@ using Scalar.AspNetCore;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.InstallAuthentication();
+var services = builder.Services;
+var configuration = builder.Configuration;
+services.InstallAuthentication(configuration);
+
 // Add services to the container.
-builder.InstallEntityFramework();
-builder.Services.AddControllers();
+services.InstallEntityFramework(configuration);
+services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.InstallSwagger();
-builder.InstallApplicationSettings();
+services.AddEndpointsApiExplorer();
+services.InstallSwagger();
+services.InstallApplicationSettings(configuration);
 
-var redisConnection = builder.InstallRedis();
-builder.InstallRedisCache();
+var redisConnection = services.InstallRedis(configuration);
+services.InstallRedisCache(configuration);
 
-builder.Services.AddSingleton<IConnectionMultiplexer>(redisConnection);
-
-builder.InstallTelemetry(builder.Configuration, redisConnection);
-builder.InstallMassTransit();
-builder.InstallDependencyInjectionRegistrations();
-builder.Services.AddOpenApi();
-builder.InstallCors();
+services.AddSingleton<IConnectionMultiplexer>(redisConnection);
+services.InstallTelemetry(configuration, redisConnection, builder.Logging);
+services.InstallMassTransit(configuration);
+services.InstallDependencyInjectionRegistrations(configuration);
+services.AddOpenApi();
+services.InstallCors(configuration);
 
 var app = builder.Build();
 

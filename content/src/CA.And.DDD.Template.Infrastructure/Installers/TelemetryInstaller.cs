@@ -1,5 +1,4 @@
 ﻿using CA.And.DDD.Template.Infrastructure.Settings;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -14,12 +13,12 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
 {
     public static class TelemetryInstaller
     {
-        public static void InstallTelemetry(this WebApplicationBuilder builder, IConfiguration configuration, ConnectionMultiplexer redisConnection)
+        public static void InstallTelemetry(this IServiceCollection services, IConfiguration configuration, ConnectionMultiplexer redisConnection, ILoggingBuilder loggingBuilder)
         {
-            var telemetrySettings = builder.Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>().Telemetry;
+            var telemetrySettings = configuration.GetSection(nameof(AppSettings)).Get<AppSettings>().Telemetry;
             var url = $"{telemetrySettings.Host}:{telemetrySettings.Port}";
 
-            builder.Services.AddOpenTelemetry()
+            services.AddOpenTelemetry()
                 .ConfigureResource(resource => resource.AddService(telemetrySettings.Name, serviceInstanceId: Environment.MachineName))
                 .WithMetrics(metrics =>
                 {
@@ -61,7 +60,7 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
                     });
                 });
 
-            builder.Logging.AddOpenTelemetry(logging =>
+            loggingBuilder.AddOpenTelemetry(logging =>
             {
                 if (!string.IsNullOrEmpty(url))
                 {

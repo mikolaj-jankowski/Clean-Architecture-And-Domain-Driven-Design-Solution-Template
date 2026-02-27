@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace CA.And.DDD.Template.Infrastructure.Installers
 {
     public static class SwaggerInstaller
     {
-        public static void InstallSwagger(this WebApplicationBuilder builder)
+        public static void InstallSwagger(this IServiceCollection services)
         {
-            builder.Services.AddSwaggerGen(options => options.EnableAnnotations());
+            services.AddSwaggerGen(options => options.EnableAnnotations());
         }
     }
 

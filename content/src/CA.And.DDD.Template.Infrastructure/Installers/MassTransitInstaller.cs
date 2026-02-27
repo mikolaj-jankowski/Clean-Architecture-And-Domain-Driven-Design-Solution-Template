@@ -4,18 +4,18 @@ using CA.And.DDD.Template.Infrastructure.Filters.MassTransit;
 using CA.And.DDD.Template.Infrastructure.Settings;
 using MassTransit;
 using MassTransit.Internals;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CA.And.DDD.Template.Infrastructure.Installers
 {
     public static class MassTransitInstaller
     {
-        public static void InstallMassTransit(this WebApplicationBuilder builder)
+        public static void InstallMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
-            var rabbitMqSettings = builder.Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>()!.RabbitMq;
+            var rabbitMqSettings = configuration.GetSection(nameof(AppSettings)).Get<AppSettings>()!.RabbitMq;
 
-            builder.Services.AddMediator(cfg =>
+            services.AddMediator(cfg =>
             {
                 AddMediatorConsumersFromAssembly(cfg);
 
@@ -38,7 +38,7 @@ namespace CA.And.DDD.Template.Infrastructure.Installers
                 });
             });
 
-            builder.Services.AddMassTransit(x =>
+            services.AddMassTransit(x =>
             {
                 //below Consumers for RabbitMq
                 x.AddConsumer<CustomerCreatedIntegrationEventHandler>();
