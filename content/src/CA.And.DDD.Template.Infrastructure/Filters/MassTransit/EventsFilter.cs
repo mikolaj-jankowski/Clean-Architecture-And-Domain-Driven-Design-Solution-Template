@@ -41,7 +41,6 @@ namespace CA.And.DDD.Template.Infrastructure.Filters.MassTransit
                     _dateTimeProvider.UtcNow,
                     domainEvent.GetType().FullName,
                     domainEvent.GetType().Assembly.GetName().Name,
-                    //typeof(CustomerCreatedIntegrationEvent).Assembly.GetName().Name,
                     JsonConvert.SerializeObject(domainEvent, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All })));
             }
 
@@ -56,7 +55,7 @@ namespace CA.And.DDD.Template.Infrastructure.Filters.MassTransit
         //TODO: comment
         public List<IntegrationEvent> RemapToIntegrationEvents(List<IDomainEvent> domainEvents)
         {
-            List<IntegrationEvent> integrationEvents = new List<IntegrationEvent>();
+            List<IntegrationEvent> integrationEvents = [];
             foreach (var domainEvent in domainEvents)
             {
                 var intergrationEvent = _mapperFactory
