@@ -1,4 +1,4 @@
-﻿using CA.And.DDD.Template.Application.Order.BrowseCustomers;
+﻿using CA.And.DDD.Template.Application.Admin.BrowseCustomers;
 using CA.And.DDD.Template.Application.Shared;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using Microsoft.EntityFrameworkCore;

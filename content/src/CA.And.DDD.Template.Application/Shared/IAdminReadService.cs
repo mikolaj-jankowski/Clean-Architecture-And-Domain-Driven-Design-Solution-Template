@@ -1,4 +1,4 @@
-﻿using CA.And.DDD.Template.Application.Order.BrowseCustomers;
+﻿using CA.And.DDD.Template.Application.Admin.BrowseCustomers;
 
 namespace CA.And.DDD.Template.Application.Shared
 {

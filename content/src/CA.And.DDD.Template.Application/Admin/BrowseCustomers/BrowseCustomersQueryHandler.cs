@@ -1,7 +1,7 @@
 ﻿using CA.And.DDD.Template.Application.Shared;
 using MassTransit;
 
-namespace CA.And.DDD.Template.Application.Order.BrowseCustomers
+namespace CA.And.DDD.Template.Application.Admin.BrowseCustomers
 {
     public class BrowseCustomersQueryHandler : IConsumer<BrowseCustomersQuery>
     {

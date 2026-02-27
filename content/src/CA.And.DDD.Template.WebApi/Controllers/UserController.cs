@@ -1,6 +1,5 @@
 using CA.And.DDD.Template.Application.Authentication.LoginUser;
 using CA.And.DDD.Template.Application.Authentication.RefreshUserToken;
-using CA.And.DDD.Template.Application.Authentication.ReLoginCustomer;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

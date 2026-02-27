@@ -1,5 +1,4 @@
-﻿using CA.And.DDD.Template.Application.Customer.Shared;
-using CA.And.DDD.Template.Application.Exceptions;
+﻿using CA.And.DDD.Template.Application.Exceptions;
 using CA.And.DDD.Template.Application.Shared;
 using MassTransit;
 

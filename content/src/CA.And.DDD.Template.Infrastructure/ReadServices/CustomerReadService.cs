@@ -1,4 +1,4 @@
-﻿using CA.And.DDD.Template.Application.Customer.Shared;
+﻿using CA.And.DDD.Template.Application.Customer.GetCustomer;
 using CA.And.DDD.Template.Infrastructure.Exceptions;
 using CA.And.DDD.Template.Infrastructure.Persistance.MsSql;
 using Microsoft.EntityFrameworkCore;

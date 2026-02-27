@@ -1,8 +1,7 @@
-﻿using CA.And.DDD.Template.Application.Authentication.LoginUser;
-using CA.And.DDD.Template.Application.Shared;
+﻿using CA.And.DDD.Template.Application.Shared;
 using MassTransit;
 
-namespace CA.And.DDD.Template.Application.Authentication.LoginCustomer
+namespace CA.And.DDD.Template.Application.Authentication.LoginUser
 {
     public sealed class LoginUserCommandHandler : IConsumer<LoginUserCommand>
     {

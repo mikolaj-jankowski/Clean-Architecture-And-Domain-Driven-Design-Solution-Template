@@ -8,7 +8,7 @@ namespace CA.And.DDD.Template.Application.Order.GetOrder
 
     public static class OrderMapper
     {
-        public static OrderDto ToDto(this CA.And.DDD.Template.Domain.Orders.Order order)
+        public static OrderDto ToDto(this Domain.Orders.Order order)
         {
             return new OrderDto(order.OrderId.Value, order.OrderItems.ToDto(), order.TotalAmount.Amount, order.TotalAmount.Currency);
         }

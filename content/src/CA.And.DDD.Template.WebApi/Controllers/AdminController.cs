@@ -1,4 +1,5 @@
-﻿using CA.And.DDD.Template.Application.Order.BrowseCustomers;
+﻿using CA.And.DDD.Template.Application.Admin.BrowseCustomers;
+using CA.And.DDD.Template.Application.Admin.BrowseCustomers;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

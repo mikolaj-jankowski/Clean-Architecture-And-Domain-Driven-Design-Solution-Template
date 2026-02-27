@@ -1,8 +1,7 @@
-﻿using CA.And.DDD.Template.Application.Authentication.RefreshUserToken;
-using CA.And.DDD.Template.Application.Shared;
+﻿using CA.And.DDD.Template.Application.Shared;
 using MassTransit;
 
-namespace CA.And.DDD.Template.Application.Authentication.ReLoginCustomer
+namespace CA.And.DDD.Template.Application.Authentication.RefreshUserToken
 {
     public sealed class RefreshUserTokenCommandHandler : IConsumer<RefreshUserTokenCommand>
     {

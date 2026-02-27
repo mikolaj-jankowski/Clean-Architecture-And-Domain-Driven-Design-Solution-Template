@@ -1,7 +1,6 @@
 using CA.And.DDD.Template.Application.Customer.ChangeEmail;
 using CA.And.DDD.Template.Application.Customer.CreateCustomer;
 using CA.And.DDD.Template.Application.Customer.GetCustomer;
-using CA.And.DDD.Template.Application.Customer.Shared;
 using CA.And.DDD.Template.Application.Customer.VerifyEmail;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Authorization;

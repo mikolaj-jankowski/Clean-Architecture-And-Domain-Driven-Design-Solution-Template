@@ -1,4 +1,4 @@
-﻿using CA.And.DDD.Template.Application.Customer.Shared;
+﻿using CA.And.DDD.Template.Application.Customer.GetCustomer;
 
 namespace CA.And.DDD.Template.Application.Shared
 {
