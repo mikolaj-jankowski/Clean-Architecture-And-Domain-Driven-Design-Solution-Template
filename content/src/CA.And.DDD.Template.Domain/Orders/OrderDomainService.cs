@@ -24,8 +24,7 @@ namespace CA.And.DDD.Template.Domain.Orders
                     if (discount > 0)
                     {
                         var discountAmount = order.TotalAmount.Amount * discount;
-                        order.Discount = new Discount(discountAmount, DiscountType.TotalSpentMoneyInLast31Days);
-                        order.TotalAmount = new Money(order.TotalAmount.Amount - discountAmount);
+                        order.ApplyLoyaltyDiscount(discountAmount);
                     }
 
                 }
