@@ -16,8 +16,8 @@ namespace CA.And.DDD.Template.Domain.Orders
         private readonly List<OrderItem> _orderItems;
         public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
 
-        public Money TotalAmount { get; internal set; } = new Money(0);
-        public Discount Discount { get; internal set; }
+        public Money TotalAmount { get; private set; } = new Money(0);
+        public Discount Discount { get; private set; }
         private Order()
         {
 
@@ -78,6 +78,17 @@ namespace CA.And.DDD.Template.Domain.Orders
                 TotalAmount = new Money(orderAmount);
                 return TotalAmount;
             }
+        }
+
+        /// <summary>
+        /// Applies a loyalty discount based on the customer's spending over the last 31 days.
+        /// Intended to be called by <see cref="OrderDomainService"/> once it has determined
+        /// the applicable discount amount.
+        /// </summary>
+        public void ApplyLoyaltyDiscount(decimal discountAmount)
+        {
+            Discount = new Discount(discountAmount, DiscountType.TotalSpentMoneyInLast31Days);
+            TotalAmount = new Money(TotalAmount.Amount - discountAmount);
         }
     }
 }
